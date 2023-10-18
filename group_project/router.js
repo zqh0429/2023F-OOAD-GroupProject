@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from './src/pages/loginPanel/loginPanel.vue';
 import Main from './src/pages/main/main.vue';
+import Forum from './src/pages/forum/forum.vue';
+
 
 const routes = [
     {
@@ -16,6 +18,11 @@ const routes = [
         path: '/main',
         name: 'Main',
         component: Main,
+    },
+    {
+        path: '/forum',
+        name: 'Forum',
+        component: Forum,
     },
 ];
 
