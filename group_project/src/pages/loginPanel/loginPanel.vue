@@ -72,57 +72,28 @@ export default {
             this.checked=true
         }
     },
-    // methods: {
-    //     login(form) {
-    //         this.$refs[form].validate((valid) => {
-    //             if (valid) {
-    //                 login(this.form)
-    //                     .then((res) => {
-    //                         if (res.code === 200) {
-    //                             setToken(res.data.token);
-    //                             localStorage.setItem("USERNAME", res.data.username);
-    //                             this.$message({
-    //                                 message: "登录成功啦",
-    //                                 type: "success",
-    //                                 showClose: true,
-    //                             });
-    //                             this.$router.replace("/");
-    //                         } else {
-    //                             this.$message({
-    //                                 message: "账户名或密码错误",
-    //                                 type: "error",
-    //                                 showClose: true,
-    //                             });
-    //                         }
-    //                     })
-    //                     .catch(() => {
-    //                         this.$message({
-    //                             message: "账户名或密码错误",
-    //                             type: "error",
-    //                             showClose: true,
-    //                         });
-    //                     });
-    //             } else {
-    //                 return false;
-    //             }
-    //         });
-    //     },
-    //     remember(data){
-    //         this.checked=data
-    //         if(this.checked){
-    //             localStorage.setItem("news",JSON.stringify(this.form))
-    //         }else{
-    //             localStorage.removeItem("news")
-    //         }
-    //     },
-    //     forgetpas() {
-    //         this.$message({
-    //             type:"info",
-    //             showClose:true
-    //         })
-    //     },
-    //     register() {},
-    // },
+    methods: {
+        login(form) {
+            //TODO:the logic of checking input
+            form.charAt(1)
+            this.$router.push('/main');
+        },
+        remember(data){
+            this.checked=data
+            if(this.checked){
+                localStorage.setItem("news",JSON.stringify(this.form))
+            }else{
+                localStorage.removeItem("news")
+            }
+        },
+        forgetpas() {
+            this.$message({
+                type:"info",
+                showClose:true
+            })
+        },
+        register() {},
+    },
 };
 </script>
 

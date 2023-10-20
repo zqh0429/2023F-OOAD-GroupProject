@@ -21,6 +21,13 @@ module.exports = {
       filename:"forum.html",
       title:"forum",
       lintOnSave:false
+    },
+    user:{
+      entry:"./src/pages/user/user.js",
+      template:"./src/pages/user/user.html",
+      filename:"user.html",
+      title:"user",
+      lintOnSave:false
     }
   }
 }

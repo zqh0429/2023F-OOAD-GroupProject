@@ -1,12 +1,13 @@
 <template>
     <div class="mainbody">
-        <div class="logindata">
-            <div class="logintext">
+        <div class="maindata">
+            <div class="maintext">
                 <h2>SUSTech Dormitory Selection</h2>
             </div>
             <div class="menus">
-                <el-button type="primary">个人中心</el-button>
-                <el-button>论坛</el-button>
+                <el-button type="primary" @click.prevent="goToUser">个人中心</el-button>
+                <el-button>主页</el-button>
+                <el-button @click.prevent="goToForum">论坛</el-button>
                 <el-button>消息通知</el-button>
             </div>
             <div class="searchRoom">
@@ -65,7 +66,6 @@
                         </el-descriptions-item>
                     </el-descriptions>
                     <el-button type="primary">Comment</el-button> <!--click to add comments-->
-
                 </el-dialog>
             </div>
         </div>
@@ -80,21 +80,6 @@ export default {
     name: 'mainPanel',
     data() {
         return {
-            form: {
-                password: "",
-                username: "",
-            },
-            checked: false,
-            rules: {
-                username: [
-                    { required: true, message: "请输入用户名", trigger: "blur" },
-                    { max: 10, message: "不能大于10个字符", trigger: "blur" },
-                ],
-                password: [
-                    { required: true, message: "请输入密码", trigger: "blur" },
-                    { max: 10, message: "不能大于10个字符", trigger: "blur" },
-                ],
-            },
             value_area: ref(''),
             options_area:[{value: '一期宿舍', label: '一期宿舍',},
                 {value: '二期宿舍', label: '二期宿舍',}
@@ -138,6 +123,15 @@ export default {
         closeDialog() {
             this.dialogVisible = false; // 关闭弹出窗口
         },
+        goToForum() {
+            // 导航到/forum页面
+            this.$router.push('/forum');
+        },
+        goToUser() {
+            // 导航到/user页面
+            this.$router.push('/user');
+        }
+
     },
     computed: {
         area_selected() {
