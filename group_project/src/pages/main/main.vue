@@ -8,7 +8,9 @@
                 <el-button type="primary" @click.prevent="goToUser">个人中心</el-button>
                 <el-button>主页</el-button>
                 <el-button @click.prevent="goToForum">论坛</el-button>
-                <el-button>消息通知</el-button>
+                <el-badge :value="info" class="item">
+                    <el-button @click.prevent="goToChat">消息通知</el-button>
+                </el-badge>
             </div>
             <div class="searchRoom">
                 <el-select v-model="value_area" class="m-2" placeholder="Area" @change="select_building()">
@@ -80,6 +82,7 @@ export default {
     name: 'mainPanel',
     data() {
         return {
+            info: 3,
             value_area: ref(''),
             options_area:[{value: '一期宿舍', label: '一期宿舍',},
                 {value: '二期宿舍', label: '二期宿舍',}
@@ -130,6 +133,10 @@ export default {
         goToUser() {
             // 导航到/user页面
             this.$router.push('/user');
+        },
+        goToChat() {
+            // 导航到/forum页面
+            this.$router.push('/chat');
         }
 
     },

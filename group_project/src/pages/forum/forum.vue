@@ -8,7 +8,9 @@
                 <el-button type="primary" @click.prevent="goToUser">个人中心</el-button>
                 <el-button @click.prevent="goToMain">主页</el-button>
                 <el-button>论坛</el-button>
-                <el-button>消息通知</el-button>
+                <el-badge :value="info" class="item">
+                    <el-button @click.prevent="goToChat">消息通知</el-button>
+                </el-badge>
             </div>
             <div>
                 <el-button @click="showContent('button1')">Post</el-button>
@@ -187,6 +189,7 @@ export default {
     },
     data() {
         return {
+            info: 3,
             activeButton: 'button1',
             input_post : ref(''),
             input_groupInfo: ref(''),
@@ -231,6 +234,10 @@ export default {
         goToUser() {
             // 导航到/user页面
             this.$router.push('/user');
+        },
+        goToChat() {
+            // 导航到/forum页面
+            this.$router.push('/chat');
         }
     },
     components: {

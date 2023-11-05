@@ -3,6 +3,8 @@ import Login from './src/pages/loginPanel/loginPanel.vue';
 import Main from './src/pages/main/main.vue';
 import Forum from './src/pages/forum/forum.vue';
 import User from './src/pages/user/user.vue';
+import Chat from './src/pages/chat/chat.vue';
+
 
 
 
@@ -30,6 +32,11 @@ const routes = [
         path: '/user',
         name: 'User',
         component: User,
+    },
+    {
+        path: '/chat',
+        name: 'Chat',
+        component: Chat,
     },
 ];
 

@@ -4,7 +4,7 @@ module.exports = {
     loginPanel:{
       entry:"./src/pages/loginPanel/loginPanel.js",
       template:"./src/pages/loginPanel/loginPanel.html",
-      filename:"login.html",
+      filename:"loginPanel.html",
       title:"Login",
       lintOnSave:false
     },
@@ -27,6 +27,13 @@ module.exports = {
       template:"./src/pages/user/user.html",
       filename:"user.html",
       title:"user",
+      lintOnSave:false
+    },
+    chat:{
+      entry:"./src/pages/chat/chat.js",
+      template:"./src/pages/chat/chat.html",
+      filename:"chat.html",
+      title:"chat",
       lintOnSave:false
     }
   }
