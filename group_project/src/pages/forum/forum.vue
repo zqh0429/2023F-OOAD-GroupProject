@@ -153,7 +153,6 @@
                                         <template #header>
                                             <div class="card-header">
                                                 <span>Messages</span>
-
                                             </div>
                                         </template>
                                         <div class="text item">

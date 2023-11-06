@@ -20,5 +20,9 @@ npm run build
 npm run lint
 ```
 
+### ChatPanel
+或许可以找一个模板
+
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
