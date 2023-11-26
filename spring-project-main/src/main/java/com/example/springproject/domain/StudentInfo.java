@@ -1,5 +1,8 @@
 package com.example.springproject.domain;
 
+import com.example.springproject.dto.student.StudentDto;
+import com.example.springproject.dto.student.StudentInformationForm;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -9,46 +12,69 @@ public class StudentInfo implements Serializable {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private long id;
 
-    @Embeddable
-    public static class StudentId implements Serializable {
+//    @Embeddable
+//    public static class StudentId implements Serializable {
+//
+//        public UserInfo getUserInfo() {
+//            return userInfo;
+//        }
+//
+//        public void setUserInfo(UserInfo userInfo) {
+//            this.userInfo = userInfo;
+//        }
+//
+//        @OneToOne
+//        @JoinColumn(name = "studentId",referencedColumnName = "userId")
+//        private UserInfo userInfo;
+//
+//        public StudentId(UserInfo userInfo) {
+//            this.userInfo = userInfo;
+//        }
+//
+//        public StudentId() {
+//
+//        }
+//    }
 
-        public UserInfo getUserInfo() {
-            return userInfo;
-        }
-
-        public void setUserInfo(UserInfo userInfo) {
-            this.userInfo = userInfo;
-        }
-
-        @OneToOne
-        @JoinColumn(name = "studentId",referencedColumnName = "userId")
-        private UserInfo userInfo;
-
-        public StudentId(UserInfo userInfo) {
-            this.userInfo = userInfo;
-        }
-
-        public StudentId() {
-
-        }
-    }
-
-    public StudentId getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(StudentId studentId) {
-        this.studentId = studentId;
-    }
-
-    @EmbeddedId
-    private StudentId studentId;
+//    public StudentId getStudentId() {
+//        return studentId;
+//    }
+//
+//    public void setStudentId(StudentId studentId) {
+//        this.studentId = studentId;
+//    }
+//
+//    @EmbeddedId
+//    private StudentId studentId;
 
 
+    @Id
+    private String studentId;
+
+    // other fields specific to Student
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "studentId", referencedColumnName = "userId")
+    private UserInfo userInfo;
     public StudentInfo() {
 
     }
 
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo user) {
+        this.userInfo = user;
+    }
 //    public UserInfo getUserInfo() {
 //        return userInfo;
 //    }
@@ -66,12 +92,20 @@ public class StudentInfo implements Serializable {
     private String degree;
     private String major;
     private String undergraduateSchool;
-    @Lob // 使用 @Lob 注解表示这个字段是一个大对象，适用于 text 类型
-    @Column(name = "studentDescription", columnDefinition = "text")
+
     private String studentDescription;
 
     public StudentInfo(UserInfo userInfo, String gender, String degree, String major, String undergraduateSchool, String studentDescription) {
-        this.studentId = new StudentId(userInfo);
+        this.userInfo = userInfo;
+        this.gender = gender;
+        this.degree = degree;
+        this.major = major;
+        this.undergraduateSchool = undergraduateSchool;
+        this.studentDescription = studentDescription;
+    }
+
+    public StudentInfo(String studentId, String gender, String degree, String major, String undergraduateSchool, String studentDescription) {
+        this.studentId = studentId;
         this.gender = gender;
         this.degree = degree;
         this.major = major;
@@ -120,5 +154,21 @@ public class StudentInfo implements Serializable {
         this.gender = gender;
     }
 
+    public StudentInformationForm convertToStudentInformationForm() {
+        return StudentInformationForm.builder()
+                .studentId(getUserInfo().getUserId())
+                .gender(getGender())
+                .degree(getDegree())
+                .major(getMajor())
+                .undergraduateSchool(getUndergraduateSchool())
+                .studentDescription(getStudentDescription())
+                .build();
+    }
 
+    public StudentDto convertToStudentDto() {
+        return StudentDto.builder()
+                .studentId(getUserInfo().getUserId())
+                .studentGender(getGender())
+                .build();
+    }
 }

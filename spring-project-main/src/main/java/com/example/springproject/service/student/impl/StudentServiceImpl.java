@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -30,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDto save(StudentInfo studentInfo) {
         StudentInfo student = studentRepository.save(studentInfo);
-        return convertStudent(student);
+        return student.convertToStudentDto();
     }
 
     @Override
@@ -46,22 +47,46 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentDto convertStudent(StudentInfo studentInfo) {
-        return StudentDto.builder()
-                .studentId(studentInfo.getStudentId().getUserInfo().getUserId())
-                .studentGender(studentInfo.getGender())
-                .build();
-    }
-
-
-    @Override
-    public List<StudentInfo> findStudentInfoByUserID(String id) {
-        return studentRepository.findStudentInfoByUserID(id);
-    }
-
-    @Override
     public UserInfo findUserByUserId(String userId) {
         return userRepository.findUserByUserId(userId);
+    }
+
+    @Override
+    public StudentInformationForm showInformation(StudentDto studentDto) {
+        StudentInfo studentInfo = studentRepository.findStudentInfoById(studentDto.getStudentId()).get(0);
+        return studentInfo.convertToStudentInformationForm();
+    }
+
+    @Override
+    public StudentDto updateInformation(StudentInformationForm studentInformationForm, BindingResult result) {
+        if (result.hasErrors()) {
+            List<FieldError> errors = result.getFieldErrors();
+            throw new MyException(7, errors.get(0).getDefaultMessage());
+        } else {
+            studentRepository.updateStudentInformation(studentInformationForm.getGender(), studentInformationForm.getDegree(), studentInformationForm.getMajor(), studentInformationForm.getUndergraduateSchool(), studentInformationForm.getStudentDescription(), studentInformationForm.getStudentId());
+            return new StudentDto(studentInformationForm.getStudentId(), studentInformationForm.getGender());
+        }
+    }
+
+    @Override
+    public List<StudentInformationForm> findall() {
+        List<StudentInfo> studentInfos = studentRepository.findAll();
+        List<StudentInformationForm> studentInformationForms = new ArrayList<>();
+        for (StudentInfo studentInfo: studentInfos){
+            studentInformationForms.add(studentInfo.convertToStudentInformationForm());
+        }
+        return studentInformationForms;
+    }
+
+    @Override
+    public List<StudentInformationForm> findByGender(StudentDto studentDto) {
+        List<StudentInfo> studentInfos = studentRepository.findStudentInfoByGender(studentDto.getStudentGender());
+        System.out.println(studentInfos.size());
+        List<StudentInformationForm> studentInformationForms = new ArrayList<>();
+        for (StudentInfo studentInfo: studentInfos) {
+            studentInformationForms.add(studentInfo.convertToStudentInformationForm());
+        }
+        return studentInformationForms;
     }
 
 }

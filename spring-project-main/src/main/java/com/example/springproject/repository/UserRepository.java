@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 
-public interface UserRepository extends JpaRepository<UserInfo, Integer> {
+public interface UserRepository extends JpaRepository<UserInfo, String> {
     public UserInfo findUserByUsername(String username);
     public UserInfo findUserByUserIdAndPassword(String userId, String password);
     public UserInfo findUserByUserId(String userId);
