@@ -13,4 +13,9 @@ public interface UserRepository extends JpaRepository<UserInfo, String> {
     public UserInfo findUserByUsername(String username);
     public UserInfo findUserByUserIdAndPassword(String userId, String password);
     public UserInfo findUserByUserId(String userId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM UserInfo u WHERE u.userId = :userId")
+    void deleteUserInfoByUserId(@Param("userId") String userId);
 }
