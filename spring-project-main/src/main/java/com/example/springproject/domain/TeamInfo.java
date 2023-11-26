@@ -32,7 +32,7 @@ public class TeamInfo {
     }
 
     @OneToOne
-    @JoinColumn(name = "selected_room",referencedColumnName = "room_id")
+    @JoinColumn(name = "selected_room",referencedColumnName = "roomId")
     private RoomInfo selected_room;
 
 

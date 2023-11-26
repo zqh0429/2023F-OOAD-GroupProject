@@ -35,10 +35,6 @@ public class MessageController {
     //一般message，如组队，一对一聊天
     @GetMapping("/v2/message/normalmessage")
     public List<message> listmessage(@RequestBody UserDto userDto){
-        System.out.println(userDto);
-        System.out.println(userDto.getUserId());
-
-        System.out.println(messageService.getmessage(userDto).size());
         return messageService.getmessage(userDto);
     }
 

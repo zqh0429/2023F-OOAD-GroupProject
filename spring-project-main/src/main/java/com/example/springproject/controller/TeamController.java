@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/api/team")
+@RequestMapping(path = "/team")
 public class TeamController {
 private final TeamService teamService;
 
@@ -21,13 +21,7 @@ private final TeamService teamService;
     }
 
 
-    //队伍选择宿舍功能？？？规定时间？
-    @PostMapping("/v1/select-room")
-    public boolean selectteam(@RequestBody UserDto userDto, @RequestParam int roomId) {
-        System.out.println(roomId);
-        System.out.println(userDto);
-        return teamService.selectroom(roomId,userDto);
-    }
+
 
     /**
      * 创建队伍

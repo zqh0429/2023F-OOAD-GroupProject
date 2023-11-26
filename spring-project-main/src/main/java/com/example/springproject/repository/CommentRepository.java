@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<comment,Integer> {
 
-    @Query("SELECT c FROM comment c WHERE c.comment_room.room_id = :roomid")
+    @Query("SELECT c FROM comment c WHERE c.comment_room.roomId = :roomid")
     List<comment> getcommentidByroomid(@Param("roomid") int roomid);
 
     @Query("SELECT c.id FROM comment c WHERE c.comment_student.studentId = :userid")

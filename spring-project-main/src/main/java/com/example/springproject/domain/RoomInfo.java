@@ -15,7 +15,7 @@ public class RoomInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int room_id;
+    private int roomId;
 
     @NotNull
     private String room_region;
@@ -50,12 +50,12 @@ public class RoomInfo {
         this.selected = selected;
     }
 
-    public int getRoom_id() {
-        return room_id;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public void setRoom_id(int id) {
-        this.room_id = id;
+    public void setRoomId(int id) {
+        this.roomId = id;
     }
 
     public String getRoom_region() {

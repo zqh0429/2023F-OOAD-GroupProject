@@ -6,7 +6,7 @@ import com.example.springproject.domain.comment_reply;
 import com.example.springproject.domain.RoomInfo;
 import com.example.springproject.dto.student.CommentDto;
 import com.example.springproject.dto.student.Comment_replyDto;
-import com.example.springproject.dto.student.RoomDto;
+import com.example.springproject.dto.Room.RoomDto;
 import com.example.springproject.repository.CommentRepository;
 import com.example.springproject.repository.Comment_replyRepository;
 import com.example.springproject.repository.RoomRepository;
@@ -44,16 +44,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public comment_reply createcomment_reply(Comment_replyDto comment_replyDto) {
+    public boolean createcomment_reply(Comment_replyDto comment_replyDto) {
         StudentInfo studentInfo=studentRepository.findStudentInfoByStudentId(comment_replyDto.getReply_user());
         comment comment=commentRepository.findById(comment_replyDto.getReply_comment());
         if (comment_replyDto.getFloor()==2){
         comment_reply c=comment_replyRepository.findById(comment_replyDto.getUpperreply_id());
             comment_reply comment_reply=new comment_reply(comment_replyDto.getFloor(),comment_replyDto.getContent(),comment,studentInfo,c);
-            return comment_replyRepository.save(comment_reply);
+            comment_replyRepository.save(comment_reply);
+            return true;
         }else {
             comment_reply comment_reply=new comment_reply(comment_replyDto.getFloor(),comment_replyDto.getContent(),comment,studentInfo);
-            return comment_replyRepository.save(comment_reply);
+            comment_replyRepository.save(comment_reply);
+            return true;
         }
 
     }
@@ -61,12 +63,13 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<comment> getcomment(RoomDto roomDto) {
 
-        return commentRepository.getcommentidByroomid(roomDto.getRoomid());
+        return commentRepository.getcommentidByroomid(roomDto.getRoomId());
     }
 
     @Override
     public List<Comment_replyDto> getcommentreply(CommentDto commentDto) {
        List<comment_reply> comment_replies=comment_replyRepository.getfirstcomment_replyBycommentid(commentDto.getComment_id(),1);
+        System.out.println(comment_replies.size());
        List<Comment_replyDto> list=new ArrayList<>();
         for (comment_reply e:comment_replies
              ) {

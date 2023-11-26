@@ -1,5 +1,4 @@
-package com.example.springproject.dto.student;
-
+package com.example.springproject.dto.Room;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RoomDto {
     @ApiModelProperty
-    private int roomid;
+    private int roomId;
     @ApiModelProperty
-    private boolean selected;
+    private String studentId;
 }

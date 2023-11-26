@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import com.example.springproject.domain.TeamInfo;
 
 import java.util.List;
 
@@ -127,7 +128,7 @@ public class TeamServiceImpl implements TeamService {
                 .team_name(teamInfo.getTeam_name())
                 .team_member_number(teamInfo.getTeam_member_number())
                 .team_description(teamInfo.getTeam_description())
-                .selected_room_id(teamInfo.getSelected_room() != null ? teamInfo.getSelected_room().getRoom_id() : null)
+                .selected_room_id(teamInfo.getSelected_room() != null ? teamInfo.getSelected_room().getRoomId() : null)
                 .leader_id(teamMember.getMember_leader() != null ? teamMember.getMember_leader().getUserId() : null)
                 .first_member_id(teamMember.getMember_one() != null ? teamMember.getMember_one().getUserId() : null)
                 .second_member_id(teamMember.getMember_two() != null ? teamMember.getMember_two().getUserId() : null)

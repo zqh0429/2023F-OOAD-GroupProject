@@ -33,7 +33,7 @@ public class comment {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "comment_room",referencedColumnName = "room_id")
+    @JoinColumn(name = "comment_room",referencedColumnName = "roomId")
     private RoomInfo comment_room;
 
     @NotNull

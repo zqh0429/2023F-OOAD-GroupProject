@@ -10,7 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface TeamRepository extends JpaRepository<TeamInfo,Integer> {
-    public TeamInfo findById(int teamid);
+    @Query("SELECT r FROM TeamInfo r WHERE r.teamId = :teamid")
+    public TeamInfo findById(@Param("teamid") int teamid);
     TeamInfo findTeamInfoByTeamId(int team_id);
     @Query("SELECT r.teamId FROM TeamMember r WHERE r.member_leader.userId = :lead_id")
    public int findteamIdsByleader(@Param("lead_id") String lead_id);
@@ -23,7 +24,7 @@ public interface TeamRepository extends JpaRepository<TeamInfo,Integer> {
     @Query("SELECT tm FROM TeamMember tm")
     List<TeamMember> findAllTeamMembers();
 
-    @Query("SELECT r.selected_room.room_id FROM TeamInfo r WHERE r.teamId = :team_id")
+    @Query("SELECT r.selected_room.roomId FROM TeamInfo r WHERE r.teamId = :team_id")
     public Integer findselectedroomIdsByteamid(@Param("team_id") int team_id);
 
 

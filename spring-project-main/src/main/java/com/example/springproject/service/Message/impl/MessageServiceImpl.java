@@ -70,8 +70,7 @@ public class MessageServiceImpl implements MessageService {
     public message sendmessage(MessageDto messageDto) {
         StudentInfo sender=studentRepository.findStudentInfoByStudentId(messageDto.getSenderid());
         StudentInfo recever=studentRepository.findStudentInfoByStudentId(messageDto.getReceiverid());
-    message message=new message(messageDto.getContent(),recever,sender);
-    messageRepository.save(message);
-        return null;
+        message message=new message(messageDto.getContent(),recever,sender);
+        return messageRepository.save(message);
     }
 }
