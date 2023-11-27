@@ -8,7 +8,8 @@
                 <el-button type="primary">个人中心</el-button>
                 <el-button @click.prevent="goToMain">主页</el-button>
                 <el-button @click.prevent="goToForum">论坛</el-button>
-                <el-badge :value="info" class="item">
+                <!-- <el-badge :value="userInfo.info" class="item"> -->
+                <el-badge  class="item">
                     <el-button @click.prevent="goToChat">消息通知</el-button>
                 </el-badge>
             </div>
@@ -22,13 +23,15 @@
                                         <el-space wrap :size="25">
                                         <div class="demo-basic--circle">
                                             <div class="block">
-                                                <el-avatar :size="50" :src="circleUrl" />
+                                                <el-avatar :size="50" :src="userInfo.circleUrl" />
                                             </div>
                                         </div>
                                             <el-col :span="30">
-                                                <h2>{{ username }}</h2>
-                                                <h3>{{ studentID }}
-                                                    <el-tag size="small">{{ level }}</el-tag>
+                                                <h2 v-if="!isEditing">{{ userInfo.username }}</h2>
+                                                <input v-else v-model="editedUserInfo.username">
+                                                <!-- <h2>{{ userInfo.username }}</h2> -->
+                                                <h3>{{ userInfo.studentID }}
+                                                    <el-tag size="small">{{ userInfo.level }}</el-tag>
                                                 </h3>
                                             </el-col>
                                         </el-space>
@@ -39,10 +42,21 @@
                                 :column="2"
                                 direction="vertical"
                             >
-                                <el-descriptions-item label="休息时间" >{{ restTime }}</el-descriptions-item>
-                                <el-descriptions-item label="家乡">{{ hometown }}</el-descriptions-item>
-                                <el-descriptions-item>{{ description }}</el-descriptions-item>
+                                <el-descriptions-item label="休息时间" v-if="!isEditing">{{ userInfo.restTime }}</el-descriptions-item>
+                                <el-descriptions-item label="休息时间" v-else><el-input v-model="editedUserInfo.restTime" /></el-descriptions-item>
+                                <el-descriptions-item label="家乡" v-if="!isEditing">{{ userInfo.hometown }}</el-descriptions-item>
+                                <el-descriptions-item label="家乡" v-else><el-input v-model="editedUserInfo.hometown" /></el-descriptions-item>
+                                <el-descriptions-item v-if="!isEditing">{{ userInfo.description }}</el-descriptions-item>
+                                <el-descriptions-item v-else><el-input v-model="editedUserInfo.description" /></el-descriptions-item>
+                            
                             </el-descriptions>
+                            <div v-if="isEditing">
+                                <el-button @click="saveEdit">确认修改</el-button>
+                                <el-button @click="cancelEdit">取消</el-button>
+                            </div>
+                            <div v-else>
+                                <el-button @click="startEdit">编辑个人信息</el-button>
+                            </div>
                         </el-card>
                     </el-aside>
                     <el-main>
@@ -50,11 +64,11 @@
                             <template #header>
                                 <div class="card-header">
                                     <span>收藏的房间</span>
-                                    <el-button class="button" text>Operation button</el-button>
+                                    <!-- <el-button class="button" text>Operation button</el-button> -->
                                 </div>
                             </template>
                             <div>
-                                <el-table :data="tableData" style="width: 100%">
+                                <el-table :data="roomData" style="width: 100%">
                                     <el-table-column prop="area" label="区划" width="180" />
                                     <el-table-column prop="building" label="楼栋" width="180" />
                                     <el-table-column prop="floor" label="楼层" />
@@ -66,10 +80,16 @@
                             <template #header>
                                 <div class="card-header">
                                     <span>我的组队</span>
-                                    <el-button class="button" text>Operation button</el-button>
+                                    <!-- <el-button class="button" text>Operation button</el-button> -->
                                 </div>
                             </template>
-                            <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                            <div>
+                                <el-table :data="roommateData" style="width: 100%">
+                                    <el-table-column prop="username" label="名称" width="180" />
+                                    <el-table-column prop="studentID" label="学号" width="180" />
+                                    <el-table-column prop="restTime" label="作息时间" width="180" />
+                                </el-table>
+                            </div>
                         </el-card>
                     </el-main>
                 </el-container>
@@ -84,30 +104,119 @@ export default {
     name: 'userPanel',
     data() {
         return {
-            username : "Student 1",
-            studentID: 12330849,
-            level: "硕士",
-            info: 3,
-            circleUrl:
-                'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            restTime: "23:00 - 9:00",
-            hometown: "广东深圳",
-            description: "本科就读于南方科技大学，喜欢看书听音乐，不吵闹",
-            tableData:[
-                {area:"二期",building:"17栋",floor:"3楼",room:"304"},
-                {area:"二期",building:"17栋",floor:"3楼",room:"304"},
-                {area:"二期",building:"17栋",floor:"3楼",room:"304"}
-
-            ]
+            userInfo: {
+                circleUrl: '',
+                username: '',
+                studentID: '',
+                level: '',
+                restTime: '',
+                hometown: '',
+                description: ''
+            },    
+            roomData:[],
+            roommateData:[],
+            editedUserInfo: {
+                restTime: '',
+                hometown: '',
+                description: '',
+                username:''
+            },
+            isEditing: false
         };
     },
     mounted() {
+        this.getUserInfo();
+        this.getRoomData();
+        this.getRoommateData();//这三个方法都是初始化数据
         if(localStorage.getItem("news")){
             this.form=JSON.parse(localStorage.getItem("news"))
             this.checked=true
         }
     },
     methods:{
+        startEdit() {  //“开始编辑”
+        this.editedUserInfo.restTime = this.userInfo.restTime;
+        this.editedUserInfo.hometown = this.userInfo.hometown;
+        this.editedUserInfo.description = this.userInfo.description;
+        this.editedUserInfo.username = this.userInfo.username;
+        this.isEditing = true;
+    },
+        saveEdit() {
+    //saveEdit(accountNum) {  //“确认修改”
+    //     axios.post('/api/user/updateUserInfo/${accountNum}', {
+    //     restTime: this.editedUserInfo.restTime,
+    //     hometown: this.editedUserInfo.hometown,
+    //     description: this.editedUserInfo.description.
+    //     username: this.editedUserInfo.username
+    //   }).then(response => {
+    //     this.userInfo.restTime = this.editedUserInfo.restTime;
+    //     this.userInfo.hometown = this.editedUserInfo.hometown;
+    //     this.userInfo.description = this.editedUserInfo.description;
+    //     this.userInfo.username = this.editedUserInfo.username;
+    //     this.isEditing = false;
+    //   }).catch(error => {
+    //     console.error('Error updating user info:', error);
+    //   }); //后端发送版
+        this.userInfo.restTime = this.editedUserInfo.restTime;
+        this.userInfo.hometown = this.editedUserInfo.hometown;
+        this.userInfo.description = this.editedUserInfo.description;
+        this.userInfo.username = this.editedUserInfo.username;
+        this.isEditing = false;
+    },
+        cancelEdit() {  //“取消”
+      this.isEditing = false;
+    },
+        getUserInfo() {  //“初始化个人信息”
+
+    //  getUserInfo(accountNum) { 
+    //   axios.get(`/api/user/info/${accountNum}`).then(response => {
+    //     this.userInfo = response.data;
+    //   }).catch(error => {
+    //     console.log(error);
+    //   });                 //后端请求版
+        this.userInfo={
+            username : "Student 1",
+            studentID: 12330849,
+            level: "硕士",
+            circleUrl:
+                'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+            restTime: "23:00 - 9:00",
+            hometown: "广东深圳",
+            description: "本科就读于南方科技大学，喜欢看书听音乐，不吵闹",
+      }; //手动赋值版
+    },
+
+        getRoomData() {  //初始化房间收藏信息
+
+    //  getRoomInfo(accountNum) { 
+    //   axios.get(`/api/user/room/${accountNum}`).then(response => {
+    //     this.roomData = response.data;
+    //   }).catch(error => {
+    //     console.log(error);
+    //   });               //后端请求版
+        this.roomData = [
+        { area: "二期", building: "17栋", floor: "3楼", room: "304" },
+        { area: "二期", building: "17栋", floor: "3楼", room: "304" },
+        { area: "二期", building: "17栋", floor: "3楼", room: "304" }
+        ]; //手动赋值版
+},
+
+        getRoommateData() {  //初始化组队信息
+    
+    //  getRoommateInfo(accountNum) { 
+    //   axios.get(`/api/user/roommate/${accountNum}`).then(response => {
+    //     this.roommateData = response.data;
+    //   }).catch(error => {
+    //     console.log(error);
+    //   });                 //后端请求版
+        this.roommateData = [
+        { username: "杨一轩1", studentID: "12000000", restTime: "23:00 - 9:00"},
+        { username: "杨一轩2", studentID: "12000000", restTime: "23:00 - 9:00"},
+        { username: "杨一轩3", studentID: "12000000", restTime: "23:00 - 9:00"},
+        { username: "杨一轩4", studentID: "12000000", restTime: "23:00 - 9:00"}
+        ];
+},
+
         goToMain() {
             // 导航到/main页面
             this.$router.push('/main');

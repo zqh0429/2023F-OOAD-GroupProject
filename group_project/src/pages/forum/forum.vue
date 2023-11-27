@@ -15,7 +15,6 @@
             <div>
                 <el-button @click="showContent('button1')">Post</el-button>
                 <el-button @click="showContent('button2')">Group Info</el-button>
-                <el-button @click="showContent('button3')">My Group</el-button>
                 <div>
                     <div v-if="activeButton === 'button1'">
                         <el-container>
@@ -54,11 +53,11 @@
                                             :size="size"
                                             border
                                         >
-                                            <el-descriptions-item label="User">Student1</el-descriptions-item>
-                                            <el-descriptions-item label="Time to Sleep">00:00</el-descriptions-item>
-                                            <el-descriptions-item label="Time to Wake Up" :span="2">9:30</el-descriptions-item>
+                                            <el-descriptions-item label="User">{{ postInfo.user }}</el-descriptions-item>
+                                            <el-descriptions-item label="Time to Sleep">{{ postInfo.sleep }}</el-descriptions-item>
+                                            <el-descriptions-item label="Time to Wake Up" :span="2">{{ postInfo.wake }}</el-descriptions-item>
                                             <el-descriptions-item label="Description">
-                                                喜欢打篮球，不吵闹，生活作息良好，求组队！
+                                                {{ postInfo.content }}
                                             </el-descriptions-item>
                                         </el-descriptions>
                                     </el-main>
@@ -108,12 +107,12 @@
                                             :size="size"
                                             border
                                         >
-                                            <el-descriptions-item label="Leader">Student2</el-descriptions-item>
-                                            <el-descriptions-item label="Time to Sleep">00:00</el-descriptions-item>
-                                            <el-descriptions-item label="Time to Wake Up" :span="2">9:30</el-descriptions-item>
-                                            <el-descriptions-item label="Members">Student3,Student4</el-descriptions-item>
+                                            <el-descriptions-item label="Leader">{{ groupInfo.leader }}</el-descriptions-item>
+                                            <el-descriptions-item label="Time to Sleep">{{ groupInfo.sleep }}</el-descriptions-item>
+                                            <el-descriptions-item label="Time to Wake Up" :span="2">{{ groupInfo.wake }}</el-descriptions-item>
+                                            <el-descriptions-item label="Members">{{ groupInfo.members }}</el-descriptions-item>
                                             <el-descriptions-item label="Description">
-                                                欢迎大家加入！
+                                                {{ groupInfo.description }}
                                             </el-descriptions-item>
                                         </el-descriptions>
                                     </el-main>
@@ -126,52 +125,6 @@
                             </el-container>
                         </el-container>
                     </div>
-                    <div v-if="activeButton === 'button3'"> <el-container>
-                        <el-header class="centered-text">
-                            早睡不起队
-                        </el-header>
-                        <el-container>
-                            <el-container>
-                                <el-main>
-                                    <el-descriptions
-                                        direction="vertical"
-                                        :column="4"
-                                        :size="size"
-                                        border
-                                    >
-                                        <el-descriptions-item label="Leader">Student2</el-descriptions-item>
-                                        <el-descriptions-item label="Time to Sleep">00:00</el-descriptions-item>
-                                        <el-descriptions-item label="Time to Wake Up" :span="2">9:30</el-descriptions-item>
-                                        <el-descriptions-item label="Members">Student3,Student4</el-descriptions-item>
-                                        <el-descriptions-item label="Description">
-                                            欢迎大家加入！
-                                        </el-descriptions-item>
-                                    </el-descriptions>
-                                </el-main>
-                                <el-aside width="400px">
-                                    <el-card class="box-card">
-                                        <template #header>
-                                            <div class="card-header">
-                                                <span>Messages</span>
-                                            </div>
-                                        </template>
-                                        <div class="text item">
-                                            {{ myGroupMessageData }}
-                                        </div>
-                                        <el-divider />
-                                        <el-space direction="vertical">
-                                            <el-input v-model="input_groupMessage"
-                                                      placeholder="Please input"
-                                                      :style="{ width: '350px', height: '100px' }"
-                                                      />
-                                            <el-button type="primary" class="button">Send</el-button>
-                                        </el-space>
-                                    </el-card>
-                                </el-aside>
-                            </el-container>
-                        </el-container>
-                    </el-container>
-                    </div>
                 </div>
             </div>
         </div>
@@ -181,6 +134,7 @@
 <script>
 import {ref} from "vue";
 import {Search} from '@element-plus/icons-vue'
+import {describe} from "node:test";
 
 export default {
     name: 'forumPanel',
@@ -201,7 +155,19 @@ export default {
             groupOverviewData:[
                 {groupID: '01', groupName: '一定早睡'}
             ],
-            myGroupMessageData: "Student2: hi" //TODO: load the message data
+            postInfo:{
+                user: '',
+                sleep: '',
+                wake:'',
+                content:'',
+            },
+            groupInfo:{
+                leader:'',
+                members:'',
+                sleep: '',
+                wake:'',
+                description:'',
+            },
         };
     },
     mounted() {
@@ -211,14 +177,23 @@ export default {
         }
     },
     methods: {
+        describe,
         showContent(button) {
             this.activeButton = button;
         },
-        searchPost(){
+        searchPost(postID){
             //TODO: load post data from database
+            //   axios.get(`/api/forum/postInfo/${postID}`).then(response => {
+            //     this.postInfo = response.data;
+            //   }).catch(error => {
+            //     console.log(error);
         },
         searchGroup(){
-            //TODO: load post data from database
+            //TODO: load group data from database
+            //   axios.get(`/api/forum/groupInfo/${groupID}`).then(response => {
+            //     this.postInfo = response.data;
+            //   }).catch(error => {
+            //     console.log(error);
         },
         loadPost(){
             //TODO: load a particular post

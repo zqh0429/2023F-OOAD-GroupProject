@@ -60,11 +60,11 @@
                         :size="size"
                         border
                     >
-                        <el-descriptions-item label="Area">二期宿舍</el-descriptions-item>
-                        <el-descriptions-item label="Location">17栋-202</el-descriptions-item>
-                        <el-descriptions-item label="❤" :span="2">12</el-descriptions-item>
+                        <el-descriptions-item label="Area">{{ roomInfo.area }}</el-descriptions-item>
+                        <el-descriptions-item label="Location">{{ roomInfo.building }}-{{roomInfo.room}}</el-descriptions-item>
+                        <el-descriptions-item label="❤" :span="2">{{ roomInfo.like }}</el-descriptions-item>
                         <el-descriptions-item label="Comments">
-                            Student1: I love it!
+                            {{ roomInfo.comments }}
                         </el-descriptions-item>
                     </el-descriptions>
                     <el-button type="primary">Comment</el-button> <!--click to add comments-->
@@ -101,7 +101,15 @@ export default {
             options_room:[{value: '1', label: '1',},
                 {value: '2', label: '2',}
             ],
-            dialogVisible: ref(false)
+            dialogVisible: ref(false),
+            roomInfo:{
+                area:'',
+                building:'',
+                floor:'',
+                room:'',
+                like:'',
+                comments:''
+            }
         };
     },
     mounted() {
@@ -119,6 +127,13 @@ export default {
         },
         select_room(){
             //TODO: load information from database
+        },
+        loadRoomInfo(){
+            //TODO: load room data from database
+            //   axios.get(`/api/main/roomInfo/${area,building,floor,room}`).then(response => {
+            //     this.postInfo = response.data;
+            //   }).catch(error => {
+            //     console.log(error);
         },
         showDialog() {
             this.dialogVisible = true; // 打开弹出窗口
