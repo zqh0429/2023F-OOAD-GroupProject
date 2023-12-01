@@ -44,6 +44,7 @@
 
 <script>
 
+
 import {mapState} from "vuex";
 
 export default {
@@ -55,7 +56,7 @@ export default {
                 username: "",
             },
             checked: false,
-            isLoginClick: false
+            isLoginClick: false,
         };
     },
     mounted() {
@@ -68,8 +69,9 @@ export default {
         loginClick() {
             this.$store.dispatch("login/loginCheck")
             this.isLoginClick = true
+            const user = this.user
             if (!this.isWrongPassword) {
-                this.$router.push('/main')
+                this.$router.push({path:'/main',param: {user}})
             }
         },
         remember(data){
@@ -90,7 +92,8 @@ export default {
     },
     computed: {
         ...mapState("login", {
-            isWrongPassword: state => !state.accountValid  //用vuex中的状态映射回来
+            isWrongPassword: state => !state.accountValid,  //用vuex中的状态映射回来
+            user: state => state.user,
         }),
         isUsernameEmpty() {
             return this.form.username === null

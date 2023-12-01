@@ -4,6 +4,9 @@
             <div class="maintext">
                 <h2>SUSTech Dormitory Selection</h2>
             </div>
+            <div class="maintext">
+                <h2>{{user}}</h2>
+            </div>
             <div class="menus">
                 <el-button type="primary" @click.prevent="goToUser">个人中心</el-button>
                 <el-button>主页</el-button>
@@ -48,7 +51,7 @@
                         :value="item.value"
                     />
                 </el-select>
-                <el-button text @click="dialogVisible = true">
+                <el-button text @click="loadRoomInfo">
                     Search
                 </el-button>
             </div>
@@ -57,7 +60,6 @@
                     <el-descriptions
                         direction="vertical"
                         :column="4"
-                        :size="size"
                         border
                     >
                         <el-descriptions-item label="Area">{{ roomInfo.area }}</el-descriptions-item>
@@ -67,7 +69,8 @@
                             {{ roomInfo.comments }}
                         </el-descriptions-item>
                     </el-descriptions>
-                    <el-button type="primary">Comment</el-button> <!--click to add comments-->
+                    <el-input v-model="inputComment" placeholder="Please input" />
+                    <el-button type="primary" @click.prevent="addComment">Comment</el-button>
                 </el-dialog>
             </div>
         </div>
@@ -77,9 +80,11 @@
 <script>
 
 import {ref} from "vue";
+import {mapState} from "vuex";
 
 export default {
     name: 'mainPanel',
+    props: ['user'],
     data() {
         return {
             info: 3,
@@ -109,7 +114,10 @@ export default {
                 room:'',
                 like:'',
                 comments:''
-            }
+            },
+            isLeavingComment: false,
+            inputComment: ref(''),
+
         };
     },
     mounted() {
@@ -129,17 +137,17 @@ export default {
             //TODO: load information from database
         },
         loadRoomInfo(){
-            //TODO: load room data from database
-            //   axios.get(`/api/main/roomInfo/${area,building,floor,room}`).then(response => {
-            //     this.postInfo = response.data;
-            //   }).catch(error => {
-            //     console.log(error);
+            this.$store.dispatch("main/loadRoomInfo")
+            this.dialogVisible = true;
         },
-        showDialog() {
-            this.dialogVisible = true; // 打开弹出窗口
-        },
-        closeDialog() {
-            this.dialogVisible = false; // 关闭弹出窗口
+        addComment() {
+            if (this.inputComment.trim() !== ""){
+                this.commentLine.user = this.user
+                this.commentLine.comment = this.inputComment
+                this.$store.dispatch("main/addComment")
+            }else {
+                alert("Please input comment")
+            }
         },
         goToForum() {
             // 导航到/forum页面
@@ -156,6 +164,12 @@ export default {
 
     },
     computed: {
+        ...mapState('main', {
+            roomInfo: state => state.location,
+            commentLine: state => state.commentLine,
+            // inputComment: state => state.inputComment,
+            // inputUser: state => state.inputUser
+        }),
         area_selected() {
             return !!this.value_area;
         },
@@ -165,6 +179,9 @@ export default {
         floor_selected() {
             return !!this.value_floor;
         },
+        leavingComments(){
+            return !!this.isLeavingComment;
+        }
     },
 }
 </script>

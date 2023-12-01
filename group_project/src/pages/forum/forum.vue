@@ -13,8 +13,8 @@
                 </el-badge>
             </div>
             <div>
-                <el-button @click="showContent('button1')">Post</el-button>
-                <el-button @click="showContent('button2')">Group Info</el-button>
+                <el-button @click="showContent('button1')" @click.prevent="loadPost">Post</el-button>
+                <el-button @click="showContent('button2')" @click.prevent="loadGroup">Group Info</el-button>
                 <div>
                     <div v-if="activeButton === 'button1'">
                         <el-container>
@@ -41,8 +41,14 @@
                                         style="width: 100%"
                                         @current-change="loadPost"
                                     >
-                                        <el-table-column property="index" label="" width="70"/>
-                                        <el-table-column property="title" label="Title" />
+                                        <el-table-column v-for="(name, id) in postOverviewColumns"
+                                                         :key="name" :index="id"
+                                                         fixed
+                                                         :prop="name"
+                                                         :label="name">
+                                        </el-table-column>
+<!--                                        <el-table-column property="index" label="" width="70"/>-->
+<!--                                        <el-table-column property="title" label="Title" />-->
                                     </el-table>
                                 </el-aside>
                                 <el-container>
@@ -95,8 +101,14 @@
                                         style="width: 100%"
                                         @current-change="loadGroup"
                                     >
-                                        <el-table-column property="groupID" label="" width="70"/>
-                                        <el-table-column property="groupName" label="Group Name" />
+                                        <el-table-column v-for="(name, id) in groupOverviewColumns"
+                                                         :key="name" :index="id"
+                                                         fixed
+                                                         :prop="name"
+                                                         :label="name">
+                                        </el-table-column>
+<!--                                        <el-table-column property="groupID" label="" width="70"/>-->
+<!--                                        <el-table-column property="groupName" label="Group Name" />-->
                                     </el-table>
                                 </el-aside>
                                 <el-container>
@@ -134,7 +146,7 @@
 <script>
 import {ref} from "vue";
 import {Search} from '@element-plus/icons-vue'
-import {describe} from "node:test";
+import {mapState} from "vuex";
 
 export default {
     name: 'forumPanel',
@@ -148,26 +160,6 @@ export default {
             input_groupInfo: ref(''),
             input_myGroup:ref(''),
             input_groupMessage:ref(''),
-            postOverviewData:[
-                {index:'01', title:'11'},
-                {index:'02', title:'2222'},
-            ],
-            groupOverviewData:[
-                {groupID: '01', groupName: '一定早睡'}
-            ],
-            postInfo:{
-                user: '',
-                sleep: '',
-                wake:'',
-                content:'',
-            },
-            groupInfo:{
-                leader:'',
-                members:'',
-                sleep: '',
-                wake:'',
-                description:'',
-            },
         };
     },
     mounted() {
@@ -177,29 +169,22 @@ export default {
         }
     },
     methods: {
-        describe,
         showContent(button) {
             this.activeButton = button;
         },
-        searchPost(){
-            //TODO: load post data from database
-            //   axios.get(`/api/forum/postInfo/${postID}`).then(response => {
-            //     this.postInfo = response.data;
-            //   }).catch(error => {
-            //     console.log(error);
-        },
-        searchGroup(){
-            //TODO: load group data from database
-            //   axios.get(`/api/forum/groupInfo/${groupID}`).then(response => {
-            //     this.postInfo = response.data;
-            //   }).catch(error => {
-            //     console.log(error);
-        },
         loadPost(){
-            //TODO: load a particular post
+            this.$store.dispatch("forum/loadPost")
         },
         loadGroup(){
-            //TODO: load a particular group
+            this.$store.dispatch("forum/loadGroup")
+        },
+        searchPost(selection){
+            this.postID = selection[0].postID;
+            this.$store.dispatch("forum/searchPost")
+        },
+        searchGroup(selection){
+            this.groupID = selection[0].groupID;
+            this.$store.dispatch("forum/searchGroup")
         },
         goToMain() {
             // 导航到/main页面
@@ -213,6 +198,18 @@ export default {
             // 导航到/forum页面
             this.$router.push('/chat');
         }
+    },
+    computed: {
+        ...mapState('forum', {
+            postOverviewData: state => state.postOverviewData,
+            groupOverviewData: state => state.groupOverviewData,
+            postOverviewColumns: state => state.postOverviewColumns,
+            groupOverviewColumns: state => state.groupOverviewColumns,
+            postInfo: state => state.postInfo,
+            groupInfo: state => state.groupInfo,
+            postID: state => state.postID,
+            groupID: state => state.groupID
+        })
     },
     components: {
         Search

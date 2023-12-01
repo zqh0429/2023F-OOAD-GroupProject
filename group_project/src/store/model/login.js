@@ -1,12 +1,6 @@
 import loginService from "@/service/loginService";
 
 const state = () => ({
-    purchaseColumns: ["date", "description", "money", "type", "username"],
-
-    rowData: null,
-
-    idToRecord: {},
-
     form: {
         "username": null,
         "password": null,
@@ -26,9 +20,6 @@ const actions = {
             }
         })
     },
-
-
-
 }
 const mutations = {
     changeAccountStatus(state, status) {
