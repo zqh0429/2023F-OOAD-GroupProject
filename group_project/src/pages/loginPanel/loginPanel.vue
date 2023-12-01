@@ -12,6 +12,7 @@
                             clearable
                             placeholder="请输入账号"
                         ></el-input>
+                        <p class="login" v-if="isLoginClick && this.isUsernameEmpty">Empty Username!</p>
                     </el-form-item>
                     <el-form-item prop="password">
                         <el-input
@@ -20,6 +21,7 @@
                             placeholder="请输入密码"
                             show-password
                         ></el-input>
+                        <p class="login" v-if="isLoginClick && isWrongPassword">Wrong Password or Valid Username</p>
                     </el-form-item>
                 </el-form>
             </div>
@@ -34,16 +36,15 @@
                 </div>
             </div>
             <div class="butt">
-                <el-button type="primary" @click.prevent="login('form')">登录</el-button>
-                <el-button class="shou" @click="register">注册</el-button>
+                <el-button type="primary" @click="loginClick">Login</el-button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-// import { login } from "@/api/login";
-// import { setToken } from "@/request/auth";
+
+import {mapState} from "vuex";
 
 export default {
     name: "loginPanel",
@@ -54,16 +55,7 @@ export default {
                 username: "",
             },
             checked: false,
-            rules: {
-                username: [
-                    { required: true, message: "请输入用户名", trigger: "blur" },
-                    { max: 10, message: "不能大于10个字符", trigger: "blur" },
-                ],
-                password: [
-                    { required: true, message: "请输入密码", trigger: "blur" },
-                    { max: 10, message: "不能大于10个字符", trigger: "blur" },
-                ],
-            },
+            isLoginClick: false
         };
     },
     mounted() {
@@ -73,10 +65,12 @@ export default {
         }
     },
     methods: {
-        login(form) {
-            //TODO:the logic of checking input
-            form.charAt(1)
-            this.$router.push('/main');
+        loginClick() {
+            this.$store.dispatch("login/loginCheck")
+            this.isLoginClick = true
+            if (!this.isWrongPassword) {
+                this.$router.push('/main')
+            }
         },
         remember(data){
             this.checked=data
@@ -87,12 +81,20 @@ export default {
             }
         },
         forgetpas() {
+            //TODO: 忘记密码逻辑
             this.$message({
                 type:"info",
                 showClose:true
             })
         },
-        register() {},
+    },
+    computed: {
+        ...mapState("login", {
+            isWrongPassword: state => !state.accountValid  //用vuex中的状态映射回来
+        }),
+        isUsernameEmpty() {
+            return this.form.username === null
+        }
     },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
-    <div class="forumbody">
-        <div class="forumdata">
+    <div class="body">
+        <div class="data">
             <div class="forumtext">
                 <h2>SUSTech Dormitory Selection</h2>
             </div>
@@ -181,7 +181,7 @@ export default {
         showContent(button) {
             this.activeButton = button;
         },
-        searchPost(postID){
+        searchPost(){
             //TODO: load post data from database
             //   axios.get(`/api/forum/postInfo/${postID}`).then(response => {
             //     this.postInfo = response.data;
