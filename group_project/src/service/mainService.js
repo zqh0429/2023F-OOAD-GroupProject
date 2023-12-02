@@ -7,7 +7,7 @@ function loadRoomInfo(param, callback) {
         param: username, password
     */
     const url = `${dataServerUrl}/api/main/v1/loadRoomInfo`;
-    axios.post(url, param)
+    axios.get(url, param)
         .then(resp => {
             callback(resp);
         })

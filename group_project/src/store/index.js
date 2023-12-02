@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 import login from "./model/login.js";
 import main from "./model/main.js";
 import forum from "./model/forum.js";
+import User from "./model/DataProcess";
 
 
 export default createStore({
@@ -11,7 +12,8 @@ export default createStore({
     modules: {
         login,
         main,
-        forum
+        forum,
+        User
     },
     strict: false,
 });

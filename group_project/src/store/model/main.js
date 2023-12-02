@@ -23,11 +23,12 @@ const state = () => ({
 const actions = {
     loadRoomInfo(context) {
         mainService.loadRoomInfo(context.state.location, resp => {
-            if (resp.data.code === 0) {
-                context.commit("changeLocation", resp.data.data)
-            } else {
-                context.state.errorMsg = resp.data.msg
-            }
+            // if (resp.data.code === 0) {
+            //     context.commit("changeLocation", resp.data.data)
+            // } else {
+            //     context.state.errorMsg = resp.data.msg
+            // }
+            context.commit("changeLocation", resp.data)
         })
     },
     addComment(context) {

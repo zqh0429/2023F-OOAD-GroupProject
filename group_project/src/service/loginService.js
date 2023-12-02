@@ -7,7 +7,7 @@ function loginCheck(param, callback) {
         param: username, password
     */
     const url = `${dataServerUrl}/api/user/v1/login`;
-    axios.post(url, param)
+    axios.get(url, param)
         .then(resp => {
             callback(resp);
         })

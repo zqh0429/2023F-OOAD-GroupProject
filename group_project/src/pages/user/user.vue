@@ -99,22 +99,12 @@
 </template>
 
 <script>
-
+import {mapState} from "vuex";
+// import axios from 'axios'
 export default {
     name: 'userPanel',
     data() {
         return {
-            userInfo: {
-                circleUrl: '',
-                username: '',
-                studentID: '',
-                level: '',
-                restTime: '',
-                hometown: '',
-                description: ''
-            },    
-            roomData:[],
-            roommateData:[],
             editedUserInfo: {
                 restTime: '',
                 hometown: '',
@@ -124,14 +114,22 @@ export default {
             isEditing: false
         };
     },
+  computed: {
+    ...mapState('User', {
+        userInfo: state => state.userInfo,
+        accountNum: state => state.accountNum,
+        roomData:state => state.roomData,
+        roommateData:state => state.roommateData
+    })
+  },
     mounted() {
-        this.getUserInfo();
-        this.getRoomData();
-        this.getRoommateData();//这三个方法都是初始化数据
-        if(localStorage.getItem("news")){
-            this.form=JSON.parse(localStorage.getItem("news"))
-            this.checked=true
-        }
+        this.$store.dispatch("DataProcess/getUserInfo");
+        this.$store.dispatch("DataProcess/getRoomData");
+        this.$store.dispatch("DataProcess/getRoommateData");
+        // if(localStorage.getItem("news")){
+        //     this.form=JSON.parse(localStorage.getItem("news"))
+        //     this.checked=true
+        // }
     },
     methods:{
         startEdit() {  //“开始编辑”
@@ -142,81 +140,17 @@ export default {
         this.isEditing = true;
     },
         saveEdit() {
-    //saveEdit(accountNum) {  //“确认修改”
-    //     axios.post('/api/user/updateUserInfo/${accountNum}', {
-    //     restTime: this.editedUserInfo.restTime,
-    //     hometown: this.editedUserInfo.hometown,
-    //     description: this.editedUserInfo.description.
-    //     username: this.editedUserInfo.username
-    //   }).then(response => {
-    //     this.userInfo.restTime = this.editedUserInfo.restTime;
-    //     this.userInfo.hometown = this.editedUserInfo.hometown;
-    //     this.userInfo.description = this.editedUserInfo.description;
-    //     this.userInfo.username = this.editedUserInfo.username;
-    //     this.isEditing = false;
-    //   }).catch(error => {
-    //     console.error('Error updating user info:', error);
-    //   }); //后端发送版
         this.userInfo.restTime = this.editedUserInfo.restTime;
         this.userInfo.hometown = this.editedUserInfo.hometown;
         this.userInfo.description = this.editedUserInfo.description;
         this.userInfo.username = this.editedUserInfo.username;
         this.isEditing = false;
+        this.$store.dispatch("DataProcess/saveUserInfo");
     },
         cancelEdit() {  //“取消”
       this.isEditing = false;
     },
-        getUserInfo() {  //“初始化个人信息”
-
-    //  getUserInfo(accountNum) { 
-    //   axios.get(`/api/user/info/${accountNum}`).then(response => {
-    //     this.userInfo = response.data;
-    //   }).catch(error => {
-    //     console.log(error);
-    //   });                 //后端请求版
-        this.userInfo={
-            username : "Student 1",
-            studentID: 12330849,
-            level: "硕士",
-            circleUrl:
-                'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            restTime: "23:00 - 9:00",
-            hometown: "广东深圳",
-            description: "本科就读于南方科技大学，喜欢看书听音乐，不吵闹",
-      }; //手动赋值版
-    },
-
-        getRoomData() {  //初始化房间收藏信息
-
-    //  getRoomInfo(accountNum) { 
-    //   axios.get(`/api/user/room/${accountNum}`).then(response => {
-    //     this.roomData = response.data;
-    //   }).catch(error => {
-    //     console.log(error);
-    //   });               //后端请求版
-        this.roomData = [
-        { area: "二期", building: "17栋", floor: "3楼", room: "304" },
-        { area: "二期", building: "17栋", floor: "3楼", room: "304" },
-        { area: "二期", building: "17栋", floor: "3楼", room: "304" }
-        ]; //手动赋值版
-},
-
-        getRoommateData() {  //初始化组队信息
-    
-    //  getRoommateInfo(accountNum) { 
-    //   axios.get(`/api/user/roommate/${accountNum}`).then(response => {
-    //     this.roommateData = response.data;
-    //   }).catch(error => {
-    //     console.log(error);
-    //   });                 //后端请求版
-        this.roommateData = [
-        { username: "杨一轩1", studentID: "12000000", restTime: "23:00 - 9:00"},
-        { username: "杨一轩2", studentID: "12000000", restTime: "23:00 - 9:00"},
-        { username: "杨一轩3", studentID: "12000000", restTime: "23:00 - 9:00"},
-        { username: "杨一轩4", studentID: "12000000", restTime: "23:00 - 9:00"}
-        ];
-},
-
+      
         goToMain() {
             // 导航到/main页面
             this.$router.push('/main');
@@ -230,9 +164,7 @@ export default {
             this.$router.push('/chat');
         }
     },
-    computed: {
 
-    },
 }
 </script>
 

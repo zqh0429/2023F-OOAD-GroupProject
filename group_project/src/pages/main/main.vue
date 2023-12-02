@@ -60,6 +60,7 @@
                     <el-descriptions
                         direction="vertical"
                         :column="4"
+                        :data="roomInfo"
                         border
                     >
                         <el-descriptions-item label="Area">{{ roomInfo.area }}</el-descriptions-item>
@@ -107,14 +108,14 @@ export default {
                 {value: '2', label: '2',}
             ],
             dialogVisible: ref(false),
-            roomInfo:{
-                area:'',
-                building:'',
-                floor:'',
-                room:'',
-                like:'',
-                comments:''
-            },
+            // roomInfo:{
+            //     area:'',
+            //     building:'',
+            //     floor:'',
+            //     room:'',
+            //     like:'',
+            //     comments:''
+            // },
             isLeavingComment: false,
             inputComment: ref(''),
 
@@ -137,8 +138,9 @@ export default {
             //TODO: load information from database
         },
         loadRoomInfo(){
-            this.$store.dispatch("main/loadRoomInfo")
             this.dialogVisible = true;
+            this.$store.dispatch("main/loadRoomInfo")
+
         },
         addComment() {
             if (this.inputComment.trim() !== ""){
