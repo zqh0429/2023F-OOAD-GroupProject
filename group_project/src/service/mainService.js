@@ -4,11 +4,14 @@ import axios from 'axios';
 
 function loadRoomInfo(param, callback) {
     /*
-        param: username, password
+        param: area,building,floor,room
     */
     // const url = `${dataServerUrl}/api/main/v1/loadRoomInfo`;
+    const params = {
+        param
+    };
     const url = `api/main/v1/loadRoomInfo`;
-    axios.get(url, param)
+    axios.get(url, {params})
         .then(resp => {
             callback(resp);
         })
@@ -21,8 +24,11 @@ function listComment(param, callback) {
     param:
     */
     // const url = `${dataServerUrl}/api/main/v1/comments`
+    const params = {
+        param
+    };
     const url = `api/main/v1/comments`
-    axios.get(url, param)
+    axios.get(url, {params})
         .then(resp => {
             callback(resp)
         }, errResp => {
@@ -35,8 +41,11 @@ function addComment(param, callback) {
     param: username, comment
     */
     // const url = `${dataServerUrl}/api/main/v1/addComment`
+    const params = {
+        param
+    };
     const url = `api/main/v1/addComment`
-    axios.post(url, param)
+    axios.post(url, {params})
         .then(resp => {
             callback(resp)
         }, errResp => {

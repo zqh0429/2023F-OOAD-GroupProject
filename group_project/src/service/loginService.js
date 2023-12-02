@@ -1,13 +1,17 @@
 import axios from 'axios';
 
-const dataServerUrl = 'http://127.0.0.1:8082';
+// const dataServerUrl = 'http://127.0.0.1:8082';
 
 function loginCheck(param, callback) {
     /*
         param: username, password
     */
-    const url = `${dataServerUrl}/api/user/v1/login`;
-    axios.get(url, param)
+    // const url = `${dataServerUrl}/api/login/v1/login`;
+    const url = `api/login/v1/login`;
+    const params = {
+        param
+    };
+    axios.get(url, {params})
         .then(resp => {
             callback(resp);
         })

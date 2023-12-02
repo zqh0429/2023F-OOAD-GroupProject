@@ -87,7 +87,7 @@ import {mapState} from "vuex";
 
 export default {
     name: 'mainPanel',
-    props: ['user'],
+    // props: ['user'],
     data() {
         return {
             info: 3,
@@ -144,10 +144,12 @@ export default {
             this.$store.dispatch("main/loadRoomInfo")
             this.$store.dispatch("main/listComment")
             console.log(this.roomInfo);
+            console.log(this.commentLine)
         },
         addComment() {
             if (this.inputComment.trim() !== ""){
-                this.commentLine.user = "this.user"
+                console.log(this.user)
+                this.commentLine.user = this.user
                 this.commentLine.comment = this.inputComment
                 console.log(this.commentLine);
                 this.$store.dispatch("main/addComment")
@@ -174,7 +176,8 @@ export default {
             roomInfo: state => state.roomInfo,
             commentLine: state => state.commentLine,
             selectedRoom: state => state.selectedRoom,
-            comments: state => state.comments
+            comments: state => state.comments,
+            user:state => state.user
             // inputComment: state => state.inputComment,
             // inputUser: state => state.inputUser
         }),

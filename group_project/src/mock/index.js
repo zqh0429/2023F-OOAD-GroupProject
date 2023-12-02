@@ -9,7 +9,7 @@ Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
     console.log(accountNum);
       if(accountNum === '12345678'){
       return {
-        userInfo: {
+        data: {
           username : "Student 1",
           studentID: '12330849',
           level: "硕士",
@@ -22,7 +22,7 @@ Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
     }}else if (accountNum === '12011429') {
         return {
     
-          userInfo: {
+          data: {
             username : "Student 1",
             studentID: '12330849',
             level: "博士",
@@ -46,7 +46,7 @@ Mock.mock(RegExp("/api/user/updateinfo" + ".*"), 'post', function(config){
 });
 
 
-Mock.mock(RegExp("/api/user/roommate" + ".*"), 'get', { roommateData: [
+Mock.mock(RegExp("/api/user/roommate" + ".*"), 'get', { data: [
     { username: "杨一轩1", studentID: "12000000", restTime: "23:00 - 9:00"},
     { username: "杨一轩2", studentID: "12000000", restTime: "23:00 - 9:00"},
     { username: "杨一轩3", studentID: "12000000", restTime: "23:00 - 9:00"},
@@ -54,17 +54,26 @@ Mock.mock(RegExp("/api/user/roommate" + ".*"), 'get', { roommateData: [
     ]
     });
 
-Mock.mock(RegExp("/api/user/Room" + ".*"), 'get', { roomData: [
+Mock.mock(RegExp("/api/user/Room" + ".*"), 'get', { data: [
     { area: "二期", building: "17栋", floor: "3楼", room: "304" },
     { area: "二期", building: "17栋", floor: "3楼", room: "304" },
     { area: "二期", building: "17栋", floor: "3楼", room: "304" }
     ]
     });
+Mock.mock(RegExp("api/login/v1/login" + ".*"), 'get', function(){
+    return {
+        code: 0,
+        data: "Student 1"
+    }
 
-Mock.mock(RegExp("api/main/v1/loadRoomInfo" + ".*"), 'get', function() {
+});
+Mock.mock(RegExp("api/main/v1/loadRoomInfo" + ".*"), 'get', function(config) {
+    const param = config.url.split('?')[1];
+    console.log(param);
     console.log("进入了 loadRoomInfo 拦截方法");
     return {
-        roomInfo: {
+        code:0,
+        data: {
             area: "二期",
             building: "17栋",
             floor: "3",
@@ -74,16 +83,17 @@ Mock.mock(RegExp("api/main/v1/loadRoomInfo" + ".*"), 'get', function() {
         },
     };
 });
-Mock.mock(RegExp("/api/main/v1/addComment" + ".*"), 'post', function(config){
+Mock.mock(RegExp("api/main/v1/addComment" + ".*"), 'post', function(config){
     console.log(config);
+    console.log("进入了 add 拦截方法");
     return{
-        message: "提交成功！"
+        code: 0
     }
-
 });
 Mock.mock(RegExp("api/main/v1/comments" + ".*"), 'get', function() {
     console.log("进入了 comments 拦截方法");
     return {
+        code:0,
         data: [
             { user: "Student1", comment: "1111"},
             { user: "Student2", comment: "22222"},

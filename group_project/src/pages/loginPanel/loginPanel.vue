@@ -68,9 +68,12 @@ export default {
     methods: {
         loginClick() {
             this.$store.dispatch("login/loginCheck")
+
             this.isLoginClick = true
             const user = this.user
+            console.log(this.user)
             if (!this.isWrongPassword) {
+                this.$store.dispatch("main/getUser",this.user)
                 this.$router.push({path:'/main',param: {user}})
             }
         },

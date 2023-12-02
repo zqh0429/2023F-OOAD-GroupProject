@@ -28,7 +28,7 @@ const actions = {
     getUserInfo(context){   //初始化个人信息
         dataService.askUserInfo(context.state.accountNum, resp => {
 
-                context.commit("setUserInfo", resp.data.userInfo)
+                context.commit("setUserInfo", resp.data.data)
             
         })
     },
@@ -41,13 +41,13 @@ const actions = {
 
     getRoomData(context){
         dataService.askRoomData(context.state.accountNum, resp => {
-            context.commit("setRoomData", resp.data.roomData)
+            context.commit("setRoomData", resp.data.data)
     })
     },
 
     getRoommateData(context){
         dataService.askRoommateData(context.state.accountNum, resp => {
-            context.commit("setRoommateData", resp.data.roommateData)
+            context.commit("setRoommateData", resp.data.data)
     })
     },
 
