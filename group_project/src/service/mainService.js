@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-const dataServerUrl = 'http://127.0.0.1:8082';
+// const dataServerUrl = 'http://127.0.0.1:8082';
 
 function loadRoomInfo(param, callback) {
     /*
         param: username, password
     */
-    const url = `${dataServerUrl}/api/main/v1/loadRoomInfo`;
+    // const url = `${dataServerUrl}/api/main/v1/loadRoomInfo`;
+    const url = `api/main/v1/loadRoomInfo`;
     axios.get(url, param)
         .then(resp => {
             callback(resp);
@@ -19,7 +20,8 @@ function listComment(param, callback) {
     /*
     param:
     */
-    const url = `${dataServerUrl}/api/main/v1/comments`
+    // const url = `${dataServerUrl}/api/main/v1/comments`
+    const url = `api/main/v1/comments`
     axios.get(url, param)
         .then(resp => {
             callback(resp)
@@ -32,7 +34,8 @@ function addComment(param, callback) {
     /*
     param: username, comment
     */
-    const url = `${dataServerUrl}/api/main/v1/addComment`
+    // const url = `${dataServerUrl}/api/main/v1/addComment`
+    const url = `api/main/v1/addComment`
     axios.post(url, param)
         .then(resp => {
             callback(resp)

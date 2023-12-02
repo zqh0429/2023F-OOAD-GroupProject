@@ -51,23 +51,25 @@
                         :value="item.value"
                     />
                 </el-select>
-                <el-button text @click="loadRoomInfo">
+                <el-button @click="loadRoomInfo" type="primary" >
                     Search
                 </el-button>
             </div>
             <div>
-                <el-dialog v-model="dialogVisible" title="Room Information">
+                <el-dialog v-model="dialogVisible" title="Room Information" @opened="handleDialogOpened">
                     <el-descriptions
                         direction="vertical"
                         :column="4"
-                        :data="roomInfo"
                         border
                     >
                         <el-descriptions-item label="Area">{{ roomInfo.area }}</el-descriptions-item>
-                        <el-descriptions-item label="Location">{{ roomInfo.building }}-{{roomInfo.room}}</el-descriptions-item>
+                        <el-descriptions-item label="Location">{{ roomInfo.building }}-{{ roomInfo.room }}</el-descriptions-item>
                         <el-descriptions-item label="❤" :span="2">{{ roomInfo.like }}</el-descriptions-item>
                         <el-descriptions-item label="Comments">
-                            {{ roomInfo.comments }}
+                            <el-table :data="comments" style="width: 100%">
+                                <el-table-column prop="user" width="180" />
+                                <el-table-column prop="comment" width="180" />
+                            </el-table>
                         </el-descriptions-item>
                     </el-descriptions>
                     <el-input v-model="inputComment" placeholder="Please input" />
@@ -107,25 +109,18 @@ export default {
             options_room:[{value: '1', label: '1',},
                 {value: '2', label: '2',}
             ],
-            dialogVisible: ref(false),
-            // roomInfo:{
-            //     area:'',
-            //     building:'',
-            //     floor:'',
-            //     room:'',
-            //     like:'',
-            //     comments:''
-            // },
+            dialogVisible:false,
             isLeavingComment: false,
             inputComment: ref(''),
 
         };
     },
     mounted() {
-        if(localStorage.getItem("news")){
-            this.form=JSON.parse(localStorage.getItem("news"))
-            this.checked=true
-        }
+        // if(localStorage.getItem("news")){
+        //     this.form=JSON.parse(localStorage.getItem("news"))
+        //     this.checked=true
+        // }
+
     },
     methods:{
         select_building(){
@@ -139,13 +134,22 @@ export default {
         },
         loadRoomInfo(){
             this.dialogVisible = true;
+            this.selectedRoom.room = this.value_room;
+            this.selectedRoom.area = this.value_area;
+            this.selectedRoom.floor = this.value_floor;
+            this.selectedRoom.building = this.value_building;
+        },
+        handleDialogOpened() {
+            // 在对话框打开时调用的方法
             this.$store.dispatch("main/loadRoomInfo")
-
+            this.$store.dispatch("main/listComment")
+            console.log(this.roomInfo);
         },
         addComment() {
             if (this.inputComment.trim() !== ""){
-                this.commentLine.user = this.user
+                this.commentLine.user = "this.user"
                 this.commentLine.comment = this.inputComment
+                console.log(this.commentLine);
                 this.$store.dispatch("main/addComment")
             }else {
                 alert("Please input comment")
@@ -167,8 +171,10 @@ export default {
     },
     computed: {
         ...mapState('main', {
-            roomInfo: state => state.location,
+            roomInfo: state => state.roomInfo,
             commentLine: state => state.commentLine,
+            selectedRoom: state => state.selectedRoom,
+            comments: state => state.comments
             // inputComment: state => state.inputComment,
             // inputUser: state => state.inputUser
         }),

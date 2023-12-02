@@ -2,7 +2,7 @@ import Mock from 'mockjs'
  
 
 
-Mock.mock(RegExp("http://127.0.0.1:8082/api/user/v1/login" + ".*"), 'get', function(config){
+Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
     //不同账号返回不同参数
     const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
     const accountNum = param.split('=')[1];
@@ -61,11 +61,10 @@ Mock.mock(RegExp("/api/user/Room" + ".*"), 'get', { roomData: [
     ]
     });
 
-Mock.mock(RegExp("http://127.0.0.1:8082/api/main/v1/loadRoomInfo" + ".*"), 'get', function() {
+Mock.mock(RegExp("api/main/v1/loadRoomInfo" + ".*"), 'get', function() {
     console.log("进入了 loadRoomInfo 拦截方法");
-
     return {
-        data: {
+        roomInfo: {
             area: "二期",
             building: "17栋",
             floor: "3",
@@ -75,5 +74,21 @@ Mock.mock(RegExp("http://127.0.0.1:8082/api/main/v1/loadRoomInfo" + ".*"), 'get'
         },
     };
 });
+Mock.mock(RegExp("/api/main/v1/addComment" + ".*"), 'post', function(config){
+    console.log(config);
+    return{
+        message: "提交成功！"
+    }
 
+});
+Mock.mock(RegExp("api/main/v1/comments" + ".*"), 'get', function() {
+    console.log("进入了 comments 拦截方法");
+    return {
+        data: [
+            { user: "Student1", comment: "1111"},
+            { user: "Student2", comment: "22222"},
+        ]
+    };
+});
+export default Mock;
 

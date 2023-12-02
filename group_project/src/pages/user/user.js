@@ -6,6 +6,7 @@ import 'element-plus/dist/index.css'
 import { ElIcon } from 'element-plus';
 import Vuex from "vuex";
 import store from '@/store'
-import '../../mock/index.js'
+import Mock from '../../mock/index.js'
 
-createApp(User).use(router).use(ElementPlus).use(ElIcon).use(Vuex).use(store).mount('#userPanel')
+createApp(User).use(router).use(ElementPlus).use(ElIcon).use(Vuex).use(store).use(Mock).
+mount('#userPanel')

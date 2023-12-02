@@ -115,7 +115,7 @@ export default {
         };
     },
   computed: {
-    ...mapState('User', {
+    ...mapState('DataProcess', {
         userInfo: state => state.userInfo,
         accountNum: state => state.accountNum,
         roomData:state => state.roomData,
