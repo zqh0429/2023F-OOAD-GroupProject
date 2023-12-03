@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/v1/comment")
+@RequestMapping(path = "/v1")
 public class CommentController {
     private final CommentService commentService;
 
@@ -23,14 +23,14 @@ public class CommentController {
     }
 
     //根据roomid得到room的comment
-    @GetMapping("/v1/getcomments")
+    @GetMapping("/comments")
     public List<comment> listcomment(@RequestBody RoomDto roomDto){
         System.out.println(roomDto);
         return commentService.getcomment(roomDto);
     }
 
     //评论房间
-    @PostMapping("/v1/creatcomments")
+    @PostMapping("/addComment")
     public comment createComment(@RequestBody CommentDto commentDto) {
         System.out.println(commentDto);
         return commentService.createcomment(commentDto);
