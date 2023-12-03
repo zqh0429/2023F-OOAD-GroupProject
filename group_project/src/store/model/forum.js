@@ -1,31 +1,28 @@
 import forumService from "@/service/forumService";
 
 const state = () => ({
-    postOverviewColumns: ["index", "title"],
-    groupOverviewColumns: ["groupID", "groupName"],
     postOverviewData: null,
     groupOverviewData: null,
     postInfo: {
-        'user': null,
-        'sleep': null,
-        'wake': null,
-        'content': null,
+        user: null,
+        sleep: null,
+        wake: null,
+        content: null,
     },
     groupInfo: {
-        'leader': null,
-        'members': null,
-        'sleep': null,
-        'wake': null,
-        'content': null,
+        leader: "",
+        members: "",
+        sleep: "",
+        wake: "",
+        content: "",
     },
-    postID:null,
-    groupID:null,
-    errorMsg: null
+    errorMsg: null,
+    joinGroupValid:false,
 })
 
 const actions = {
-    searchPost(context) {
-        forumService.searchPost(context.state.postID, resp => {
+    searchPost(context,id) {
+        forumService.searchPost(id, resp => {
             if (resp.data.code === 0) {
                 context.commit("searchPost", resp.data.data)
             } else {
@@ -33,8 +30,8 @@ const actions = {
             }
         })
     },
-    searchGroup(context) {
-        forumService.searchGroup(context.state.groupID, resp => {
+    searchGroup(context,id) {
+        forumService.searchGroup(id, resp => {
             if (resp.data.code === 0) {
                 context.commit("searchGroup", resp.data.data)
             } else {
@@ -60,6 +57,16 @@ const actions = {
             }
         })
     },
+    joinGroup(context,id) {
+        forumService.joinGroup(id, resp => {
+            if (resp.data.code === 0) {
+                context.commit("joinGroup", true)
+                console.log(context.state.joinGroupValid)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
 }
 const mutations = {
     searchPost(state, data) {
@@ -68,11 +75,14 @@ const mutations = {
     searchGroup(state, data) {
         state.groupInfo = data
     },
-    loadPost(state, data) {
+    loadPostOverviewData(state, data) {
         state.postOverviewData = data
     },
     loadGroupOverviewData(state, data) {
         state.groupOverviewData = data
+    },
+    joinGroup(state, status) {
+        state.joinGroupValid = status
     },
 }
 

@@ -21,14 +21,14 @@
                             <el-header>
                                 <el-row :gutter="10">
                                     <el-col :span="16">
-                                        <el-input v-model="input_post" class="" placeholder="Type something">
+                                        <el-input v-model="input_post" class="" placeholder="Type Post ID">
                                             <template #prefix>
                                                 <el-icon class="el-input__icon"><search /></el-icon>
                                             </template>
                                         </el-input>
                                     </el-col>
                                     <el-col :span="8">
-                                        <el-button @click="searchPost">Search</el-button>
+                                        <el-button @click="searchPostByInput">Search</el-button>
                                     </el-col>
                                 </el-row>
                             </el-header>
@@ -39,16 +39,10 @@
                                         :data="postOverviewData"
                                         highlight-current-row
                                         style="width: 100%"
-                                        @current-change="loadPost"
+                                        @current-change="searchPost"
                                     >
-                                        <el-table-column v-for="(name, id) in postOverviewColumns"
-                                                         :key="name" :index="id"
-                                                         fixed
-                                                         :prop="name"
-                                                         :label="name">
-                                        </el-table-column>
-<!--                                        <el-table-column property="index" label="" width="70"/>-->
-<!--                                        <el-table-column property="title" label="Title" />-->
+                                        <el-table-column prop="id" label="" width="70"/>
+                                        <el-table-column prop="title" label="Title" />
                                     </el-table>
                                 </el-aside>
                                 <el-container>
@@ -68,6 +62,7 @@
                                         </el-descriptions>
                                     </el-main>
                                     <el-footer>
+                                        <el-button type="primary" @click="addPost"> + </el-button>
                                         <div class="pagination-block">
                                             <el-pagination layout="prev, pager, next" :total="50" />
                                         </div>
@@ -81,14 +76,14 @@
                             <el-header>
                                 <el-row :gutter="10">
                                     <el-col :span="16">
-                                        <el-input v-model="input_groupInfo" class="" placeholder="Type something">
+                                        <el-input v-model="input_group" class="" placeholder="Type Group ID">
                                             <template #prefix>
                                                 <el-icon class="el-input__icon"><search /></el-icon>
                                             </template>
                                         </el-input>
                                     </el-col>
                                     <el-col :span="8">
-                                        <el-button @click="searchGroup">Search</el-button>
+                                        <el-button @click="searchGroupByInput">Search</el-button>
                                     </el-col>
                                 </el-row>
                             </el-header>
@@ -99,16 +94,10 @@
                                         :data="groupOverviewData"
                                         highlight-current-row
                                         style="width: 100%"
-                                        @current-change="loadGroup"
+                                        @current-change="searchGroup"
                                     >
-                                        <el-table-column v-for="(name, id) in groupOverviewColumns"
-                                                         :key="name" :index="id"
-                                                         fixed
-                                                         :prop="name"
-                                                         :label="name">
-                                        </el-table-column>
-<!--                                        <el-table-column property="groupID" label="" width="70"/>-->
-<!--                                        <el-table-column property="groupName" label="Group Name" />-->
+                                        <el-table-column prop="id" label="" width="70"/>
+                                        <el-table-column prop="groupName" label="Group Name" />
                                     </el-table>
                                 </el-aside>
                                 <el-container>
@@ -116,7 +105,6 @@
                                         <el-descriptions
                                             direction="vertical"
                                             :column="4"
-                                            :size="size"
                                             border
                                         >
                                             <el-descriptions-item label="Leader">{{ groupInfo.leader }}</el-descriptions-item>
@@ -124,11 +112,12 @@
                                             <el-descriptions-item label="Time to Wake Up" :span="2">{{ groupInfo.wake }}</el-descriptions-item>
                                             <el-descriptions-item label="Members">{{ groupInfo.members }}</el-descriptions-item>
                                             <el-descriptions-item label="Description">
-                                                {{ groupInfo.description }}
+                                                {{ groupInfo.content }}
                                             </el-descriptions-item>
                                         </el-descriptions>
                                     </el-main>
                                     <el-footer>
+                                        <el-button type="primary" @click="joinGroup">Join</el-button>
                                         <div class="pagination-block">
                                             <el-pagination layout="prev, pager, next" :total="50" />
                                         </div>
@@ -157,16 +146,14 @@ export default {
             info: 3,
             activeButton: 'button1',
             input_post : ref(''),
-            input_groupInfo: ref(''),
-            input_myGroup:ref(''),
-            input_groupMessage:ref(''),
+            input_group: ref(''),
+            groupID: null,
+            postID: null
         };
     },
     mounted() {
-        if(localStorage.getItem("news")){
-            this.form=JSON.parse(localStorage.getItem("news"))
-            this.checked=true
-        }
+        this.$store.dispatch("forum/loadPost")
+        this.$store.dispatch("forum/loadGroup")
     },
     methods: {
         showContent(button) {
@@ -174,17 +161,30 @@ export default {
         },
         loadPost(){
             this.$store.dispatch("forum/loadPost")
+            console.log(this.postOverviewData)
         },
         loadGroup(){
             this.$store.dispatch("forum/loadGroup")
         },
         searchPost(selection){
-            this.postID = selection[0].postID;
-            this.$store.dispatch("forum/searchPost")
+            this.postID = selection.id
+            this.$store.dispatch("forum/searchPost",selection.id)
         },
         searchGroup(selection){
-            this.groupID = selection[0].groupID;
-            this.$store.dispatch("forum/searchGroup")
+            this.groupID = selection.id
+            this.$store.dispatch("forum/searchGroup",selection.id)
+        },
+        searchPostByInput(){
+            this.$store.dispatch("forum/searchPost",this.input_post)
+        },
+        searchGroupByInput(){
+            this.$store.dispatch("forum/searchGroup",this.input_group)
+        },
+        joinGroup(){
+            this.$store.dispatch("forum/joinGroup",this.groupID)
+        },
+        addPost(){
+          //TODO:add new post
         },
         goToMain() {
             // 导航到/main页面
@@ -203,12 +203,10 @@ export default {
         ...mapState('forum', {
             postOverviewData: state => state.postOverviewData,
             groupOverviewData: state => state.groupOverviewData,
-            postOverviewColumns: state => state.postOverviewColumns,
-            groupOverviewColumns: state => state.groupOverviewColumns,
             postInfo: state => state.postInfo,
             groupInfo: state => state.groupInfo,
-            postID: state => state.postID,
-            groupID: state => state.groupID
+            // postID: state => state.postID,
+            // groupID: state => state.groupID
         })
     },
     components: {

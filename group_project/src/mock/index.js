@@ -100,5 +100,100 @@ Mock.mock(RegExp("api/main/v1/comments" + ".*"), 'get', function() {
         ]
     };
 });
+Mock.mock(RegExp("api/forum/post/loadPost" + ".*"), 'get', function() {
+    console.log("进入了 loadPost 拦截方法");
+    return {
+        code:0,
+        data: [
+            { id: 1, title: "1111"},
+            { id: 2, title: "2222"},
+        ]
+    };
+});
+Mock.mock(RegExp("api/forum/group/loadGroup" + ".*"), 'get', function() {
+    console.log("进入了 loadGroup 拦截方法");
+    return {
+        code:0,
+        data: [
+            { id: 1, groupName: "Group 1"},
+            { id: 2, groupName: "Group 2"},
+        ]
+    };
+});
+Mock.mock(RegExp("api/forum/post/searchPost" + ".*"), 'get', function(options) {
+    // 从请求参数中获取groupID
+    const postID = options.url.split('=')[1];
+    // 根据不同的groupID返回不同的模拟数据
+    let responseData;
+    if (postID === '1') {
+        responseData = {
+            code: 0,
+            data: {
+                user: "Student1",
+                sleep: "23:00",
+                wake: "9:00",
+                content: "null",
+            },
+        };
+    } else if (postID === '2') {
+        responseData = {
+            code: 0,
+            data: {
+                user: "Student2",
+                sleep: "00:00",
+                wake: "10:00",
+                content: "null",
+            },
+        };
+    } else {
+        // 处理未知的groupID
+        responseData = {
+            code: -1,
+            msg: "Unknown postID",
+        };
+    }
+
+    return responseData;
+});
+Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options) {
+    // 从请求参数中获取groupID
+    const groupID = options.url.split('=')[1];
+    console.log(options.url)
+    console.log("进入了 searchGroup 拦截方法，groupID:", groupID);
+    // 根据不同的groupID返回不同的模拟数据
+    let responseData;
+    if (groupID === '1') {
+        responseData = {
+            code: 0,
+            data: {
+                leader: "Student 1",
+                members: "Student 1, Student 2",
+                sleep: "23:00",
+                wake: "9:00",
+                content: "Group 1 Data",
+            },
+        };
+    } else if (groupID === '2') {
+        responseData = {
+            code: 0,
+            data: {
+                leader: "Student 3",
+                members: "Student 3, Student 4",
+                sleep: "22:30",
+                wake: "8:30",
+                content: "Group 2 Data",
+            },
+        };
+    } else {
+        // 处理未知的groupID
+        responseData = {
+            code: -1,
+            msg: "Unknown groupID",
+        };
+    }
+
+    return responseData;
+});
+
 export default Mock;
 
