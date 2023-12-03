@@ -37,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public comment createcomment(CommentDto commentDto) {
         StudentInfo studentInfo=studentRepository.findStudentInfoByStudentId(commentDto.getComment_student());
-        System.out.println(studentInfo);
+
         RoomInfo RoomInfo =roomRepository.findAllById(commentDto.getComment_room());
         comment comment=new comment(studentInfo, RoomInfo,commentDto.getContent());
         return commentRepository.save(comment);

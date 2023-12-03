@@ -5,40 +5,44 @@ import com.example.springproject.dto.Room.RoomDto;
 import com.example.springproject.dto.user.UserDto;
 import com.example.springproject.service.Room.RoomService;
 import com.example.springproject.service.Team.TeamService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
-@RequestMapping(path = "/room")
+@RequestMapping(path = "/api/main/")
 public class RoomController {
     private final RoomService roomService;
     private final TeamService teamService;
+
+    @Autowired
     public RoomController(RoomService roomService, TeamService teamService) {
         this.roomService = roomService;
         this.teamService = teamService;
     }
 
-    @GetMapping("/region")
-    public List<RoomInfo> displayroombyregion(@RequestParam String region){
+    @GetMapping("/selectRoom/{area}")
+    public List<String> displayroombyregion(@RequestParam String area){
 
-        return roomService.findroombyRegion(region);
+        return roomService.findroombyRegion(area);
     }
 
-    @GetMapping("/region/building")
-    public List<RoomInfo> displayroombybuilding(@RequestParam String region,@RequestParam String building){
+    @GetMapping("/selectRoom/{area,building}")
+    public List<Integer> displayroombybuilding(@RequestParam String region, @RequestParam String building){
 
         return roomService.findroombyBuilding(region,building);
     }
 
-    @GetMapping("/region/building/floor")
-    public List<RoomInfo> displayroombyfloor(@RequestParam String region,@RequestParam String building,@RequestParam int floor){
+    @GetMapping("/selectRoom/{area,building,floor}")
+    public List<Integer> displayroombyfloor(@RequestParam String region,@RequestParam String building,@RequestParam int floor){
         System.out.println(floor);
         return roomService.findroombyfloor(region,building,floor);
     }
-    @GetMapping("/region/building/floor/number")
-    public List<RoomInfo> displayroombynumber(@RequestParam String region,@RequestParam String building,@RequestParam int floor,@RequestParam int number){
+    @GetMapping("/selectRoom/{area,building,floor,number}")
+    public RoomInfo displayroombynumber(@RequestParam String region,@RequestParam String building,@RequestParam int floor,@RequestParam int number){
 
         return roomService.findroombynumber(region,building,floor,number);
     }

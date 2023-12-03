@@ -32,21 +32,21 @@ public class RoomServiceimpl implements RoomService {
         this.roomRepository = roomRepository;
         this.teamStarRepository = teamStarRepository;
     }
-    public List<RoomInfo> findroombyRegion(String region){
+    public List<String> findroombyRegion(String region){
         return roomRepository.findRoomsByRegion(region);
     };
 
-    public List<RoomInfo> findroombyBuilding(String region,String building){
+    public List<Integer> findroombyBuilding(String region,String building){
         return roomRepository.findRoomsBybuilding(region,building);
     }
 
     @Override
-    public List<RoomInfo> findroombyfloor(String region, String building, int floor) {
+    public List<Integer> findroombyfloor(String region, String building, int floor) {
         return roomRepository.findRoomsByfloor(region,building,floor);
     }
 
     @Override
-    public List<RoomInfo> findroombynumber(String region, String building, int floor, int number) {
+    public RoomInfo findroombynumber(String region, String building, int floor, int number) {
         return roomRepository.findRoomsBynumber(region,building,floor,number);
     }
 
