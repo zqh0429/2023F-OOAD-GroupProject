@@ -5,6 +5,9 @@ import com.example.springproject.dto.student.StudentInformationForm;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Time;
+import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 public class StudentInfo implements Serializable {
@@ -95,6 +98,10 @@ public class StudentInfo implements Serializable {
 
     private String studentDescription;
 
+    private LocalTime sleep_time;
+
+    private LocalTime wake_time;
+
     public StudentInfo(UserInfo userInfo, String gender, String degree, String major, String undergraduateSchool, String studentDescription) {
         this.userInfo = userInfo;
         this.gender = gender;
@@ -113,6 +120,21 @@ public class StudentInfo implements Serializable {
         this.studentDescription = studentDescription;
     }
 
+    public LocalTime getSleep_time() {
+        return sleep_time;
+    }
+
+    public void setSleep_time(LocalTime sleep_time) {
+        this.sleep_time = sleep_time;
+    }
+
+    public LocalTime getWake_time() {
+        return wake_time;
+    }
+
+    public void setWake_time(LocalTime wake_time) {
+        this.wake_time = wake_time;
+    }
 
     public String getDegree() {
         return degree;
