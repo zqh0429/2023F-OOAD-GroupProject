@@ -8,6 +8,7 @@ const state = () => ({
         room: "",
     },
     roomInfo: {
+        roomID: "",
         area: "",
         building: "",
         floor: "",
@@ -38,7 +39,7 @@ const actions = {
         })
     },
     addComment(context) {
-        mainService.addComment(context.state.commentLine, resp => {
+        mainService.addComment(context.state.commentLine,context.state.roomInfo.roomID, resp => {
             console.log("add record", resp)
             if (resp.data.code === 0) {
                 context.commit("addComment", context.state.commentLine)
@@ -50,7 +51,7 @@ const actions = {
     },
     listComment(context) {
         mainService.listComment(
-            {}, resp => {
+            context.state.roomInfo.roomID, resp => {
                 console.log(resp)
                 if (resp.data.code === 0) {
                     context.commit("updateComment", resp.data.data)

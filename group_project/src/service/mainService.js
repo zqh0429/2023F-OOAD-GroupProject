@@ -21,7 +21,7 @@ function loadRoomInfo(param, callback) {
 }
 function listComment(param, callback) {
     /*
-    param:
+    param: roomID
     */
     // const url = `${dataServerUrl}/api/main/v1/comments`
     const params = {
@@ -36,13 +36,13 @@ function listComment(param, callback) {
         })
 }
 
-function addComment(param, callback) {
+function addComment(param, roomID, callback) {
     /*
-    param: username, comment
+    param: roomID, username, comment
     */
     // const url = `${dataServerUrl}/api/main/v1/addComment`
     const params = {
-        param
+        param,roomID
     };
     const url = `api/main/v1/addComment`
     axios.post(url, {params})

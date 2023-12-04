@@ -14,6 +14,11 @@ const state = () => ({
     hometown: "",
     description: ""},
 
+
+    msgOverviewData:[],
+    msgID: "",
+    msgInfo: {},
+
     roomData:[],      //收藏房间信息
 
     roommateData:[]  //组队队友信息
@@ -65,8 +70,20 @@ const actions = {
                 context.state.errorMsg = resp.data.msg
             }
         })
-    }
+    },
 
+
+    getMsgOverview(context){
+        dataService.askMsgOverviewData(context.state.accountNum, resp => {
+            context.commit("setMsgOverviewData", resp.data.data)
+    })
+},
+
+    getMsg(context,ID){
+        dataService.askMsgData(ID,context.state.accountNum,resp => {
+            context.commit("setMsgData", resp.data.data)
+    })
+    }
 
 
 
@@ -91,16 +108,27 @@ const mutations = {
 
     setRoommateData(state,roommateData){
         state.roommateData = roommateData
+    },
+
+    setMsgOverviewData(state,data){
+        state.msgOverviewData = data
+    },
+
+    setMsgData(state,data){
+        state.msgInfo = data
     }
    
 }
 
-
+const getters = {
+    // getters
+  }
    
 
 export default {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    getters
 }

@@ -74,6 +74,7 @@ Mock.mock(RegExp("api/main/v1/loadRoomInfo" + ".*"), 'get', function(config) {
     return {
         code:0,
         data: {
+            roomID: 1,
             area: "二期",
             building: "17栋",
             floor: "3",
@@ -194,6 +195,51 @@ Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options)
 
     return responseData;
 });
+
+
+Mock.mock(RegExp("api/chat/message/MsgOverview" + ".*"), 'get', function() {
+    console.log("进入了 MsgOverview 拦截方法");
+    return {
+        code:0,
+        data: [
+            { id: 111, type: "组队信息"},
+            { id: 222, type: "帖子信息"},
+        ]
+    };
+});
+
+Mock.mock(RegExp("/api/chat/message/MsgData" + ".*"), 'get', function(config) {
+    console.log(config.url);
+    const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
+    const msgID = param.split('=')[2];
+
+    if (msgID === '111') {
+    return {
+        code:0,
+        data: 
+                {
+                  sender: '系统',
+                  title: '组队通知',
+                  content: 'Student2已经加入了你的队伍'
+                }
+              
+        
+    };}
+    else if (msgID === '222') {
+        return {
+            code:0,
+            data: 
+                    {
+                      sender: 'Student2',
+                      title: '求组队啊啊啊',
+                      content: '我觉得很不错'
+                    }
+                  
+            
+        };}
+    
+});
+
 
 export default Mock;
 

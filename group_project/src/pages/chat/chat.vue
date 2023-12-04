@@ -12,40 +12,38 @@
                     <el-button>消息通知</el-button>
                 </el-badge>
             </div>
-            <div class="common-layout">
-                <el-container>
-                    <el-aside width="200px">
-                        <el-table
-                            ref="singleTableRef"
-                            :data="msgOverviewData"
-                            highlight-current-row
-                            style="width: 100%"
-                            @current-change="loadMessage"
-                        >
-                            <el-table-column property="name" @click.prevent="getChatName"/>
-                        </el-table>
-                    </el-aside>
-                    <el-main>
-                        <el-card class="box-card">
-                            <template #header>
-                                <div class="card-header">
-                                    <span>{{ chatName }}</span>
-                                    <el-button class="button" text>Operation button</el-button>
-                                </div>
-                            </template>
-                            <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
-                            <el-divider />
-                            <el-space direction="vertical">
-                                <el-input v-model="inputMessage"
-                                          placeholder="Please input"
-                                          :style="{ width: '350px', height: '100px' }"
-                                />
-                                <el-button type="primary" class="button"
-                                           @click.prevent="sendMessage">Send</el-button>
-                            </el-space>
-                        </el-card>
-                    </el-main>
-                </el-container>
+            <div >
+                            <el-container>
+                                <el-aside width="200px">
+                                    <el-table
+                                        ref="singleTableRef"
+                                        :data="msgOverviewData"
+                                        highlight-current-row
+                                        style="width: 100%"
+                                        @current-change="searchMsg"
+                                    >
+                                        <el-table-column prop="id" label="" width="70"/>
+                                        <el-table-column prop="type" label="Type" />
+                                    </el-table>
+                                </el-aside>
+                                <el-container>
+                                    <el-main>
+                                        <el-descriptions
+                                            direction="vertical"
+                                            :column="4"
+                                            :size="size"
+                                            border
+                                        >
+                                            <el-descriptions-item label="Sender">{{ msgInfo.sender }}</el-descriptions-item>
+                                            <el-descriptions-item label="Title">{{ msgInfo.title }}</el-descriptions-item>
+                                            <el-descriptions-item label="Content">
+                                                {{ msgInfo.content }}
+                                            </el-descriptions-item>
+                                        </el-descriptions>
+                                    </el-main>
+                                </el-container>
+                            </el-container>
+                        
             </div>
         </div>
     </div>
@@ -53,28 +51,41 @@
 
 <script>
 
-
-import {ref} from "vue";
+import {mapState} from "vuex";
 
 export default {
     name: 'chatPanel',
     data() {
         return {
             info: 3,
-            msgOverviewData:[
-                {name: "Student 2"}
-            ],
             chatName : "Student 2",
-            inputMessage:ref(''),
+            inputMessage:''
+        //     msgOverviewData:[
+        //     { id: 111, title: "组队信息"},
+        //     { id: 222, title: "帖子信息"},
+        // ]
         };
     },
+    computed: {
+    ...mapState('DataProcess', {
+        msgOverviewData: state => state.msgOverviewData,
+        msgInfo: state => state.msgInfo,
+        msgID:state => state.msgID
+    })
+  },
     mounted() {
-        if(localStorage.getItem("news")){
-            this.form=JSON.parse(localStorage.getItem("news"))
-            this.checked=true
-        }
+        this.$store.dispatch("DataProcess/getMsgOverview");
+        // if(localStorage.getItem("news")){
+        //     this.form=JSON.parse(localStorage.getItem("news"))
+        //     this.checked=true
+        // }
     },
     methods:{
+        searchMsg(selection){
+            // this.msgID = selection.id;
+            // console.log(this.msgID)
+            this.$store.dispatch("DataProcess/getMsg",selection.id)
+        },
         sendMessage(){
             //TODO:发送消息
         },
@@ -93,18 +104,8 @@ export default {
             // 导航到/main页面
             this.$router.push('/main');
         }
-    },
-    computed: {
-        area_selected() {
-            return !!this.value_area;
-        },
-        building_selected() {
-            return !!this.value_building;
-        },
-        floor_selected() {
-            return !!this.value_floor;
-        },
-    },
+    }
+
 }
 </script>
 

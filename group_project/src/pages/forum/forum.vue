@@ -204,7 +204,7 @@ export default {
             postOverviewData: state => state.postOverviewData,
             groupOverviewData: state => state.groupOverviewData,
             postInfo: state => state.postInfo,
-            groupInfo: state => state.groupInfo,
+            groupInfo: state => state.groupInfo
             // postID: state => state.postID,
             // groupID: state => state.groupID
         })

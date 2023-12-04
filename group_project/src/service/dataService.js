@@ -59,10 +59,44 @@ function askRoommateData(param,callback){
 }
 
 
+
+
+function askMsgOverviewData(param,callback){
+   
+   
+    const params = {
+        accountNum : param
+      };
+      axios.get('/api/chat/message/MsgOverview',{params})
+      .then(resp => {
+          console.log(resp.data)
+          callback(resp)
+      }, errResp => {
+          console.log(errResp)
+      })
+    
+}
+
+ function askMsgData(ID,accountNum, callback){
+    const params = {
+        accountNum : accountNum,
+        msgID : ID
+      };
+      axios.get('/api/chat/message/MsgData',{params})
+      .then(resp => {
+          console.log(resp.data)
+          callback(resp)
+      }, errResp => {
+          console.log(errResp)
+      })     
+ }
+
 export default {
     askUserInfo,
     updateUserInfo,
     askRoomData,
-    askRoommateData
+    askRoommateData,
+    askMsgOverviewData,
+    askMsgData
     
 }
