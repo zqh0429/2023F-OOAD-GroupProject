@@ -181,6 +181,9 @@ export default {
             // inputComment: state => state.inputComment,
             // inputUser: state => state.inputUser
         }),
+        ...mapState('DataProcess', {
+            user:state => state.userInfo.username
+        }),
         area_selected() {
             return !!this.value_area;
         },
