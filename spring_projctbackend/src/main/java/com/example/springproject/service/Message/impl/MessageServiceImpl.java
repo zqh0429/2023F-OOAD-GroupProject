@@ -35,16 +35,16 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<message> getmessage(UserDto userDto) {
+    public List<message> getmessage(String userId) {
      //   StudentInfo studentInfo=studentRepository.findStudentInfoByStudentId(userDto.getUserId());
 
-        return messageRepository.getmessageByuserid(userDto.getUserId());
+        return messageRepository.getmessageByuserid(userId);
     }
 
     @Override
-    public List<MessageDto> getcomment_reply(UserDto userDto) {
-        List<Integer> comments=commentRepository.getcommentByuserid(userDto.getUserId());
-        List<Integer> post=postRepository.getpostidByuserid(userDto.getUserId());
+    public List<MessageDto> getcomment_reply(String userId) {
+        List<Integer> comments=commentRepository.getcommentByuserid(userId);
+        List<Integer> post=postRepository.getpostidByuserid(userId);
         List<comment_reply> list=new ArrayList<>();
         List<Replies> replies=new ArrayList<>();
         for (int c:comments) {
@@ -53,10 +53,10 @@ public class MessageServiceImpl implements MessageService {
         for (int c:post) {
             replies.addAll(postReplyRepository.getfirstpost_replyBypostid(c,1));
         }
-        List<Integer> comment_re=comment_replyRepository.getcomment_replyidByuserid(userDto.getUserId());
+        List<Integer> comment_re=comment_replyRepository.getcomment_replyidByuserid(userId);
         List<Integer> upper_re=new ArrayList<>();
 
-        List<Integer> post_re=postReplyRepository.getpost_replyidByuserid(userDto.getUserId());
+        List<Integer> post_re=postReplyRepository.getpost_replyidByuserid(userId);
         List<Integer> post_upper_re=new ArrayList<>();
 
         for (int e:comment_re
@@ -79,12 +79,12 @@ public class MessageServiceImpl implements MessageService {
         List<MessageDto> messages=new ArrayList<>();
         for (comment_reply r:list
              ) {
-            MessageDto messageDto=new MessageDto(r.getReply_User().getStudentId(),r.getReply_content(), userDto.getUserId(), r.getReply_date());
+            MessageDto messageDto=new MessageDto(r.getReply_User().getStudentId(),r.getReply_content(), userId, r.getReply_date());
        messages.add(messageDto);
         }
         for (Replies r:replies
         ) {
-            MessageDto messageDto=new MessageDto(r.getReply_User().getStudentId(),r.getReply_content(), userDto.getUserId(), r.getReply_date());
+            MessageDto messageDto=new MessageDto(r.getReply_User().getStudentId(),r.getReply_content(), userId, r.getReply_date());
             messages.add(messageDto);
         }
         return messages;

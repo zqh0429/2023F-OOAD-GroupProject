@@ -9,8 +9,8 @@ import com.example.springproject.dto.user.UserDto;
 import java.util.List;
 
 public interface MessageService {
-    public List<message> getmessage(UserDto userDto);
-    public List<MessageDto> getcomment_reply(UserDto userDto);
+    public List<message> getmessage(String userId);
+    public List<MessageDto> getcomment_reply(String userId);
     //组队消息直接封装成message发送
 
     public message sendmessage(MessageDto messageDto);

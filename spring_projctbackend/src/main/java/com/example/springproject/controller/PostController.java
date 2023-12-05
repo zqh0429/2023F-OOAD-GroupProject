@@ -36,24 +36,25 @@ public class PostController {
         return postService.getpostbyid(postId);
     }
 
-    @PostMapping("/star")
+    @PostMapping("/createpost")
     public Post creatPost(@RequestBody PostDto postDto) {
+        System.out.println(postDto);
         return postService.createpost(postDto);
     }
 
 
-    @PostMapping("/v1/createreply")
+    @PostMapping("/createreply")
     public boolean createReply(@RequestBody Post_replyDto post_replyDto) {
         return postService.createpost_reply(post_replyDto);
     }
     //得到post的一级回复
-    @GetMapping("/v1/getreply")
+    @GetMapping("/getreply")
     public List<Post_replyDto> listpost_reply(@RequestParam int postid){
         return postService.getpostreply(postid);
     }
 
     //得到一级回复的二级回复
-    @GetMapping("/v1/comments/getreply/upperreply")
+    @GetMapping("/getreply/upperreply")
     public List<Post_replyDto> listpost_upperreply(@RequestParam int reply_id){
 
         return postService.getpostupperreply(reply_id);

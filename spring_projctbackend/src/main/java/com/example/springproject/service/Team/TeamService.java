@@ -10,7 +10,7 @@ import com.example.springproject.dto.user.UserDto;
 import org.springframework.validation.BindingResult;
 
 public interface TeamService {
-    public boolean selectroom(int roomid, UserDto userDto);
+    public boolean selectroom(int roomid, String userId);
 
     public TeamDto createTeam(TeamCreationForm teamCreationForm, BindingResult result);
     public boolean studentInTeam(String student_id);

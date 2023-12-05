@@ -61,14 +61,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<comment> getcomment(RoomDto roomDto) {
+    public List<comment> getcomment(int roomid) {
 
-        return commentRepository.getcommentidByroomid(roomDto.getRoomId());
+        return commentRepository.getcommentidByroomid(roomid);
     }
 
     @Override
-    public List<Comment_replyDto> getcommentreply(CommentDto commentDto) {
-       List<comment_reply> comment_replies=comment_replyRepository.getfirstcomment_replyBycommentid(commentDto.getComment_id(),1);
+    public List<Comment_replyDto> getcommentreply(int commentId) {
+       List<comment_reply> comment_replies=comment_replyRepository.getfirstcomment_replyBycommentid(commentId,1);
         System.out.println(comment_replies.size());
        List<Comment_replyDto> list=new ArrayList<>();
         for (comment_reply e:comment_replies
@@ -80,8 +80,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment_replyDto> getcommentupperreply(Comment_replyDto comment_replyDto) {
-    List<Integer> idlist=comment_replyRepository.getsecond_replyidByfirstreplyid(comment_replyDto.getUpperreply_id());
+    public List<Comment_replyDto> getcommentupperreply(int upperreplyId) {
+    List<Integer> idlist=comment_replyRepository.getsecond_replyidByfirstreplyid(upperreplyId);
         System.out.println(idlist.size());
     List<comment_reply> list=new ArrayList<>();
         for (int id:idlist

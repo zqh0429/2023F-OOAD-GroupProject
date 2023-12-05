@@ -36,9 +36,9 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public boolean selectroom(int roomid, UserDto userDto) {
+    public boolean selectroom(int roomid, String userId) {
 
-        int teamid=teamRepository.findteamIdsByleader(userDto.getUserId());
+        int teamid=teamRepository.findteamIdsByleader(userId);
         System.out.println(teamid);
         TeamInfo team = teamRepository.findById(teamid);
         RoomInfo selectedRoom = roomRepository.findAllById(roomid);

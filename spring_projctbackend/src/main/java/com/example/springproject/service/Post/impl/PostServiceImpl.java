@@ -41,6 +41,7 @@ public class PostServiceImpl  implements PostService {
     @Override
     public boolean createpost_reply(Post_replyDto post_replyDto) {
         StudentInfo studentInfo=studentRepository.findStudentInfoByStudentId(post_replyDto.getReply_user());
+        System.out.println(1);
         Post post=postRepository.getPostByPost_id(post_replyDto.getReply_post());
         if (post_replyDto.getFloor()==2){
             Replies c=postReplyRepository.findById(post_replyDto.getUpperreply_id());
