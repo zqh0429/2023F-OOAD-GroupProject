@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
         UserInfo user = userRepository.save(userInfo);
         return convertUser(user);
     }
+
     /**
      * 0为老师，1为学生
      */

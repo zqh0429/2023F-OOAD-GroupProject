@@ -24,27 +24,27 @@ public class RoomController {
         this.teamService = teamService;
     }
 
-    @GetMapping("/selectRoom/{area}")
+    @GetMapping("/selectRoom/area/{area}")
     public List<String> displayroombyregion(@RequestParam String area){
 
         return roomService.findroombyRegion(area);
     }
 
-    @GetMapping("/selectRoom/{area,building}")
-    public List<Integer> displayroombybuilding(@RequestParam String region, @RequestParam String building){
+    @GetMapping("/selectRoom/building/{area}{building}")
+    public List<Integer> displayroombybuilding(@RequestParam String area, @RequestParam String building){
 
-        return roomService.findroombyBuilding(region,building);
+        return roomService.findroombyBuilding(area,building);
     }
 
-    @GetMapping("/selectRoom/{area,building,floor}")
-    public List<Integer> displayroombyfloor(@RequestParam String region,@RequestParam String building,@RequestParam int floor){
+    @GetMapping("/selectRoom/floor/{area}{building}{floor}")
+    public List<Integer> displayroombyfloor(@RequestParam String area,@RequestParam String building,@RequestParam int floor){
         System.out.println(floor);
-        return roomService.findroombyfloor(region,building,floor);
+        return roomService.findroombyfloor(area,building,floor);
     }
-    @GetMapping("/selectRoom/{area,building,floor,number}")
-    public RoomInfo displayroombynumber(@RequestParam String region,@RequestParam String building,@RequestParam int floor,@RequestParam int number){
+    @GetMapping("/selectRoom/number/{area}{building}{floor}{number}")
+    public RoomInfo displayroombynumber(@RequestParam String area,@RequestParam String building,@RequestParam int floor,@RequestParam int number){
 
-        return roomService.findroombynumber(region,building,floor,number);
+        return roomService.findroombynumber(area,building,floor,number);
     }
     @PostMapping("/star")
     public RoomDto StarRoom(@RequestBody RoomDto roomDto) {
@@ -62,10 +62,10 @@ public class RoomController {
 
     //队伍选择宿舍功能？？？规定时间？
     @PostMapping("/select-room")
-    public boolean selectteam(@RequestBody UserDto userDto, @RequestParam int roomId) {
+    public boolean selectteam(@RequestParam String userId, @RequestParam int roomId) {
         System.out.println(roomId);
-        System.out.println(userDto);
-        return teamService.selectroom(roomId,userDto);
+
+        return teamService.selectroom(roomId,userId);
     }
 
 }

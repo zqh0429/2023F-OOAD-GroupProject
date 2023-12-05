@@ -22,11 +22,14 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     private Date post_time;
 
-    @Temporal(TemporalType.TIMESTAMP)
+
     private LocalTime sleep_time;
 
-    @Temporal(TemporalType.TIMESTAMP)
+
     private LocalTime wake_time;
+
+    @Lob // 使用 @Lob 注解表示这个字段是一个大对象，适用于 text 类型
+    @Column(name = "post_content", columnDefinition = "text")
     @NotNull
     private String post_content;
 
@@ -50,6 +53,8 @@ public class Post {
         this.post_User = post_User;
     }
 
+
+    @PrePersist
     protected void onCreate() {
         if (post_time == null) {
             post_time = new Date();

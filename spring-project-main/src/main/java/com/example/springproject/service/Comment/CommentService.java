@@ -13,10 +13,10 @@ import java.util.List;
 public interface CommentService {
     public comment createcomment(CommentDto commentDto);
     public boolean createcomment_reply(Comment_replyDto comment_replyDto);
-    public List<comment> getcomment(RoomDto roomDto);
+    public List<comment> getcomment(int roomid);
 
-    public List<Comment_replyDto> getcommentreply(CommentDto commentDto);
-    public List<Comment_replyDto> getcommentupperreply(Comment_replyDto comment_replyDto);
+    public List<Comment_replyDto> getcommentreply(int commentId);
+    public List<Comment_replyDto> getcommentupperreply(int upperreplyId);
 
 
 }
