@@ -84,10 +84,53 @@ function joinGroup(param, callback) {
             console.log(errResp);
         });
 }
+function addPost(param, callback) {
+    /*
+        param: title, user, sleep, wake, content
+    */
+    // const url = `${dataServerUrl}/api/post/v1/searchGroup`;
+    const url = `api/forum/post/addPost`;
+    const params = {
+        param
+    };
+    console.log(param)
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
+function addGroup(param, callback) {
+    /*
+        param: groupName:"",
+        leader: "",
+        members: "",
+        sleep: "",
+        wake: "",
+        content: "",
+    */
+    // const url = `${dataServerUrl}/api/post/v1/searchGroup`;
+    const url = `api/forum/group/addGroup`;
+    const params = {
+        param
+    };
+    console.log(param)
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
 export default {
     loadPost,
     loadGroup,
     searchPost,
     searchGroup,
-    joinGroup
+    joinGroup,
+    addPost,
+    addGroup
 };

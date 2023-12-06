@@ -4,12 +4,29 @@ const state = () => ({
     postOverviewData: null,
     groupOverviewData: null,
     postInfo: {
+        title:null,
         user: null,
         sleep: null,
         wake: null,
         content: null,
     },
+    newPostInfo: {
+        title:null,
+        user: null,
+        sleep: null,
+        wake: null,
+        content: null,
+    },
+    newGroupInfo: {
+        groupName:"",
+        leader: "",
+        members: "",
+        sleep: "",
+        wake: "",
+        content: "",
+    },
     groupInfo: {
+        groupName:"",
         leader: "",
         members: "",
         sleep: "",
@@ -62,6 +79,26 @@ const actions = {
             if (resp.data.code === 0) {
                 context.commit("joinGroup", true)
                 console.log(context.state.joinGroupValid)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    addPost(context) {
+        forumService.addPost(context.state.newPostInfo, resp => {
+            if (resp.data.code === 0) {
+                alert("Add Post Succeed")
+                context.dispatch("loadPost")
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    addGroup(context) {
+        forumService.addGroup(context.state.newGroupInfo, resp => {
+            if (resp.data.code === 0) {
+                alert("Add Group Succeed")
+                context.dispatch("loadGroup")
             } else {
                 context.state.errorMsg = resp.data.msg
             }

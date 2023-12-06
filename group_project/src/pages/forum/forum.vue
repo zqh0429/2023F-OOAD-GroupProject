@@ -47,10 +47,10 @@
                                 </el-aside>
                                 <el-container>
                                     <el-main>
+                                        <label>{{this.postInfo.title}}</label>
                                         <el-descriptions
                                             direction="vertical"
                                             :column="4"
-                                            :size="size"
                                             border
                                         >
                                             <el-descriptions-item label="User">{{ postInfo.user }}</el-descriptions-item>
@@ -62,7 +62,7 @@
                                         </el-descriptions>
                                     </el-main>
                                     <el-footer>
-                                        <el-button type="primary" @click="addPost"> + </el-button>
+                                        <el-button type="primary" @click="openDialog"> + </el-button>
                                         <div class="pagination-block">
                                             <el-pagination layout="prev, pager, next" :total="50" />
                                         </div>
@@ -70,6 +70,24 @@
                                 </el-container>
                             </el-container>
                         </el-container>
+                        <div>
+                            <el-dialog v-model="dialogVisible" title="New Post">
+                                <label><el-input v-model="editedPostInfo.title" placeholder="Title"/></label>
+                                <el-descriptions
+                                    direction="vertical"
+                                    :column="3"
+                                    border
+                                >
+                                    <el-descriptions-item label="User"><el-input v-model="editedPostInfo.user" /></el-descriptions-item>
+                                    <el-descriptions-item label="Time to Sleep"><el-input v-model="editedPostInfo.sleep" /></el-descriptions-item>
+                                    <el-descriptions-item label="Time to Wake Up" :span="2"><el-input v-model="editedPostInfo.wake" /></el-descriptions-item>
+                                    <el-descriptions-item label="Description">
+                                        <el-input v-model="editedPostInfo.content" />
+                                    </el-descriptions-item>
+                                </el-descriptions>
+                                <el-button type="primary" @click="addPost"> Post </el-button>
+                            </el-dialog>
+                        </div>
                     </div>
                     <div v-if="activeButton === 'button2'">
                         <el-container>
@@ -102,6 +120,7 @@
                                 </el-aside>
                                 <el-container>
                                     <el-main>
+                                        <label>{{ this.groupInfo.groupName }}</label>
                                         <el-descriptions
                                             direction="vertical"
                                             :column="4"
@@ -118,12 +137,32 @@
                                     </el-main>
                                     <el-footer>
                                         <el-button type="primary" @click="joinGroup">Join</el-button>
+                                        <el-button type="primary" @click="openDialogGroup"> + </el-button>
                                         <div class="pagination-block">
                                             <el-pagination layout="prev, pager, next" :total="50" />
                                         </div>
                                     </el-footer>
                                 </el-container>
                             </el-container>
+                            <div>
+                                <el-dialog v-model="dialogVisibleGroup" title="New Group">
+                                    <label><el-input v-model="editedGroupInfo.groupName" placeholder="Group Name"/></label>
+                                    <el-descriptions
+                                        direction="vertical"
+                                        :column="4"
+                                        border
+                                    >
+                                        <el-descriptions-item label="Leader"></el-descriptions-item>
+                                        <el-descriptions-item label="Time to Sleep"><el-input v-model="editedGroupInfo.sleep" /></el-descriptions-item>
+                                        <el-descriptions-item label="Time to Wake Up" :span="2"><el-input v-model="editedGroupInfo.wake" /></el-descriptions-item>
+                                        <el-descriptions-item label="Members"></el-descriptions-item>
+                                        <el-descriptions-item label="Description">
+                                            <el-input v-model="editedGroupInfo.content" />
+                                        </el-descriptions-item>
+                                    </el-descriptions>
+                                    <el-button type="primary" @click="addGroup"> Release </el-button>
+                                </el-dialog>
+                            </div>
                         </el-container>
                     </div>
                 </div>
@@ -148,7 +187,24 @@ export default {
             input_post : ref(''),
             input_group: ref(''),
             groupID: null,
-            postID: null
+            postID: null,
+            dialogVisible:false,
+            dialogVisibleGroup:false,
+            editedPostInfo: {
+                title:null,
+                user: null,
+                sleep: null,
+                wake: null,
+                content: null,
+            },
+            editedGroupInfo: {
+                groupName:"",
+                leader: "",
+                members: "",
+                sleep: "",
+                wake: "",
+                content: "",
+            },
         };
     },
     mounted() {
@@ -183,8 +239,40 @@ export default {
         joinGroup(){
             this.$store.dispatch("forum/joinGroup",this.groupID)
         },
+        openDialog(){
+            this.dialogVisible = true;
+        },
+        addGroup(){
+            this.newGroupInfo.leader = this.editedGroupInfo.leader
+            this.newGroupInfo.wake = this.editedGroupInfo.wake
+            this.newGroupInfo.sleep = this.editedGroupInfo.sleep
+            this.newGroupInfo.content = this.editedGroupInfo.content
+            this.newGroupInfo.members = this.editedGroupInfo.members
+            this.newGroupInfo.groupName = this.editedGroupInfo.groupName
+            this.editedGroupInfo.wake = null
+            this.editedGroupInfo.groupName = null
+            this.editedGroupInfo.content = null
+            this.editedGroupInfo.leader = null
+            this.editedGroupInfo.members = null
+            this.editedGroupInfo.sleep = null
+            this.dialogVisibleGroup = false
+            this.$store.dispatch("forum/addGroup")
+        },
+        openDialogGroup(){
+          this.dialogVisibleGroup = true
+        },
         addPost(){
-          //TODO:add new post
+            this.newPostInfo.user = this.editedPostInfo.user
+            this.newPostInfo.wake = this.editedPostInfo.wake
+            this.newPostInfo.sleep = this.editedPostInfo.sleep
+            this.newPostInfo.content = this.editedPostInfo.content
+            this.editedPostInfo.title = null
+            this.editedPostInfo.user = null
+            this.editedPostInfo.wake = null
+            this.editedPostInfo.sleep = null
+            this.editedPostInfo.content = null
+            this.dialogVisible = false
+            this.$store.dispatch("forum/addPost")
         },
         goToMain() {
             // 导航到/main页面
@@ -204,7 +292,9 @@ export default {
             postOverviewData: state => state.postOverviewData,
             groupOverviewData: state => state.groupOverviewData,
             postInfo: state => state.postInfo,
-            groupInfo: state => state.groupInfo
+            groupInfo: state => state.groupInfo,
+            newPostInfo: state => state.newPostInfo,
+            newGroupInfo: state => state.newGroupInfo,
             // postID: state => state.postID,
             // groupID: state => state.groupID
         })
@@ -216,10 +306,5 @@ export default {
 </script>
 
 <style>
-.centered-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70px; /* 这个高度可以根据你的需求来调整 */
-}
+
 </style>

@@ -130,6 +130,7 @@ Mock.mock(RegExp("api/forum/post/searchPost" + ".*"), 'get', function(options) {
         responseData = {
             code: 0,
             data: {
+                title: "Title1",
                 user: "Student1",
                 sleep: "23:00",
                 wake: "9:00",
@@ -140,6 +141,7 @@ Mock.mock(RegExp("api/forum/post/searchPost" + ".*"), 'get', function(options) {
         responseData = {
             code: 0,
             data: {
+                title: "Title2",
                 user: "Student2",
                 sleep: "00:00",
                 wake: "10:00",
@@ -167,6 +169,7 @@ Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options)
         responseData = {
             code: 0,
             data: {
+                groupName: "Group 1",
                 leader: "Student 1",
                 members: "Student 1, Student 2",
                 sleep: "23:00",
@@ -178,6 +181,7 @@ Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options)
         responseData = {
             code: 0,
             data: {
+                groupName: "Group 2",
                 leader: "Student 3",
                 members: "Student 3, Student 4",
                 sleep: "22:30",
@@ -195,8 +199,20 @@ Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options)
 
     return responseData;
 });
-
-
+Mock.mock(RegExp("api/forum/post/addPost" + ".*"), 'get', function(config){
+    console.log(config);
+    console.log("进入了 add 拦截方法");
+    return{
+        code: 0
+    }
+});
+Mock.mock(RegExp("api/forum/group/addGroup" + ".*"), 'get', function(config){
+    console.log(config);
+    console.log("进入了 add 拦截方法");
+    return{
+        code: 0
+    }
+});
 Mock.mock(RegExp("api/chat/message/MsgOverview" + ".*"), 'get', function() {
     console.log("进入了 MsgOverview 拦截方法");
     return {
