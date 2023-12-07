@@ -21,7 +21,6 @@ Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
         }
     }}else if (accountNum === '12011429') {
         return {
-    
           data: {
             username : "Student 1",
             studentID: '12330849',
@@ -100,6 +99,31 @@ Mock.mock(RegExp("api/main/v1/comments" + ".*"), 'get', function() {
             { user: "Student2", comment: "22222"},
         ]
     };
+});
+Mock.mock(RegExp("api/main/v1/getBuildingInfo" + ".*"), 'get', function(options) {
+    const id = options.url.split('=')[1];
+    if (id === '1'){
+        return {
+            code:0,
+            data: { name: "17栋", comments: "1111" }
+        };
+    }else if (id === '2'){
+        return {
+            code:0,
+            data: { name: "10栋", comments: "222" }
+        };
+    }else if (id === '3'){
+        return {
+            code:0,
+            data: { name: "9栋", comments: "222" }
+        };
+    }else if (id === '4'){
+        return {
+            code:0,
+            data: { name: "荔园", comments: "222" }
+        };
+    }
+
 });
 Mock.mock(RegExp("api/forum/post/loadPost" + ".*"), 'get', function() {
     console.log("进入了 loadPost 拦截方法");

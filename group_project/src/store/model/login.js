@@ -2,12 +2,12 @@ import loginService from "@/service/loginService";
 
 const state = () => ({
     form: {
-        username: null,
+        accountNum: null,
         password: null,
         // "emailAddress": null,
         // "verifyCode": null
     },
-    user:"",
+    // user:"",
     accountValid: false,
     errorMsg: null
 })
@@ -17,8 +17,8 @@ const actions = {
         loginService.loginCheck(context.state.form, resp => {
             if (resp.data.code === 0) {
                 context.commit("changeAccountStatus", true)
-                context.commit("getUser", resp.data.data)
-                //返回数据状态码为0，表示插入成功，使用changeAccountStatus
+                console.log(context.state.form)
+                // context.commit("getUser", resp.data.data)
             }
         })
     },
@@ -27,10 +27,10 @@ const mutations = {
     changeAccountStatus(state, status) {
         state.accountValid = status
     },
-    getUser(state,data) {
-        state.user = data
-        console.log(state.user)
-    }
+    // getUser(state,data) {
+    //     state.user = data
+    //     console.log(state.user)
+    // }
 }
 
 

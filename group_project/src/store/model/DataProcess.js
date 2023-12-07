@@ -2,7 +2,7 @@ import dataService from "@/service/dataService";
 
 const state = () => ({
 
-    accountNum: '12345678', //账号
+    accountNum: null, //账号
     password : "",          //密码
 
     userInfo : {          //主页个人信息
@@ -30,7 +30,8 @@ const state = () => ({
 const actions = {
 
 
-    getUserInfo(context){   //初始化个人信息
+    getUserInfo(context){//初始化个人信息
+        console.log(context.state.accountNum)
         dataService.askUserInfo(context.state.accountNum, resp => {
 
                 context.commit("setUserInfo", resp.data.data)
@@ -83,8 +84,11 @@ const actions = {
         dataService.askMsgData(ID,context.state.accountNum,resp => {
             context.commit("setMsgData", resp.data.data)
     })
+    },
+    setUser(context,accountNum){
+        context.commit("setUser",accountNum)
+        console.log(context.state.accountNum)
     }
-
 
 
 
@@ -116,8 +120,10 @@ const mutations = {
 
     setMsgData(state,data){
         state.msgInfo = data
+    },
+    setUser(state,data){
+        state.accountNum = data
     }
-   
 }
 
 const getters = {

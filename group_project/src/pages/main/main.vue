@@ -76,6 +76,9 @@
                     <el-button type="primary" @click.prevent="addComment">Comment</el-button>
                 </el-dialog>
             </div>
+            <div>
+                <component :is="currentComponent"></component>
+            </div>
         </div>
     </div>
 </template>
@@ -84,6 +87,8 @@
 
 import {ref} from "vue";
 import {mapState} from "vuex";
+import MapComponent from './MapComponent.vue';
+
 
 export default {
     name: 'mainPanel',
@@ -112,7 +117,7 @@ export default {
             dialogVisible:false,
             isLeavingComment: false,
             inputComment: ref(''),
-
+            currentComponent: MapComponent
         };
     },
     mounted() {

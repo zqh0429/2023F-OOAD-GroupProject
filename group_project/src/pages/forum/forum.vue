@@ -295,8 +295,9 @@ export default {
             groupInfo: state => state.groupInfo,
             newPostInfo: state => state.newPostInfo,
             newGroupInfo: state => state.newGroupInfo,
-            // postID: state => state.postID,
-            // groupID: state => state.groupID
+        }),
+        ...mapState('DataProcess', {
+            userInfo: state => state.userInfo,
         })
     },
     components: {

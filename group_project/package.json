@@ -8,12 +8,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@element-plus/icons-vue": "^2.1.0",
     "axios": "^1.6.2",
     "core-js": "^3.8.3",
     "element-plus": "^2.4.1",
     "mockjs": "^1.1.0",
     "vue": "^3.2.13",
+    "vue-demi": "^0.14.6",
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0"
   },

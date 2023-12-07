@@ -5,10 +5,10 @@
                 <h2>Welcome</h2>
             </div>
             <div class="formdata">
-                <el-form ref="form" :model="form" :rules="rules">
+                <el-form ref="form" :model="form">
                     <el-form-item prop="username">
                         <el-input
-                            v-model="form.username"
+                            v-model="form.accountNum"
                             clearable
                             placeholder="请输入账号"
                         ></el-input>
@@ -51,10 +51,6 @@ export default {
     name: "loginPanel",
     data() {
         return {
-            form: {
-                password: "",
-                username: "",
-            },
             checked: false,
             isLoginClick: false,
         };
@@ -68,13 +64,10 @@ export default {
     methods: {
         loginClick() {
             this.$store.dispatch("login/loginCheck")
-
             this.isLoginClick = true
-            const user = this.user
-            console.log(this.user)
             if (!this.isWrongPassword) {
-                this.$store.dispatch("main/getUser",this.user)
-                this.$router.push({path:'/main',param: {user}})
+                this.$store.dispatch("DataProcess/setUser",this.form.accountNum)
+                this.$router.push('/main')
             }
         },
         remember(data){
@@ -95,8 +88,8 @@ export default {
     },
     computed: {
         ...mapState("login", {
+            form: state => state.form,
             isWrongPassword: state => !state.accountValid,  //用vuex中的状态映射回来
-            user: state => state.user,
         }),
         isUsernameEmpty() {
             return this.form.username === null

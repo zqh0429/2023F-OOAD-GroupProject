@@ -53,8 +53,26 @@ function addComment(param, roomID, callback) {
         })
 }
 
+function getBuildingInfo(param,callback) {
+    /*
+    param: roomID, username, comment
+    */
+    // const url = `${dataServerUrl}/api/main/v1/addComment`
+    const params = {
+        param
+    };
+    const url = `api/main/v1/getBuildingInfo`
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+
 export default {
     loadRoomInfo,
     listComment,
-    addComment
+    addComment,
+    getBuildingInfo
 };

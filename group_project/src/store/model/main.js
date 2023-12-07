@@ -22,6 +22,10 @@ const state = () => ({
         user:null,
         comment:null
     },
+    buildingInfo:{
+      name:11,
+      comments:null
+    },
     comments:null,
     locationValid: false,
     user:null,
@@ -61,8 +65,17 @@ const actions = {
             }
         )
     },
-    getUser(context,data) {
-        context.commit("getUser", data)
+    getBuildingInfo(context,id) {
+        console.log(id)
+        mainService.getBuildingInfo(id, resp => {
+                console.log(resp)
+                if (resp.data.code === 0) {
+                    context.commit("getBuildingInfo", resp.data.data)
+                } else {
+                    context.state.errorMsg = resp.data.msg
+                }
+            }
+        )
     },
 
 }
@@ -77,9 +90,8 @@ const mutations = {
     addComment(state, data) {
         state.comments.push(data)
     },
-    getUser(state,data) {
-        state.commentLine.user = data
-        console.log(state.commentLine)
+    getBuildingInfo(state,data) {
+        state.buildingInfo = data
     }
 }
 
