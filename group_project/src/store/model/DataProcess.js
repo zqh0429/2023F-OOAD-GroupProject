@@ -2,7 +2,7 @@ import dataService from "@/service/dataService";
 
 const state = () => ({
 
-    accountNum: null, //账号
+    accountNum: 12345678, //账号
     password : "",          //密码
 
     userInfo : {          //主页个人信息

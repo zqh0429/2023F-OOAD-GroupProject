@@ -26,11 +26,8 @@ const actions = {
 const mutations = {
     changeAccountStatus(state, status) {
         state.accountValid = status
+        console.log(state.accountValid)
     },
-    // getUser(state,data) {
-    //     state.user = data
-    //     console.log(state.user)
-    // }
 }
 
 

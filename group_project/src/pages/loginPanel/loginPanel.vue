@@ -1,5 +1,4 @@
 <template>
-    <div class="loginbody">
         <div class="logindata">
             <div class="logintext">
                 <h2>Welcome</h2>
@@ -39,7 +38,6 @@
                 <el-button type="primary" @click="loginClick">Login</el-button>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
@@ -103,7 +101,6 @@ export default {
     width: 100%;
     height: 100%;
     min-width: 1000px;
-    background-image: url("../../../src/assets/bg2.jpg");
     background-size: 100% 100%;
     background-position: center center;
     overflow: auto;

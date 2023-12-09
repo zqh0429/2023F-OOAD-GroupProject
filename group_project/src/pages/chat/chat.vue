@@ -1,17 +1,6 @@
 <template>
     <div class="chatbody">
         <div class="chatdata">
-            <div class="chattext">
-                <h2>SUSTech Dormitory Selection</h2>
-            </div>
-            <div class="menus">
-                <el-button type="primary" @click.prevent="goToUser">个人中心</el-button>
-                <el-button @click.prevent="goToMain">主页</el-button>
-                <el-button @click.prevent="goToForum">论坛</el-button>
-                <el-badge class="item">
-                    <el-button>消息通知</el-button>
-                </el-badge>
-            </div>
             <div >
                             <el-container>
                                 <el-aside width="200px">

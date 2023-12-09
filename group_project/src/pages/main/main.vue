@@ -1,20 +1,6 @@
 <template>
     <div class="mainbody">
         <div class="maindata">
-            <div class="maintext">
-                <h2>SUSTech Dormitory Selection</h2>
-            </div>
-            <div class="maintext">
-                <h2>{{user}}</h2>
-            </div>
-            <div class="menus">
-                <el-button type="primary" @click.prevent="goToUser">个人中心</el-button>
-                <el-button>主页</el-button>
-                <el-button @click.prevent="goToForum">论坛</el-button>
-                <el-badge :value="info" class="item">
-                    <el-button @click.prevent="goToChat">消息通知</el-button>
-                </el-badge>
-            </div>
             <div class="searchRoom">
                 <el-select v-model="value_area" class="m-2" placeholder="Area" @change="select_building()">
                     <el-option
@@ -206,5 +192,9 @@ export default {
 </script>
 
 <style>
-
+.searchRoom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 </style>

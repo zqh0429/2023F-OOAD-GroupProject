@@ -1,18 +1,6 @@
 <template>
     <div class="userbody">
         <div class="userdata">
-            <div class="usertext">
-                <h2>SUSTech Dormitory Selection</h2>
-            </div>
-            <div class="menus">
-                <el-button type="primary">个人中心</el-button>
-                <el-button @click.prevent="goToMain">主页</el-button>
-                <el-button @click.prevent="goToForum">论坛</el-button>
-                <!-- <el-badge :value="userInfo.info" class="item"> -->
-                <el-badge  class="item">
-                    <el-button @click.prevent="goToChat">消息通知</el-button>
-                </el-badge>
-            </div>
             <div class="common-layout">
                 <el-container>
                     <el-aside width="400px">

@@ -1,17 +1,6 @@
 <template>
     <div class="body">
         <div class="data">
-            <div class="forumtext">
-                <h2>SUSTech Dormitory Selection</h2>
-            </div>
-            <div class="menus">
-                <el-button type="primary" @click.prevent="goToUser">个人中心</el-button>
-                <el-button @click.prevent="goToMain">主页</el-button>
-                <el-button>论坛</el-button>
-                <el-badge :value="info" class="item">
-                    <el-button @click.prevent="goToChat">消息通知</el-button>
-                </el-badge>
-            </div>
             <div>
                 <el-button @click="showContent('button1')" @click.prevent="loadPost">Post</el-button>
                 <el-button @click="showContent('button2')" @click.prevent="loadGroup">Group Info</el-button>

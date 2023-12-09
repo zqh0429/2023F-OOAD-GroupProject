@@ -61,8 +61,7 @@ Mock.mock(RegExp("/api/user/Room" + ".*"), 'get', { data: [
     });
 Mock.mock(RegExp("api/login/v1/login" + ".*"), 'get', function(){
     return {
-        code: 0,
-        data: "Student 1"
+        code: 0
     }
 
 });
