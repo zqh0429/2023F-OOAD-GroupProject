@@ -19,6 +19,8 @@ import javax.validation.constraints.NotBlank;
 public class StudentInformationForm {
     @ApiModelProperty
     private String studentId;
+    @ApiModelProperty
+    private String studentName;
 
     @NotBlank(message = "Gender shouldn't be null")
     @ApiModelProperty(value = "gender")
@@ -28,16 +30,28 @@ public class StudentInformationForm {
     @ApiModelProperty(value = "degree")
     private String degree;
 
-    @NotBlank(message = "Major shouldn't be null")
+//    @NotBlank(message = "Major shouldn't be null")
     @ApiModelProperty(value = "major")
     private String major;
 
-    @NotBlank(message = "undergraduateSchool shouldn't be null")
+//    @NotBlank(message = "undergraduateSchool shouldn't be null")
     @ApiModelProperty(value = "undergraduateSchool")
     private String undergraduateSchool;
 
     @ApiModelProperty(value = "studentDescription")
     private String studentDescription;
+
+    @ApiModelProperty(value = "sleepTime")
+    private String sleepTime;
+
+    @ApiModelProperty(value = "wakeTime")
+    private String wakeTime;
+
+    @ApiModelProperty(value = "homeTown")
+    private String homeTown;
+
+    @ApiModelProperty(value = "circleUrl")
+    private String circleUrl;
 
 //    public StudentInfo convertToStudent() {
 //        return new StudentInfo()

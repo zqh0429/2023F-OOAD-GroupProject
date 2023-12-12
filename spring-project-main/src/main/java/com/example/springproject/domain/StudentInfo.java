@@ -5,9 +5,8 @@ import com.example.springproject.dto.student.StudentInformationForm;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Time;
 import java.time.LocalTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class StudentInfo implements Serializable {
@@ -59,6 +58,7 @@ public class StudentInfo implements Serializable {
     @OneToOne
     @JoinColumn(name = "studentId", referencedColumnName = "userId")
     private UserInfo userInfo;
+
     public StudentInfo() {
 
     }
@@ -98,42 +98,72 @@ public class StudentInfo implements Serializable {
 
     private String studentDescription;
 
-    private LocalTime sleep_time;
+    public String getHomeTown() {
+        return homeTown;
+    }
 
-    private LocalTime wake_time;
+    public void setHomeTown(String homeTown) {
+        this.homeTown = homeTown;
+    }
 
-    public StudentInfo(UserInfo userInfo, String gender, String degree, String major, String undergraduateSchool, String studentDescription) {
+    private String homeTown;
+
+    private LocalTime sleepTime;
+
+    private LocalTime wakeTime;
+
+    public String getCircleUrl() {
+        return circleUrl;
+    }
+
+    public void setCircleUrl(String circleUrl) {
+        this.circleUrl = circleUrl;
+    }
+
+    private String circleUrl;
+
+    public StudentInfo(UserInfo userInfo, String gender, String degree, String major, String undergraduateSchool, String studentDescription, String homeTown, String sleepTime, String wakeTime, String circleUrl) {
         this.userInfo = userInfo;
         this.gender = gender;
         this.degree = degree;
         this.major = major;
         this.undergraduateSchool = undergraduateSchool;
         this.studentDescription = studentDescription;
+        this.homeTown = homeTown;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        this.sleepTime = LocalTime.parse(sleepTime, formatter);
+        this.wakeTime = LocalTime.parse(wakeTime, formatter);
+        this.circleUrl = circleUrl;
     }
 
-    public StudentInfo(String studentId, String gender, String degree, String major, String undergraduateSchool, String studentDescription) {
+    public StudentInfo(String studentId, String gender, String degree, String major, String undergraduateSchool, String studentDescription, String homeTown, String sleepTime, String wakeTime, String circleUrl) {
         this.studentId = studentId;
         this.gender = gender;
         this.degree = degree;
         this.major = major;
         this.undergraduateSchool = undergraduateSchool;
         this.studentDescription = studentDescription;
+        this.homeTown = homeTown;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        this.sleepTime = LocalTime.parse(sleepTime, formatter);
+        this.wakeTime = LocalTime.parse(wakeTime, formatter);
+        this.circleUrl = circleUrl;
     }
 
-    public LocalTime getSleep_time() {
-        return sleep_time;
+    public LocalTime getSleepTime() {
+        return sleepTime;
     }
 
-    public void setSleep_time(LocalTime sleep_time) {
-        this.sleep_time = sleep_time;
+    public void setSleepTime(LocalTime sleep_time) {
+        this.sleepTime = sleep_time;
     }
 
-    public LocalTime getWake_time() {
-        return wake_time;
+    public LocalTime getWakeTime() {
+        return wakeTime;
     }
 
-    public void setWake_time(LocalTime wake_time) {
-        this.wake_time = wake_time;
+    public void setWakeTime(LocalTime wake_time) {
+        this.wakeTime = wake_time;
     }
 
     public String getDegree() {
@@ -179,11 +209,16 @@ public class StudentInfo implements Serializable {
     public StudentInformationForm convertToStudentInformationForm() {
         return StudentInformationForm.builder()
                 .studentId(getUserInfo().getUserId())
+                .studentName(getUserInfo().getUsername())
                 .gender(getGender())
                 .degree(getDegree())
                 .major(getMajor())
                 .undergraduateSchool(getUndergraduateSchool())
                 .studentDescription(getStudentDescription())
+                .sleepTime(getSleepTime().toString())
+                .wakeTime(getWakeTime().toString())
+                .homeTown(getHomeTown().toString())
+                .circleUrl(getCircleUrl())
                 .build();
     }
 

@@ -8,7 +8,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/spring_project
     username: postgres
-    password: 077700ab
+    password: KSa1303151717
 
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/spring_project?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT

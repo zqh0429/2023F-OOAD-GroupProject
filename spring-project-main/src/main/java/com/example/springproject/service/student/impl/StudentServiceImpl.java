@@ -41,7 +41,7 @@ public class StudentServiceImpl implements StudentService {
             throw new MyException(7, errors.get(0).getDefaultMessage());
         } else {
             UserInfo userInfo = findUserByUserId(studentInformationForm.getStudentId());
-            StudentInfo studentInfo = new StudentInfo(userInfo, studentInformationForm.getGender(), studentInformationForm.getDegree(), studentInformationForm.getMajor(), studentInformationForm.getUndergraduateSchool(), studentInformationForm.getStudentDescription());
+            StudentInfo studentInfo = new StudentInfo(userInfo, studentInformationForm.getGender(), studentInformationForm.getDegree(), studentInformationForm.getMajor(), studentInformationForm.getUndergraduateSchool(), studentInformationForm.getStudentDescription(), studentInformationForm.getHomeTown(), studentInformationForm.getSleepTime(), studentInformationForm.getWakeTime(), studentInformationForm.getCircleUrl());
             return save(studentInfo);
         }
     }
