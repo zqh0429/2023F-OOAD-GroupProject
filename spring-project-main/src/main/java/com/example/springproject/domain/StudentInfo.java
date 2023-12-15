@@ -130,7 +130,7 @@ public class StudentInfo implements Serializable {
         this.undergraduateSchool = undergraduateSchool;
         this.studentDescription = studentDescription;
         this.homeTown = homeTown;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         this.sleepTime = LocalTime.parse(sleepTime, formatter);
         this.wakeTime = LocalTime.parse(wakeTime, formatter);
         this.circleUrl = circleUrl;

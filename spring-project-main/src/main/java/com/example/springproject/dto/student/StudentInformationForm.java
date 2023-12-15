@@ -22,7 +22,7 @@ public class StudentInformationForm {
     @ApiModelProperty
     private String studentName;
 
-    @NotBlank(message = "Gender shouldn't be null")
+//    @NotBlank(message = "Gender shouldn't be null")
     @ApiModelProperty(value = "gender")
     private String gender;
 

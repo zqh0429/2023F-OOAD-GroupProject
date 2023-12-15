@@ -47,15 +47,13 @@ public class StudentController {
                 .hometown(studentInformationForm.getHomeTown())
                 .description(studentInformationForm.getStudentDescription())
                 .build();
-        System.out.println(studentInfoDto);
-        System.out.println(1);
         return studentInfoDto;
     }
 
     /**
      * 学生修改个人信息
      */
-    @PostMapping("information/modify")
+    @PostMapping("information/modify/")
     public StudentDto updateStudentInformation(@RequestBody @Valid StudentInformationForm studentInformationForm, BindingResult bindingResult) {
         return studentService.updateInformation(studentInformationForm, bindingResult);
     }

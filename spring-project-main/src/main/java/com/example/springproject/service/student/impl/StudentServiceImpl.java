@@ -30,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDto save(StudentInfo studentInfo) {
-        StudentInfo student = studentRepository.save(studentInfo);
+        StudentInfo student = studentRepository.saveAndFlush(studentInfo);
         return student.convertToStudentDto();
     }
 
@@ -41,7 +41,9 @@ public class StudentServiceImpl implements StudentService {
             throw new MyException(7, errors.get(0).getDefaultMessage());
         } else {
             UserInfo userInfo = findUserByUserId(studentInformationForm.getStudentId());
-            StudentInfo studentInfo = new StudentInfo(userInfo, studentInformationForm.getGender(), studentInformationForm.getDegree(), studentInformationForm.getMajor(), studentInformationForm.getUndergraduateSchool(), studentInformationForm.getStudentDescription(), studentInformationForm.getHomeTown(), studentInformationForm.getSleepTime(), studentInformationForm.getWakeTime(), studentInformationForm.getCircleUrl());
+            StudentInfo studentInfo = new StudentInfo(userInfo, studentInformationForm.getGender(), studentInformationForm.getDegree(), studentInformationForm.getMajor(),
+                    studentInformationForm.getUndergraduateSchool(), studentInformationForm.getStudentDescription(), studentInformationForm.getHomeTown(), studentInformationForm.getSleepTime(), studentInformationForm.getWakeTime(),
+                    studentInformationForm.getCircleUrl());
             return save(studentInfo);
         }
     }
@@ -63,8 +65,13 @@ public class StudentServiceImpl implements StudentService {
             List<FieldError> errors = result.getFieldErrors();
             throw new MyException(7, errors.get(0).getDefaultMessage());
         } else {
-            studentRepository.updateStudentInformation(studentInformationForm.getGender(), studentInformationForm.getDegree(), studentInformationForm.getMajor(), studentInformationForm.getUndergraduateSchool(), studentInformationForm.getStudentDescription(), studentInformationForm.getStudentId());
-            return new StudentDto(studentInformationForm.getStudentId(), studentInformationForm.getGender());
+//            studentRepository.updateStudentInformation(studentInformationForm.getGender(), studentInformationForm.getDegree(), studentInformationForm.getMajor(), studentInformationForm.getUndergraduateSchool(), studentInformationForm.getStudentDescription(), studentInformationForm.getStudentId());
+//            return new StudentDto(studentInformationForm.getStudentId(), studentInformationForm.getGender());
+            UserInfo userInfo = findUserByUserId(studentInformationForm.getStudentId());
+            StudentInfo studentInfo = new StudentInfo(userInfo, studentInformationForm.getGender(), studentInformationForm.getDegree(), studentInformationForm.getMajor(),
+                    studentInformationForm.getUndergraduateSchool(), studentInformationForm.getStudentDescription(), studentInformationForm.getHomeTown(), studentInformationForm.getSleepTime(), studentInformationForm.getWakeTime(),
+                    studentInformationForm.getCircleUrl());
+            return save(studentInfo);
         }
     }
 
