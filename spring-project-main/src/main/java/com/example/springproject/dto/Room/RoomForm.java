@@ -19,7 +19,7 @@ public class RoomForm {
 
     @NotBlank(message = "building shouldn't be null")
     @ApiModelProperty
-    private String building;
+    private int building;
 
     @NotBlank(message = "region shouldn't be null")
     @ApiModelProperty

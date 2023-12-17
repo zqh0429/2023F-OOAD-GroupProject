@@ -23,13 +23,13 @@ public class RoomInfo {
     private int room_number;
     private String room_type;
     private int room_star;
-    private String room_building;
+    private int room_building;
     private boolean selected;
 
     @NotNull
     private String room_description;
 
-    public RoomInfo(String room_region, int room_floor, int room_number, String room_type, String room_building, String room_description) {
+    public RoomInfo(String room_region, int room_floor, int room_number, String room_type, int room_building, String room_description) {
         this.room_region = room_region;
         this.room_floor = room_floor;
         this.room_number = room_number;
@@ -106,11 +106,11 @@ public class RoomInfo {
         this.room_description = room_description;
     }
 
-    public String getRoom_building() {
+    public int getRoom_building() {
         return room_building;
     }
 
-    public void setRoom_building(String room_building) {
+    public void setRoom_building(int room_building) {
         this.room_building = room_building;
     }
 }

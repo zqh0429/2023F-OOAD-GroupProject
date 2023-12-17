@@ -46,11 +46,12 @@ public class PostServiceImpl  implements PostService {
         Post post=postRepository.getPostByPost_id(post_replyDto.getReply_post());
         if (post_replyDto.getFloor()==2){
             Replies c=postReplyRepository.findById(post_replyDto.getUpperreply_id());
-            Replies replies=new Replies(post_replyDto.getFloor(),post_replyDto.getContent(),post,studentInfo,c);
+            Replies replies=new Replies(post_replyDto.getFloor(),post_replyDto.getContent(),post_replyDto.getReply_post(),studentInfo,c);
             postReplyRepository.save(replies);
             return true;
         }else {
-            Replies reply=new Replies(post_replyDto.getFloor(),post_replyDto.getContent(),post,studentInfo);
+            System.out.println(2);
+            Replies reply=new Replies(post_replyDto.getFloor(),post_replyDto.getContent(),post_replyDto.getReply_post(),studentInfo);
             postReplyRepository.save(reply);
             return true;
         }
@@ -76,7 +77,7 @@ public class PostServiceImpl  implements PostService {
         List<Post_replyDto> list=new ArrayList<>();
         for (Replies e:replies
         ) {
-            Post_replyDto post_replyDto=new Post_replyDto(e.getReply_content(), e.getReply_floor(),e.getReply_User().getStudentId(),e.getReply_post().getPost_id(),e.getReply_id(),0);
+            Post_replyDto post_replyDto=new Post_replyDto(e.getReply_content(), e.getReply_floor(),e.getReply_User().getStudentId(),e.getReply_post(),e.getReply_id(),0);
            list.add(post_replyDto);
         }
         return list;
@@ -94,7 +95,7 @@ public class PostServiceImpl  implements PostService {
         List<Post_replyDto> postReplyDtos=new ArrayList<>();
         for (Replies e:list
         ) {
-            Post_replyDto post_replyDtos=new Post_replyDto(e.getReply_content(), e.getReply_floor(),e.getReply_User().getStudentId(),e.getReply_post().getPost_id(),e.getReply_id(),e.getUpperreply().getReply_id());
+            Post_replyDto post_replyDtos=new Post_replyDto(e.getReply_content(), e.getReply_floor(),e.getReply_User().getStudentId(),e.getReply_post(),e.getReply_id(),e.getUpperreply().getReply_id());
             postReplyDtos.add(post_replyDtos);
         }
         return postReplyDtos;

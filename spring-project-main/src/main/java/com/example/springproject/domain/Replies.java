@@ -26,9 +26,9 @@ public class Replies {
     private String reply_content;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(targetEntity = Post.class)
     @JoinColumn(name = "reply_post",referencedColumnName = "post_id")
-    private Post reply_post;
+    private int reply_post;
 
     @NotNull
     @ManyToOne
@@ -43,14 +43,14 @@ public class Replies {
 
     }
 
-    public Replies(int reply_floor, String reply_content, Post reply_post, StudentInfo reply_User) {
+    public Replies(int reply_floor, String reply_content, int reply_post, StudentInfo reply_User) {
         this.reply_floor = reply_floor;
         this.reply_content = reply_content;
         this.reply_post = reply_post;
         this.reply_User = reply_User;
     }
 
-    public Replies(int reply_floor, String reply_content, Post reply_post, StudentInfo reply_User, Replies upperreply) {
+    public Replies(int reply_floor, String reply_content, int reply_post, StudentInfo reply_User, Replies upperreply) {
         this.reply_floor = reply_floor;
         this.reply_content = reply_content;
         this.reply_post = reply_post;
@@ -95,12 +95,20 @@ public class Replies {
         this.reply_content = reply_content;
     }
 
-    public Post getReply_post() {
+    public int getReply_post() {
         return reply_post;
     }
 
-    public void setReply_post(Post reply_post) {
+    public void setReply_post(int reply_post) {
         this.reply_post = reply_post;
+    }
+
+    public Replies getUpperreply() {
+        return upperreply;
+    }
+
+    public void setUpperreply(Replies upperreply) {
+        this.upperreply = upperreply;
     }
 
     public StudentInfo getReply_User() {

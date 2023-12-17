@@ -29,8 +29,13 @@ public class PostController {
         return postService.loadpost();
     }
 
+<<<<<<< Updated upstream
     @GetMapping("/searchPost")
     public PostDto loadposttitleandid(@RequestParam int postID){
+=======
+    @GetMapping("/searchPost/{postID}")
+    public Post loadposttitleandid(@RequestParam int postID){
+>>>>>>> Stashed changes
         return postService.getpostbyid(postID);
     }
 

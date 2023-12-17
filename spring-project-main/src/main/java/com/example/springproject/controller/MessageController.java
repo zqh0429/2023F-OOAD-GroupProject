@@ -33,9 +33,9 @@ public class MessageController {
 
 
     //一般message，如组队，一对一聊天
-    @GetMapping("/v2/message/normalmessage/{userId}")
-    public List<message> listmessage(@RequestParam String userId){
-        return messageService.getmessage(userId);
+    @GetMapping("/v2/message/normalmessage/{accountNum}")
+    public List<message> listmessage(@RequestParam String accountNum){
+        return messageService.getmessage(accountNum);
     }
 
     //评论回复信息通知
