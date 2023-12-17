@@ -1,5 +1,9 @@
 # Spring-Project
 
+## JDK
+
+- jdk11!!!（important）
+
 ## Env
 
 > docker run --name OOAD_DB -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
