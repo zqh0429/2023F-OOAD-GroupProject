@@ -1,5 +1,6 @@
 package com.example.springproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,6 +36,7 @@ public class Post {
 
     @NotNull
     private String title;
+
 
     @NotNull
     @ManyToOne

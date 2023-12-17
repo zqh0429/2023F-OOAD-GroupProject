@@ -42,9 +42,9 @@ public class RoomController {
         return roomService.findroombyfloor(area,building,floor);
     }
     @GetMapping("/selectRoom/number/{area}{building}{floor}{number}")
-    public RoomInfo displayroombynumber(@RequestParam String area,@RequestParam String building,@RequestParam int floor,@RequestParam int number){
+    public RoomInfo displayroombynumber(@RequestParam String area,@RequestParam String building,@RequestParam int floor,@RequestParam int room){
 
-        return roomService.findroombynumber(area,building,floor,number);
+        return roomService.findroombynumber(area,building,floor,room);
     }
     @PostMapping("/star")
     public RoomDto StarRoom(@RequestBody RoomDto roomDto) {

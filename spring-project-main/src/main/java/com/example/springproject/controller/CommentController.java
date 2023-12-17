@@ -23,10 +23,10 @@ public class CommentController {
     }
 
     //根据roomid得到room的comment
-    @GetMapping("/comments/{roomId}")
-    public List<comment> listcomment(@RequestParam int roomId){
+    @GetMapping("/comments")
+    public List<CommentDto> listcomment(@RequestParam int roomID){
 
-        return commentService.getcomment(roomId);
+        return commentService.getcomment(roomID);
     }
 
     //评论房间

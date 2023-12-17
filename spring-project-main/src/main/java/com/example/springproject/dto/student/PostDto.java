@@ -21,20 +21,24 @@ import java.util.Date;
 @AllArgsConstructor
 public class PostDto {
     @ApiModelProperty
-    private String content;
+    private String title;
+
     @ApiModelProperty
-    private String post_student;
+    private String user;
+
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern="HH:mm:ss")
+    @ApiModelProperty
+    private LocalTime sleep;
+
 
     @DateTimeFormat(pattern = "HH:mm:ss")
     @JsonFormat(pattern="HH:mm:ss")
     @ApiModelProperty
     private LocalTime wake;
-    @DateTimeFormat(pattern = "HH:mm:ss")
-    @JsonFormat(pattern="HH:mm:ss")
-    @ApiModelProperty
-    private LocalTime sleep;
-    @ApiModelProperty
-    private String title;
 
+
+    @ApiModelProperty
+    private String content;
 
 }

@@ -4,6 +4,7 @@ import com.example.springproject.domain.*;
 import com.example.springproject.dto.student.Comment_replyDto;
 import com.example.springproject.dto.student.PostDto;
 import com.example.springproject.dto.student.Post_replyDto;
+import com.example.springproject.dto.student.PostiniDto;
 import com.example.springproject.repository.PostRepository;
 import com.example.springproject.repository.Post_replyRepository;
 import com.example.springproject.repository.StudentRepository;
@@ -33,7 +34,7 @@ public class PostServiceImpl  implements PostService {
     @Override
     public Post createpost(PostDto postDto) {
 
-        StudentInfo studentInfo=studentRepository.findStudentInfoByStudentId(postDto.getPost_student());
+        StudentInfo studentInfo=studentRepository.findStudentInfoByStudentId(postDto.getUser());
         Post post=new Post(postDto.getSleep(),postDto.getWake(), postDto.getContent(), postDto.getTitle(), studentInfo);
         return postRepository.save(post);
     }
@@ -57,13 +58,16 @@ public class PostServiceImpl  implements PostService {
     }
 
     @Override
-    public Optional<Post> loadpost() {
-        return postRepository.loadpostidandtitle();
+    public List<PostiniDto> loadpost() {
+        System.out.println(1);
+       return postRepository.loadpostidandtitle();
+
     }
 
     @Override
-    public Post getpostbyid(int id) {
-        return postRepository.getPostByPost_id(id);
+    public PostDto getpostbyid(int id) {
+        Post post= postRepository.getPostByPost_id(id);
+        return new  PostDto(post.getTitle(), post.getPost_User().getStudentId(),post.getSleep_time(),post.getWake_time(), post.getPost_content());
     }
 
     @Override

@@ -5,19 +5,17 @@ import com.example.springproject.domain.Post;
 import com.example.springproject.domain.Replies;
 import com.example.springproject.domain.RoomInfo;
 import com.example.springproject.dto.Room.RoomDto;
-import com.example.springproject.dto.student.CommentDto;
-import com.example.springproject.dto.student.Comment_replyDto;
-import com.example.springproject.dto.student.PostDto;
-import com.example.springproject.dto.student.Post_replyDto;
+import com.example.springproject.dto.student.*;
 import com.example.springproject.service.Post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/forum")
+@RequestMapping(path = "/api/forum/post")
 public class PostController {
     private final PostService postService;
 
@@ -27,17 +25,18 @@ public class PostController {
     }
 
     @GetMapping("/loadpost")
-    public Optional<Post> loadposttitleandid(){
+    public List<PostiniDto> loadposttitleandid(){
         return postService.loadpost();
     }
 
-    @GetMapping("/searchPost/{postId}")
-    public Post loadposttitleandid(@RequestParam int postId){
-        return postService.getpostbyid(postId);
+    @GetMapping("/searchPost")
+    public PostDto loadposttitleandid(@RequestParam int postID){
+        return postService.getpostbyid(postID);
     }
 
     @PostMapping("/createpost")
     public Post creatPost(@RequestBody PostDto postDto) {
+
         System.out.println(postDto);
         return postService.createpost(postDto);
     }

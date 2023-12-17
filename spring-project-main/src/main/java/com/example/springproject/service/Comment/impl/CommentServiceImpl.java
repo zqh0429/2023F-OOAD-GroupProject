@@ -61,9 +61,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<comment> getcomment(int roomid) {
+    public List<CommentDto> getcomment(int roomid) {
 
-        return commentRepository.getcommentidByroomid(roomid);
+        return commentRepository.getcommentByroomid(roomid);
     }
 
     @Override

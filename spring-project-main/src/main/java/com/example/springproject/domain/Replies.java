@@ -57,7 +57,7 @@ public class Replies {
         this.reply_User = reply_User;
         this.upperreply = upperreply;
     }
-
+    @PrePersist
     protected void onCreate() {
         if (reply_date == null) {
             reply_date = new Date();
