@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<!-- <<<<<<< HEAD -->
       <module fileurl="file://$PROJECT_DIR$/GroupProject.iml" filepath="$PROJECT_DIR$/GroupProject.iml" />
+<!-- =======
+      <module fileurl="file://$PROJECT_DIR$/.idea/OOADBackend.iml" filepath="$PROJECT_DIR$/.idea/OOADBackend.iml" />
+>>>>>>> OOADBackend/版本1 -->
     </modules>
   </component>
 </project>
