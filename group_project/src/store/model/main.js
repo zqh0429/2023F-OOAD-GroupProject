@@ -19,14 +19,23 @@ const state = () => ({
     inputComment:null,
     inputUser:null,
     commentLine: {
+        roomID:null,
         user:null,
-        comment:null
+        comment:null,
+        replies:[]
+    },
+    replyLine: {
+        commentID:null,
+        user:null,
+        repliedUser:null,
+        reply:null,
     },
     buildingInfo:{
       name:11,
       comments:null
     },
     comments:null,
+    replies: null,
     locationValid: false,
     user:null,
     errorMsg: null
@@ -76,6 +85,16 @@ const actions = {
                 }
             }
         )
+    },
+    addReply(context, commentID) {
+        mainService.addReply(context.state.replyLine,commentID, resp => {
+            console.log("add record", resp)
+            if (resp.data.code === 0) {
+                context.dispatch("listComment")
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
     },
 
 }

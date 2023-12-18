@@ -94,8 +94,10 @@ Mock.mock(RegExp("api/main/v1/comments" + ".*"), 'get', function() {
     return {
         code:0,
         data: [
-            { user: "Student1", comment: "1111"},
-            { user: "Student2", comment: "22222"},
+            { id: 1, user: "Student1", comment: "1111",
+                replies:[{user:"Student 3", repliedUser:"Student 1",content: "aaa"},
+                    {user:"Student 4", repliedUser:"Student 3" ,content: "bbb"}]},
+            { id: 2, user: "Student2", comment: "22222"},
         ]
     };
 });

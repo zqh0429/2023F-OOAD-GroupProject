@@ -52,14 +52,22 @@
                         <el-descriptions-item label="Location">{{ roomInfo.building }}-{{ roomInfo.room }}</el-descriptions-item>
                         <el-descriptions-item label="❤" :span="2">{{ roomInfo.like }}</el-descriptions-item>
                         <el-descriptions-item label="Comments">
-                            <el-table :data="comments" style="width: 100%">
-                                <el-table-column prop="user" width="180" />
-                                <el-table-column prop="comment" width="180" />
-                            </el-table>
+                            <el-collapse accordion>
+                            <el-collapse-item v-for="(comment, index) in comments" :key="index"
+                                              :title="comment.user+': '+comment.comment" :name="index.toString()"
+                                              @click=replyComment(comment)>
+                                <div v-if="comment.replies && comment.replies.length > 0" >
+                                    <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user">
+                                        {{reply.user}} RE @{{reply.repliedUser}}: {{reply.content}}
+                                    </div>
+                                </div>
+                            </el-collapse-item>
+                            </el-collapse>
                         </el-descriptions-item>
                     </el-descriptions>
-                    <el-input v-model="inputComment" placeholder="Please input" />
-                    <el-button type="primary" @click.prevent="addComment">Comment</el-button>
+                    <el-input v-model="inputComment" placeholder="Please input" v-if="!isReplyingComment"/>
+                    <el-input v-model="inputComment" :placeholder=replyPlaceholder v-if="isReplyingComment"/>
+                    <el-button type="primary" @click.prevent="addCommentOrReply">Comment</el-button>
                 </el-dialog>
             </div>
             <div>
@@ -103,7 +111,11 @@ export default {
             dialogVisible:false,
             isLeavingComment: false,
             inputComment: ref(''),
-            currentComponent: MapComponent
+            currentComponent: MapComponent,
+            isReplyingComment:false,
+            currentCommentID:null,
+            currentRepliedUser:null,
+            replyPlaceholder:null,
         };
     },
     mounted() {
@@ -137,16 +149,32 @@ export default {
             console.log(this.roomInfo);
             console.log(this.commentLine)
         },
-        addComment() {
+        addCommentOrReply() {
             if (this.inputComment.trim() !== ""){
-                console.log(this.user)
-                this.commentLine.user = this.user
-                this.commentLine.comment = this.inputComment
-                console.log(this.commentLine);
-                this.$store.dispatch("main/addComment")
+                if (!this.isReplyingComment){
+                    console.log(this.user)
+                    this.commentLine.user = this.user
+                    this.commentLine.comment = this.inputComment
+                    console.log(this.commentLine);
+                    this.$store.dispatch("main/addComment")
+                }else {
+                    this.replyLine.commentID = this.currentCommentID
+                    this.replyLine.user = this.user
+                    this.replyLine.repliedUser = this.currentRepliedUser
+                    this.replyLine.reply = this.inputComment
+                    console.log(this.replyLine);
+                    this.$store.dispatch("main/addReply")
+                }
+
             }else {
                 alert("Please input comment")
             }
+        },
+        replyComment(comment){
+            this.isReplyingComment = !this.isReplyingComment
+            this.currentRepliedUser = comment.user
+            this.currentCommentID = comment.id
+            this.replyPlaceholder = "RE @"+this.currentRepliedUser
         },
         goToForum() {
             // 导航到/forum页面
@@ -168,7 +196,8 @@ export default {
             commentLine: state => state.commentLine,
             selectedRoom: state => state.selectedRoom,
             comments: state => state.comments,
-            user:state => state.user
+            user:state => state.user,
+            replyLine: state => state.replyLine
             // inputComment: state => state.inputComment,
             // inputUser: state => state.inputUser
         }),

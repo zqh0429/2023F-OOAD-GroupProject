@@ -70,9 +70,26 @@ function getBuildingInfo(param,callback) {
         })
 }
 
+function addReply(param, commentID, callback) {
+    /*
+    param: username, reply, commentID
+    */
+    // const url = `${dataServerUrl}/api/main/v1/addComment`
+    const params = {
+        param,commentID
+    };
+    const url = `api/main/v1/addReply`
+    axios.post(url, {params})
+        .then(resp => {
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
 export default {
     loadRoomInfo,
     listComment,
     addComment,
-    getBuildingInfo
+    getBuildingInfo,
+    addReply
 };
