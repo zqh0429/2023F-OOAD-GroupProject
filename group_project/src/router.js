@@ -4,6 +4,9 @@ import Main from './pages/main/main.vue';
 import Forum from './pages/forum/forum.vue';
 import User from './pages/user/user.vue';
 import Chat from './pages/chat/chat.vue';
+import Tmain from './pages/Tmain/Tmain.vue';
+import Tstudent from './pages/Tstudent/Tstudent.vue'; 
+import Tselect from './pages/Tselect/Tselect.vue'; 
 import store from "@/store";
 
 const routes = [
@@ -36,6 +39,24 @@ const routes = [
         component: Chat,
         meta: { requiresAuth: true },
     },
+    {
+        path: '/Tmain',
+        name: 'Tmain',
+        component: Tmain,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/Tstudent',
+        name: 'Tstudent',
+        component: Tstudent,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/Tselect',
+        name: 'Tselect',
+        component: Tselect,
+        meta: { requiresAuth: true },
+    }
 ];
 
 export const router = createRouter({

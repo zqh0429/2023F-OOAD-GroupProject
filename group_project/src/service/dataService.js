@@ -91,12 +91,90 @@ function askMsgOverviewData(param,callback){
       })     
  }
 
+ function askUserData(callback){
+    axios.get('/api/Tstudent/userData')
+    .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })          
+ }
+
+
+ function setUserInfo(info,callback){  //更新修改后的个人信息
+
+    axios.post('/api/Tstudent/setUserData',{info})
+    .then(resp => {
+          console.log(resp.data)
+          callback(resp)
+      }, errResp => {
+          console.log(errResp)
+      })
+      
+}
+
+function addUser(info,callback){
+
+    axios.post('/api/Tstudent/addUser',{info})
+    .then(resp => {
+          console.log(resp.data)
+          callback(resp)
+      }, errResp => {
+          console.log(errResp)
+      })
+}
+
+function askMemberData(callback){
+    axios.get('/api/Tselect/memberData')
+    .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })          
+ }
+
+ function setBeginTime(beginTime,callback){
+    const params = {
+        begintime : beginTime,
+      };
+    axios.post('/api/Tselect/setBegin',{params})
+    .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })  
+
+ }
+
+ function setEndTime(endTime,callback){
+    const params = {
+        endtime : endTime,
+      };
+    axios.post('/api/Tselect/setEnd',{params})
+    .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })  
+    
+ }
+
 export default {
     askUserInfo,
     updateUserInfo,
     askRoomData,
     askRoommateData,
     askMsgOverviewData,
-    askMsgData
+    askMsgData,
+    askUserData,
+    setUserInfo,
+    addUser,
+    askMemberData,
+    setBeginTime,
+    setEndTime
     
 }

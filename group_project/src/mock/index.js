@@ -146,6 +146,30 @@ Mock.mock(RegExp("api/forum/group/loadGroup" + ".*"), 'get', function() {
         ]
     };
 });
+Mock.mock(RegExp("api/forum/post/listPostComment" + ".*"), 'get', function() {
+    console.log("进入了 loadGroup 拦截方法");
+    return {
+        code:0,
+        data: [
+            { id: 3, user: "Student1", comment: "post",
+                replies:[{user:"Student 3", repliedUser:"Student 1",content: "aaa"},
+                    {user:"Student 4", repliedUser:"Student 3" ,content: "bbb"}]},
+            { id: 4, user: "Student2", comment: "22222"},
+        ]
+    };
+});
+Mock.mock(RegExp("api/forum/group/listGroupComment" + ".*"), 'get', function() {
+    console.log("进入了 loadGroup 拦截方法");
+    return {
+        code:0,
+        data: [
+            { id: 5, user: "Student1", comment: "group",
+                replies:[{user:"Student 3", repliedUser:"Student 1",content: "aaa"},
+                    {user:"Student 4", repliedUser:"Student 3" ,content: "bbb"}]},
+            { id: 6, user: "Student2", comment: "22222"},
+        ]
+    };
+});
 Mock.mock(RegExp("api/forum/post/searchPost" + ".*"), 'get', function(options) {
     // 从请求参数中获取groupID
     const postID = options.url.split('=')[1];
@@ -159,8 +183,8 @@ Mock.mock(RegExp("api/forum/post/searchPost" + ".*"), 'get', function(options) {
                 user: "Student1",
                 sleep: "23:00",
                 wake: "9:00",
-                content: "null",
-            },
+                content: "null"
+            }
         };
     } else if (postID === '2') {
         responseData = {
@@ -280,6 +304,126 @@ Mock.mock(RegExp("/api/chat/message/MsgData" + ".*"), 'get', function(config) {
         };}
     
 });
+
+//教师端宿舍管理
+Mock.mock(RegExp("/api/main/v1/deleteRoom" + ".*"), 'post', function() {
+    console.log("进入了 deleteRoom 拦截方法");
+    return {
+        code:0,
+        data: {
+            roomID: "",
+            area: "",
+            building: "",
+            floor: "",
+            room: "",
+            like:"",
+            comments:""
+        }
+    };
+});
+
+
+
+
+Mock.mock(RegExp("/api/Tstudent/userData" + ".*"), 'get', function() {
+    console.log("进入了 deleteRoom 拦截方法");
+    return {
+        code:0,
+        data: [
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false}
+        ]
+    };
+});
+
+
+
+
+Mock.mock(RegExp("/api/Tstudent/setUserData" + ".*"), 'post', function(config) {
+    console.log(config);
+    return {
+        code:0
+    };
+});
+
+
+Mock.mock(RegExp("/api/Tstudent/addUser" + ".*"), 'post', function(config) {
+    console.log(config);
+    return {
+        code:0
+    };
+});
+Mock.mock(RegExp("/api/Tselect/memberData" + ".*"), 'get', function() {
+    console.log("进入了 memberData 拦截方法");
+    return {
+        code:0,
+        data: [
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"}
+         ]
+    };
+});
+
+Mock.mock(RegExp("/api/main/v1/editRoom" + ".*"), 'post', function(config) {
+    console.log(config);
+    return {
+        code:0
+    };
+});
+
+Mock.mock(RegExp("/api/Tselect/setEnd" + ".*"), 'post', function(config) {
+    console.log(config);
+    return {
+        code:0
+    };
+});
+
+Mock.mock(RegExp("/api/Tselect/setBegin" + ".*"), 'post', function(config) {
+    console.log(config);
+    return {
+        code:0
+    };
+});
+
+
+Mock.mock(RegExp("/api/main/v1/addRoom" + ".*"), 'post', function(config) {
+    console.log(config);
+    return {
+        code:0
+    };
+});
+
 
 
 export default Mock;

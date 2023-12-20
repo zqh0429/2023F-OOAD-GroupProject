@@ -31,8 +31,8 @@ const state = () => ({
         reply:null,
     },
     buildingInfo:{
-      name:11,
-      comments:null
+        name:11,
+        comments:null
     },
     comments:null,
     replies: null,
@@ -86,8 +86,18 @@ const actions = {
             }
         )
     },
-    addReply(context, commentID) {
-        mainService.addReply(context.state.replyLine,commentID, resp => {
+    deleteRoom(context){
+        mainService.deleteRoom(context.state.roomInfo.roomID, resp => {
+            if (resp.data.code === 0) {
+                context.commit("deleteData", resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+
+    addReply(context) {
+        mainService.addReply(context.state.replyLine, resp => {
             console.log("add record", resp)
             if (resp.data.code === 0) {
                 context.dispatch("listComment")
@@ -96,6 +106,26 @@ const actions = {
             }
         })
     },
+
+    EditRoom(context,info){
+        mainService.EditRoom(info, resp => {
+            if (resp.data.code === 0) {
+                console.log(resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+
+    AddRoom(context,info){
+        mainService.AddRoom(info, resp => {
+            if (resp.data.code === 0) {
+                console.log(resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    }
 
 }
 const mutations = {
@@ -111,7 +141,12 @@ const mutations = {
     },
     getBuildingInfo(state,data) {
         state.buildingInfo = data
+    },
+    deleteData(state,data){
+        state.roomInfo = data
+        state.comments = null
     }
+    
 }
 
 

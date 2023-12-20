@@ -107,7 +107,7 @@ export default {
         userInfo: state => state.userInfo,
         accountNum: state => state.accountNum,
         roomData:state => state.roomData,
-        roommateData:state => state.roommateData.$router
+        roommateData:state => state.roommateData
     })
   },
     mounted() {

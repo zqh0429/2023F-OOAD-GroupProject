@@ -20,7 +20,7 @@
                             placeholder="请输入密码"
                             show-password
                         ></el-input>
-                        <p class="login" v-if="isLoginClick && isWrongPassword">Wrong Password or Valid Username</p>
+                        <p class="login" v-if="isLoginClick && !accountValid">Wrong Password or Valid Username</p>
                     </el-form-item>
                 </el-form>
             </div>
@@ -62,10 +62,13 @@ export default {
     methods: {
         loginClick() {
             this.$store.dispatch("login/loginCheck")
-            this.isLoginClick = true
-            if (!this.isWrongPassword) {
+            this.isLoginClick = !this.isLoginClick
+            if (this.accountValid) {
+                console.log("A")
                 this.$store.dispatch("DataProcess/setUser",this.form.accountNum)
-                this.$router.push('/main')
+                console.log(this.form)
+                if (this.form.accountNum.charAt(3) === '1') { this.$router.push('/main') } 
+                else if (this.form.accountNum.charAt(3) === '2') {   this.$router.push('/Tmain') }
             }
         },
         remember(data){
@@ -87,7 +90,7 @@ export default {
     computed: {
         ...mapState("login", {
             form: state => state.form,
-            isWrongPassword: state => !state.accountValid,  //用vuex中的状态映射回来
+            accountValid: state => state.accountValid,  //用vuex中的状态映射回来
         }),
         isUsernameEmpty() {
             return this.form.username === null

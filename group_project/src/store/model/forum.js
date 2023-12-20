@@ -4,11 +4,13 @@ const state = () => ({
     postOverviewData: null,
     groupOverviewData: null,
     postInfo: {
+        id:null,
         title:null,
         user: null,
         sleep: null,
         wake: null,
         content: null,
+        comments:null
     },
     newPostInfo: {
         title:null,
@@ -26,13 +28,28 @@ const state = () => ({
         content: "",
     },
     groupInfo: {
+        id:null,
         groupName:"",
         leader: "",
         members: "",
         sleep: "",
         wake: "",
         content: "",
+        comments: null
     },
+    commentLine: {
+        id:null,
+        user:null,
+        comment:null,
+        replies:[]
+    },
+    replyLine: {
+        commentID:null,
+        user:null,
+        repliedUser:null,
+        reply:null,
+    },
+    comments: null,
     errorMsg: null,
     joinGroupValid:false,
 })
@@ -104,6 +121,62 @@ const actions = {
             }
         })
     },
+    listPostComment(context) {
+        forumService.listPostComment(
+            context.state.postInfo.id, resp => {
+                console.log(resp)
+                if (resp.data.code === 0) {
+                    context.commit("updatePostComment", resp.data.data)
+                } else {
+                    context.state.errorMsg = resp.data.msg
+                }
+            }
+        )
+    },
+    listGroupComment(context) {
+        forumService.listGroupComment(
+            context.state.groupInfo.id, resp => {
+                console.log(resp)
+                if (resp.data.code === 0) {
+                    context.commit("updateGroupComment", resp.data.data)
+                } else {
+                    context.state.errorMsg = resp.data.msg
+                }
+            }
+        )
+    },
+    addPostComment(context) {
+        forumService.addPostComment(context.state.commentLine,context.state.postInfo.id, resp => {
+            console.log("add record", resp)
+            if (resp.data.code === 0) {
+                context.commit("addComment", context.state.commentLine)
+                // context.dispatch("listPostComment")
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    addGroupComment(context) {
+        forumService.addGroupComment(context.state.commentLine,context.state.groupInfo.id, resp => {
+            console.log("add record", resp)
+            if (resp.data.code === 0) {
+                context.commit("addComment", context.state.commentLine)
+                // context.dispatch("listGroupComment")
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    addReply(context) {
+        forumService.addReply(context.state.replyLine, resp => {
+            console.log("add record", resp)
+            if (resp.data.code === 0) {
+                context.dispatch("listComment")
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
 }
 const mutations = {
     searchPost(state, data) {
@@ -120,6 +193,12 @@ const mutations = {
     },
     joinGroup(state, status) {
         state.joinGroupValid = status
+    },
+    updatePostComment(state, data) {
+        state.comments = data
+    },
+    updateGroupComment(state, data) {
+        state.comments = data
     },
 }
 

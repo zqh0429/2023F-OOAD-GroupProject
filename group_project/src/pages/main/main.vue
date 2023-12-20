@@ -176,19 +176,6 @@ export default {
             this.currentCommentID = comment.id
             this.replyPlaceholder = "RE @"+this.currentRepliedUser
         },
-        goToForum() {
-            // 导航到/forum页面
-            this.$router.push('/forum');
-        },
-        goToUser() {
-            // 导航到/user页面
-            this.$router.push('/user');
-        },
-        goToChat() {
-            // 导航到/forum页面
-            this.$router.push('/chat');
-        }
-
     },
     computed: {
         ...mapState('main', {
@@ -196,7 +183,6 @@ export default {
             commentLine: state => state.commentLine,
             selectedRoom: state => state.selectedRoom,
             comments: state => state.comments,
-            user:state => state.user,
             replyLine: state => state.replyLine
             // inputComment: state => state.inputComment,
             // inputUser: state => state.inputUser

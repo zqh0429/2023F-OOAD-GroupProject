@@ -125,6 +125,89 @@ function addGroup(param, callback) {
             console.log(errResp);
         });
 }
+
+function listPostComment(param, callback) {
+    /*
+        param:
+    */
+    // const url = `${dataServerUrl}/api/forum/post/loadPost`;
+    const url = `api/forum/post/listPostComment`;
+    axios.get(url, param)
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
+function listGroupComment(param, callback) {
+    /*
+        param:
+    */
+    // const url = `${dataServerUrl}/api/forum/group/loadGroup`;
+    const url = `api/forum/group/listGroupComment`;
+    axios.get(url, param)
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
+function addPostComment(param, postID, callback) {
+    /*
+    param: username, comment, id
+    */
+    // const url = `${dataServerUrl}/api/main/v1/addComment`
+    const params = {
+        param,postID
+    };
+    const url = `api/forum/Post/addPostComment`
+    axios.post(url, {params})
+        .then(resp => {
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+function addGroupComment(param, groupID, callback) {
+    /*
+    param: username, comment, id
+    */
+    // const url = `${dataServerUrl}/api/main/v1/addComment`
+    const params = {
+        param,groupID
+    };
+    const url = `api/forum/group/addGroupComment`
+    axios.post(url, {params})
+        .then(resp => {
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+function addReply(param, callback) {
+    /*
+    param:
+    replyLine: {
+        commentID:null,
+        user:null,
+        repliedUser:null,
+        reply:null,
+    },
+    */
+    // const url = `${dataServerUrl}/api/main/v1/addComment`
+    const params = {
+        param
+    };
+    const url = `api/main/v1/addReply`
+    axios.post(url, {params})
+        .then(resp => {
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
 export default {
     loadPost,
     loadGroup,
@@ -132,5 +215,10 @@ export default {
     searchGroup,
     joinGroup,
     addPost,
-    addGroup
+    addGroup,
+    listPostComment,
+    listGroupComment,
+    addPostComment,
+    addGroupComment,
+    addReply
 };

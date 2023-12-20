@@ -38,7 +38,7 @@ function listComment(param, callback) {
 
 function addComment(param, roomID, callback) {
     /*
-    param: roomID, username, comment
+    param: username, comment, roomID
     */
     // const url = `${dataServerUrl}/api/main/v1/addComment`
     const params = {
@@ -70,13 +70,31 @@ function getBuildingInfo(param,callback) {
         })
 }
 
-function addReply(param, commentID, callback) {
+function deleteRoom(param,callback){
+    const params = {
+        param
+    };
+    const url ='/api/main/v1/deleteRoom'
+    axios.post(url, {params})
+        .then(resp => {
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+function addReply(param, callback) {
     /*
-    param: username, reply, commentID
+    param:
+    replyLine: {
+        commentID:null,
+        user:null,
+        repliedUser:null,
+        reply:null,
+    },
     */
     // const url = `${dataServerUrl}/api/main/v1/addComment`
     const params = {
-        param,commentID
+        param
     };
     const url = `api/main/v1/addReply`
     axios.post(url, {params})
@@ -86,10 +104,35 @@ function addReply(param, commentID, callback) {
             console.log(errResp)
         })
 }
+
+function EditRoom(param,callback){
+
+    const url ='/api/main/v1/editRoom'
+    axios.post(url, {param})
+        .then(resp => {
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+
+function AddRoom(param,callback){
+    const url ='/api/main/v1/addRoom'
+    axios.post(url, {param})
+        .then(resp => {
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+
 export default {
     loadRoomInfo,
     listComment,
     addComment,
     getBuildingInfo,
-    addReply
+    deleteRoom,
+    addReply,
+    EditRoom,
+    AddRoom
 };

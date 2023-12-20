@@ -18,6 +18,7 @@
                                     </el-col>
                                     <el-col :span="8">
                                         <el-button @click="searchPostByInput">Search</el-button>
+                                        <el-button type="primary" @click="openDialog"> + </el-button>
                                     </el-col>
                                 </el-row>
                             </el-header>
@@ -38,23 +39,36 @@
                                     <el-main>
                                         <label>{{this.postInfo.title}}</label>
                                         <el-descriptions
-                                            direction="vertical"
-                                            :column="4"
-                                            border
+                                            direction="vertical" :column="3" border
                                         >
-                                            <el-descriptions-item label="User">{{ postInfo.user }}</el-descriptions-item>
-                                            <el-descriptions-item label="Time to Sleep">{{ postInfo.sleep }}</el-descriptions-item>
-                                            <el-descriptions-item label="Time to Wake Up" :span="2">{{ postInfo.wake }}</el-descriptions-item>
+                                            <el-descriptions-item label="User" :span="1">{{ postInfo.user }}</el-descriptions-item>
+                                            <el-descriptions-item label="Time to Sleep" :span="1">{{ postInfo.sleep }}</el-descriptions-item>
+                                            <el-descriptions-item label="Time to Wake Up" :span="1">{{ postInfo.wake }}</el-descriptions-item>
+                                        </el-descriptions>
+                                        <el-descriptions direction="vertical" :column="1" border>
                                             <el-descriptions-item label="Description">
                                                 {{ postInfo.content }}
                                             </el-descriptions-item>
+                                            <el-descriptions-item label="Comments">
+                                                <el-collapse accordion>
+                                                    <el-collapse-item v-for="(comment, index) in comments" :key="index"
+                                                                      :title="comment.user+': '+comment.comment" :name="index.toString()"
+                                                                      @click=replyComment(comment)>
+                                                        <div v-if="comment.replies && comment.replies.length > 0" >
+                                                            <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user">
+                                                                {{reply.user}} RE @{{reply.repliedUser}}: {{reply.content}}
+                                                            </div>
+                                                        </div>
+                                                    </el-collapse-item>
+                                                </el-collapse>
+                                            </el-descriptions-item>
                                         </el-descriptions>
+                                        <el-input v-model="inputComment" placeholder="Please input" v-if="!isReplyingComment"/>
+                                        <el-input v-model="inputComment" :placeholder=replyPlaceholder v-if="isReplyingComment"/>
+                                        <el-button type="primary" @click.prevent="addPostCommentOrReply">Comment</el-button>
                                     </el-main>
                                     <el-footer>
-                                        <el-button type="primary" @click="openDialog"> + </el-button>
-                                        <div class="pagination-block">
-                                            <el-pagination layout="prev, pager, next" :total="50" />
-                                        </div>
+
                                     </el-footer>
                                 </el-container>
                             </el-container>
@@ -67,7 +81,7 @@
                                     :column="3"
                                     border
                                 >
-                                    <el-descriptions-item label="User"><el-input v-model="editedPostInfo.user" /></el-descriptions-item>
+                                    <el-descriptions-item label="User">{{ userInfo.username }}</el-descriptions-item>
                                     <el-descriptions-item label="Time to Sleep"><el-input v-model="editedPostInfo.sleep" /></el-descriptions-item>
                                     <el-descriptions-item label="Time to Wake Up" :span="2"><el-input v-model="editedPostInfo.wake" /></el-descriptions-item>
                                     <el-descriptions-item label="Description">
@@ -91,6 +105,7 @@
                                     </el-col>
                                     <el-col :span="8">
                                         <el-button @click="searchGroupByInput">Search</el-button>
+                                        <el-button type="primary" @click="openDialogGroup"> + </el-button>
                                     </el-col>
                                 </el-row>
                             </el-header>
@@ -111,25 +126,37 @@
                                     <el-main>
                                         <label>{{ this.groupInfo.groupName }}</label>
                                         <el-descriptions
-                                            direction="vertical"
-                                            :column="4"
-                                            border
-                                        >
+                                            direction="vertical" :column="4" border>
                                             <el-descriptions-item label="Leader">{{ groupInfo.leader }}</el-descriptions-item>
                                             <el-descriptions-item label="Time to Sleep">{{ groupInfo.sleep }}</el-descriptions-item>
                                             <el-descriptions-item label="Time to Wake Up" :span="2">{{ groupInfo.wake }}</el-descriptions-item>
                                             <el-descriptions-item label="Members">{{ groupInfo.members }}</el-descriptions-item>
+                                        </el-descriptions>
+                                        <el-descriptions direction="vertical" :column="1" border>
                                             <el-descriptions-item label="Description">
-                                                {{ groupInfo.content }}
+                                                {{ postInfo.content }}
+                                            </el-descriptions-item>
+                                            <el-descriptions-item label="Comments">
+                                                <el-collapse accordion>
+                                                    <el-collapse-item v-for="(comment, index) in comments" :key="index"
+                                                                      :title="comment.user+': '+comment.comment" :name="index.toString()"
+                                                                      @click=replyComment(comment)>
+                                                        <div v-if="comment.replies && comment.replies.length > 0" >
+                                                            <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user">
+                                                                {{reply.user}} RE @{{reply.repliedUser}}: {{reply.content}}
+                                                            </div>
+                                                        </div>
+                                                    </el-collapse-item>
+                                                </el-collapse>
                                             </el-descriptions-item>
                                         </el-descriptions>
+                                        <el-input v-model="inputComment" placeholder="Please input" v-if="!isReplyingComment"/>
+                                        <el-input v-model="inputComment" :placeholder=replyPlaceholder v-if="isReplyingComment"/>
+                                        <el-button type="primary" @click.prevent="addGroupCommentOrReply">Comment</el-button>
                                     </el-main>
                                     <el-footer>
                                         <el-button type="primary" @click="joinGroup">Join</el-button>
-                                        <el-button type="primary" @click="openDialogGroup"> + </el-button>
-                                        <div class="pagination-block">
-                                            <el-pagination layout="prev, pager, next" :total="50" />
-                                        </div>
+
                                     </el-footer>
                                 </el-container>
                             </el-container>
@@ -141,7 +168,7 @@
                                         :column="4"
                                         border
                                     >
-                                        <el-descriptions-item label="Leader"></el-descriptions-item>
+                                        <el-descriptions-item label="Leader">{{userInfo.username}}</el-descriptions-item>
                                         <el-descriptions-item label="Time to Sleep"><el-input v-model="editedGroupInfo.sleep" /></el-descriptions-item>
                                         <el-descriptions-item label="Time to Wake Up" :span="2"><el-input v-model="editedGroupInfo.wake" /></el-descriptions-item>
                                         <el-descriptions-item label="Members"></el-descriptions-item>
@@ -164,6 +191,7 @@
 import {ref} from "vue";
 import {Search} from '@element-plus/icons-vue'
 import {mapState} from "vuex";
+import MapComponent from "@/pages/main/MapComponent.vue";
 
 export default {
     name: 'forumPanel',
@@ -194,6 +222,13 @@ export default {
                 wake: "",
                 content: "",
             },
+            isLeavingComment: false,
+            inputComment: ref(''),
+            currentComponent: MapComponent,
+            isReplyingComment:false,
+            currentCommentID:null,
+            currentRepliedUser:null,
+            replyPlaceholder:null,
         };
     },
     mounted() {
@@ -214,10 +249,12 @@ export default {
         searchPost(selection){
             this.postID = selection.id
             this.$store.dispatch("forum/searchPost",selection.id)
+            this.$store.dispatch("forum/listPostComment")
         },
         searchGroup(selection){
             this.groupID = selection.id
             this.$store.dispatch("forum/searchGroup",selection.id)
+            this.$store.dispatch("forum/listGroupComment")
         },
         searchPostByInput(){
             this.$store.dispatch("forum/searchPost",this.input_post)
@@ -232,7 +269,7 @@ export default {
             this.dialogVisible = true;
         },
         addGroup(){
-            this.newGroupInfo.leader = this.editedGroupInfo.leader
+            this.newGroupInfo.leader = this.userInfo.username
             this.newGroupInfo.wake = this.editedGroupInfo.wake
             this.newGroupInfo.sleep = this.editedGroupInfo.sleep
             this.newGroupInfo.content = this.editedGroupInfo.content
@@ -251,7 +288,7 @@ export default {
           this.dialogVisibleGroup = true
         },
         addPost(){
-            this.newPostInfo.user = this.editedPostInfo.user
+            this.newPostInfo.user = this.userInfo.username
             this.newPostInfo.wake = this.editedPostInfo.wake
             this.newPostInfo.sleep = this.editedPostInfo.sleep
             this.newPostInfo.content = this.editedPostInfo.content
@@ -263,18 +300,54 @@ export default {
             this.dialogVisible = false
             this.$store.dispatch("forum/addPost")
         },
-        goToMain() {
-            // 导航到/main页面
-            this.$router.push('/main');
+        addGroupCommentOrReply() {
+            if (this.inputComment.trim() !== ""){
+                if (!this.isReplyingComment){
+                    this.commentLine.id = this.groupID
+                    this.commentLine.user = this.userInfo.username
+                    this.commentLine.comment = this.inputComment
+                    console.log(this.commentLine);
+                    this.$store.dispatch("forum/addGroupComment")
+                }else {
+                    this.replyLine.commentID = this.currentCommentID
+                    this.replyLine.user = this.userInfo.username
+                    this.replyLine.repliedUser = this.currentRepliedUser
+                    this.replyLine.reply = this.inputComment
+                    console.log(this.replyLine);
+                    this.$store.dispatch("forum/addReply")
+                }
+
+            }else {
+                alert("Please input comment")
+            }
         },
-        goToUser() {
-            // 导航到/user页面
-            this.$router.push('/user');
+        addPostCommentOrReply() {
+            if (this.inputComment.trim() !== ""){
+                if (!this.isReplyingComment){
+                    this.commentLine.id = this.postID
+                    this.commentLine.user = this.userInfo.username
+                    this.commentLine.comment = this.inputComment
+                    console.log(this.commentLine);
+                    this.$store.dispatch("forum/addPostComment")
+                }else {
+                    this.replyLine.commentID = this.currentCommentID
+                    this.replyLine.user = this.userInfo.username
+                    this.replyLine.repliedUser = this.currentRepliedUser
+                    this.replyLine.reply = this.inputComment
+                    console.log(this.replyLine);
+                    this.$store.dispatch("forum/addReply")
+                }
+
+            }else {
+                alert("Please input comment")
+            }
         },
-        goToChat() {
-            // 导航到/forum页面
-            this.$router.push('/chat');
-        }
+        replyComment(comment){
+            this.isReplyingComment = !this.isReplyingComment
+            this.currentRepliedUser = comment.user
+            this.currentCommentID = comment.id
+            this.replyPlaceholder = "RE @"+this.currentRepliedUser
+        },
     },
     computed: {
         ...mapState('forum', {
@@ -284,6 +357,9 @@ export default {
             groupInfo: state => state.groupInfo,
             newPostInfo: state => state.newPostInfo,
             newGroupInfo: state => state.newGroupInfo,
+            comments: state => state.comments,
+            replyLine: state => state.replyLine,
+            commentLine: state => state.commentLine
         }),
         ...mapState('DataProcess', {
             userInfo: state => state.userInfo,

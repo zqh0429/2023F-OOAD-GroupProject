@@ -22,7 +22,7 @@
                     default-active="main"
                     height="100%"
                     @select="changeHandler"
-                    v-if="accountValid"
+                    v-if="accountValid&&this.form.accountNum.charAt(3) === '1'"
                 >
                     <el-menu-item index="main">
                         <el-icon><OfficeBuilding /></el-icon>宿舍信息
@@ -36,6 +36,25 @@
                     <el-menu-item index="user">
                         <el-icon><User /></el-icon>个人中心
                     </el-menu-item>
+                </el-menu>
+                <el-menu
+                    theme="light"
+                    style="margin-right: 20px"
+                    default-active="main"
+                    height="100%"
+                    @select="changeHandler"
+                    v-if="accountValid&&this.form.accountNum.charAt(3) === '2'"
+                >
+                    <el-menu-item index="Tmain">
+                        <el-icon><OfficeBuilding /></el-icon>宿舍管理
+                    </el-menu-item>
+                    <el-menu-item index="Tstudent">
+                        <el-icon><ChatDotRound /></el-icon>学生管理
+                    </el-menu-item>
+                    <el-menu-item index="Tselect">
+                        <el-icon><Bell /></el-icon>选宿舍管理
+                    </el-menu-item>
+
                 </el-menu>
             </el-aside>
             <el-main>
@@ -57,14 +76,16 @@ export default {
     components: {Position, OfficeBuilding, ChatDotRound, Bell, User},
     setup() {
         const router = useRouter();
-        const accountValid = computed(() => store.state.login.accountValid)
+        const accountValid = computed(() => store.state.login.accountValid) ;
+        const form = computed(() => store.state.login.form) ;
         const changeHandler = (index) => {
             router.push({ path: "/" + index });
         };
 
         return {
             changeHandler,
-            accountValid
+            accountValid,
+            form
         };
 
     },
