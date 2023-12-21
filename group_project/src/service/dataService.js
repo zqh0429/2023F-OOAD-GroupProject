@@ -135,11 +135,11 @@ function askMemberData(callback){
     })          
  }
 
- function setBeginTime(beginTime,callback){
+ function setBeginTime1(beginTime1,callback){
     const params = {
-        begintime : beginTime,
+        begintime1 : beginTime1,
       };
-    axios.post('/api/Tselect/setBegin',{params})
+    axios.post('/api/Tselect/setBegin1',{params})
     .then(resp => {
         console.log(resp.data)
         callback(resp)
@@ -149,11 +149,11 @@ function askMemberData(callback){
 
  }
 
- function setEndTime(endTime,callback){
+ function setEndTime1(endTime1,callback){
     const params = {
-        endtime : endTime,
+        endtime1 : endTime1,
       };
-    axios.post('/api/Tselect/setEnd',{params})
+    axios.post('/api/Tselect/setEnd1',{params})
     .then(resp => {
         console.log(resp.data)
         callback(resp)
@@ -163,6 +163,34 @@ function askMemberData(callback){
     
  }
 
+
+ function setBeginTime2(beginTime2,callback){
+    const params = {
+        begintime2 : beginTime2,
+      };
+    axios.post('/api/Tselect/setBegin2',{params})
+    .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })  
+
+ }
+
+ function setEndTime2(endTime2,callback){
+    const params = {
+        endtime2 : endTime2,
+      };
+    axios.post('/api/Tselect/setEnd2',{params})
+    .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })  
+    
+ }
 export default {
     askUserInfo,
     updateUserInfo,
@@ -174,7 +202,9 @@ export default {
     setUserInfo,
     addUser,
     askMemberData,
-    setBeginTime,
-    setEndTime
+    setBeginTime1,
+    setEndTime1,
+    setBeginTime2,
+    setEndTime2
     
 }

@@ -26,8 +26,10 @@ const state = () => ({
 
     memberData: [],
 
-    beginTime : "",
-    endTime : ""
+    beginTime1 : "",
+    endTime1 : "",
+    beginTime2 : "",
+    endTime2 : ""
 
 
 
@@ -121,16 +123,29 @@ const actions = {
             context.commit("setMemberData", resp.data.data)
         })
     },
-    setBeginTime(context,param) {
-        context.commit("setBegin",param)
+    setBeginTime1(context,param) {
+        context.commit("setBegin1",param)
 
-        dataService.setBeginTime(context.state.beginTime,resp => {
+        dataService.setBeginTime1(context.state.beginTime1,resp => {
             console.log(resp.data)
         })
     },
-    setEndTime(context,param) {
-        context.commit("setEnd",param)
-        dataService.setEndTime(context.state.endTime,resp => {
+    setEndTime1(context,param) {
+        context.commit("setEnd1",param)
+        dataService.setEndTime1(context.state.endTime1,resp => {
+            console.log(resp.data)
+        })
+    },
+    setBeginTime2(context,param) {
+        context.commit("setBegin2",param)
+
+        dataService.setBeginTime2(context.state.beginTime2,resp => {
+            console.log(resp.data)
+        })
+    },
+    setEndTime2(context,param) {
+        context.commit("setEnd2",param)
+        dataService.setEndTime2(context.state.endTime2,resp => {
             console.log(resp.data)
         })
     }
@@ -175,11 +190,17 @@ const mutations = {
     setMemberData(state, data) {
         state.memberData = data
     },
-    setBegin(state,data){
-        state.beginTime=data
+    setBegin1(state,data){
+        state.beginTime1=data
     },
-    setEnd(state,data){
-        state.endTime=data
+    setEnd1(state,data){
+        state.endTime1=data
+    },
+    setBegin2(state,data){
+        state.beginTime2=data
+    },
+    setEnd2(state,data){
+        state.endTime2=data
     }
 }
 

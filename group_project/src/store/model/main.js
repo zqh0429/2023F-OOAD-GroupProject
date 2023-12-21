@@ -38,7 +38,8 @@ const state = () => ({
     replies: null,
     locationValid: false,
     user:null,
-    errorMsg: null
+    errorMsg: null,
+    msg : ""
 })
 
 const actions = {
@@ -121,6 +122,17 @@ const actions = {
         mainService.AddRoom(info, resp => {
             if (resp.data.code === 0) {
                 console.log(resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+
+    choose(context,info){
+        mainService.ChooseRoom(info, resp => {
+            if (resp.data.code === 0) {
+                context.state.msg = resp.data.msg
+                console.log(resp.data.msg)
             } else {
                 context.state.errorMsg = resp.data.msg
             }

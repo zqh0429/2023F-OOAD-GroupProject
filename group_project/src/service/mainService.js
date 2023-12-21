@@ -126,6 +126,16 @@ function AddRoom(param,callback){
         })
 }
 
+function ChooseRoom(param,callback){
+    const url ='/api/main/v1/chooseRoom'
+    axios.post(url, {param})
+        .then(resp => {
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+
 export default {
     loadRoomInfo,
     listComment,
@@ -134,5 +144,6 @@ export default {
     deleteRoom,
     addReply,
     EditRoom,
-    AddRoom
+    AddRoom,
+    ChooseRoom
 };

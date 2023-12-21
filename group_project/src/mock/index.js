@@ -269,6 +269,7 @@ Mock.mock(RegExp("api/chat/message/MsgOverview" + ".*"), 'get', function() {
         data: [
             { id: 111, type: "组队信息"},
             { id: 222, type: "帖子信息"},
+            { id: 333, type: "宿舍信息"},
         ]
     };
 });
@@ -302,6 +303,18 @@ Mock.mock(RegExp("/api/chat/message/MsgData" + ".*"), 'get', function(config) {
                   
             
         };}
+        else if (msgID === '333') {
+            return {
+                code:0,
+                data: 
+                        {
+                          sender: '系统',
+                          title: '抢宿舍成功通知',
+                          content: '恭喜你抢到了二期17栋312宿舍！'
+                        }
+                      
+                
+            };}
     
 });
 
@@ -390,6 +403,15 @@ Mock.mock(RegExp("/api/Tselect/memberData" + ".*"), 'get', function() {
             {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
             {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
             {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
             {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"}
          ]
     };
@@ -402,20 +424,34 @@ Mock.mock(RegExp("/api/main/v1/editRoom" + ".*"), 'post', function(config) {
     };
 });
 
-Mock.mock(RegExp("/api/Tselect/setEnd" + ".*"), 'post', function(config) {
+Mock.mock(RegExp("/api/Tselect/setEnd1" + ".*"), 'post', function(config) {
     console.log(config);
     return {
         code:0
     };
 });
 
-Mock.mock(RegExp("/api/Tselect/setBegin" + ".*"), 'post', function(config) {
+Mock.mock(RegExp("/api/Tselect/setBegin1" + ".*"), 'post', function(config) {
     console.log(config);
     return {
         code:0
     };
 });
 
+
+Mock.mock(RegExp("/api/Tselect/setEnd2" + ".*"), 'post', function(config) {
+    console.log(config);
+    return {
+        code:0
+    };
+});
+
+Mock.mock(RegExp("/api/Tselect/setBegin2" + ".*"), 'post', function(config) {
+    console.log(config);
+    return {
+        code:0
+    };
+});
 
 Mock.mock(RegExp("/api/main/v1/addRoom" + ".*"), 'post', function(config) {
     console.log(config);
@@ -424,6 +460,13 @@ Mock.mock(RegExp("/api/main/v1/addRoom" + ".*"), 'post', function(config) {
     };
 });
 
+Mock.mock(RegExp("/api/main/v1/chooseRoom" + ".*"), 'post', function(config) {
+    console.log(config);
+    return {
+        code:0,
+        msg:"添加成功！"
+    };
+});
 
 
 export default Mock;
