@@ -49,6 +49,7 @@ const state = () => ({
         repliedUser:null,
         reply:null,
     },
+    tagValue:null,
     comments: null,
     errorMsg: null,
     joinGroupValid:false,
@@ -68,6 +69,60 @@ const actions = {
         forumService.searchGroup(id, resp => {
             if (resp.data.code === 0) {
                 context.commit("searchGroup", resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    searchPostByTag(context,tagValue) {
+        forumService.searchPostByTag(tagValue, resp => {
+            if (resp.data.code === 0) {
+                context.commit("loadPostOverviewData", resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    searchPostByWake(context,startTime,endTime) {
+        forumService.searchPostByWake(startTime,endTime, resp => {
+            if (resp.data.code === 0) {
+                context.commit("loadPostOverviewData", resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    searchPostBySleep(context,startTime,endTime) {
+        forumService.searchPostBySleep(startTime,endTime, resp => {
+            if (resp.data.code === 0) {
+                context.commit("loadPostOverviewData", resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    searchGroupByTag(context,tagValue) {
+        forumService.searchGroupByTag(tagValue, resp => {
+            if (resp.data.code === 0) {
+                context.commit("loadGroupOverviewData", resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    searchGroupByWake(context,startTime,endTime) {
+        forumService.searchGroupByWake(startTime,endTime, resp => {
+            if (resp.data.code === 0) {
+                context.commit("loadGroupOverviewData", resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    searchGroupBySleep(context,startTime,endTime) {
+        forumService.searchGroupBySleep(startTime,endTime, resp => {
+            if (resp.data.code === 0) {
+                context.commit("loadGroupOverviewData", resp.data.data)
             } else {
                 context.state.errorMsg = resp.data.msg
             }

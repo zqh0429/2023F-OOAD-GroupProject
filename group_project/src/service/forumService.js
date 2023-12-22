@@ -38,6 +38,114 @@ function searchGroup(param, callback) {
             console.log(errResp);
         });
 }
+function searchPostByTag(param, callback) {
+    /*
+        param: tagValue (array)
+    */
+    // const url = `${dataServerUrl}/api/post/v1/searchPost`;
+    const url = `api/forum/post/searchPostByTag`;
+    const params = {
+        param
+    };
+    console.log(param)
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
+function searchPostByWake(param, callback) {
+    /*
+        param: startTime,endTime
+    */
+    // const url = `${dataServerUrl}/api/post/v1/searchPost`;
+    const url = `api/forum/post/searchPostByWake`;
+    const params = {
+        param
+    };
+    console.log(param)
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
+function searchPostBySleep(param, callback) {
+    /*
+        param: startTime,endTime
+    */
+    // const url = `${dataServerUrl}/api/post/v1/searchPost`;
+    const url = `api/forum/post/searchPostBySleep`;
+    const params = {
+        param
+    };
+    console.log(param)
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
+function searchGroupByTag(param, callback) {
+    /*
+        param: tagValue (array)
+    */
+    // const url = `${dataServerUrl}/api/Group/v1/searchGroup`;
+    const url = `api/forum/group/searchGroupByTag`;
+    const params = {
+        param
+    };
+    console.log(param)
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
+function searchGroupByWake(param, callback) {
+    /*
+        param: startTime,endTime
+    */
+    // const url = `${dataServerUrl}/api/Group/v1/searchGroup`;
+    const url = `api/forum/group/searchGroupByWake`;
+    const params = {
+        param
+    };
+    console.log(param)
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
+function searchGroupBySleep(param, callback) {
+    /*
+        param: startTime,endTime
+    */
+    // const url = `${dataServerUrl}/api/Group/v1/searchGroup`;
+    const url = `api/forum/group/searchGroupBySleep`;
+    const params = {
+        param
+    };
+    console.log(param)
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
 function loadPost(param, callback) {
     /*
         param:
@@ -209,10 +317,16 @@ function addReply(param, callback) {
         })
 }
 export default {
-    loadPost,
-    loadGroup,
     searchPost,
     searchGroup,
+    loadPost,
+    loadGroup,
+    searchPostByTag,
+    searchPostByWake,
+    searchPostBySleep,
+    searchGroupByTag,
+    searchGroupByWake,
+    searchGroupBySleep,
     joinGroup,
     addPost,
     addGroup,

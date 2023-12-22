@@ -9,17 +9,25 @@
                         <el-container>
                             <el-header>
                                 <el-row :gutter="10">
-                                    <el-col :span="16">
-                                        <el-input v-model="input_post" class="" placeholder="Type Post ID">
-                                            <template #prefix>
-                                                <el-icon class="el-input__icon"><search /></el-icon>
-                                            </template>
-                                        </el-input>
-                                    </el-col>
-                                    <el-col :span="8">
-                                        <el-button @click="searchPostByInput">Search</el-button>
-                                        <el-button type="primary" @click="openDialog"> + </el-button>
-                                    </el-col>
+                                    <el-select v-model="searchBy" class="m-2" placeholder="Select">
+                                        <el-option
+                                            v-for="item in searchMethods"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value"
+                                        />
+                                    </el-select>
+                                    <div class="demo-time-range" v-if="searchBy === 'WakeUp' || searchBy === 'Sleep'">
+                                        <el-time-select v-model="startTime" :max-time="endTime" class="mr-4"
+                                                        placeholder="Start time" start="08:30" step="00:15" end="18:30"/>
+                                        <el-time-select v-model="endTime" :min-time="startTime" placeholder="End time"
+                                                        start="08:30" step="00:15" end="18:30"/>
+                                    </div>
+                                    <el-select-v2
+                                        v-if="searchBy ==='Tag'" v-model="tagValue" :options="tagOptions" placeholder="Please select"
+                                        style="width: 240px" multiple/>
+                                    <el-button @click="searchPostByOption">Search</el-button>
+                                    <el-button type="primary" @click="openDialogGroup"> + </el-button>
                                 </el-row>
                             </el-header>
                             <el-container>
@@ -96,17 +104,25 @@
                         <el-container>
                             <el-header>
                                 <el-row :gutter="10">
-                                    <el-col :span="16">
-                                        <el-input v-model="input_group" class="" placeholder="Type Group ID">
-                                            <template #prefix>
-                                                <el-icon class="el-input__icon"><search /></el-icon>
-                                            </template>
-                                        </el-input>
-                                    </el-col>
-                                    <el-col :span="8">
-                                        <el-button @click="searchGroupByInput">Search</el-button>
-                                        <el-button type="primary" @click="openDialogGroup"> + </el-button>
-                                    </el-col>
+                                    <el-select v-model="searchBy" class="m-2" placeholder="Select">
+                                        <el-option
+                                            v-for="item in searchMethods"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value"
+                                        />
+                                    </el-select>
+                                    <div class="demo-time-range" v-if="searchBy === 'WakeUp' || searchBy === 'Sleep'">
+                                        <el-time-select v-model="startTime" :max-time="endTime" class="mr-4"
+                                            placeholder="Start time" start="08:30" step="00:15" end="18:30"/>
+                                        <el-time-select v-model="endTime" :min-time="startTime" placeholder="End time"
+                                            start="08:30" step="00:15" end="18:30"/>
+                                    </div>
+                                    <el-select-v2
+                                        v-if="searchBy ==='Tag'" v-model="tagValue" :options="tagOptions" placeholder="Please select"
+                                        style="width: 240px" multiple/>
+                                    <el-button @click="searchGroupByOption">Search</el-button>
+                                    <el-button type="primary" @click="openDialogGroup"> + </el-button>
                                 </el-row>
                             </el-header>
                             <el-container>
@@ -134,15 +150,16 @@
                                         </el-descriptions>
                                         <el-descriptions direction="vertical" :column="1" border>
                                             <el-descriptions-item label="Description">
-                                                {{ postInfo.content }}
+                                                {{ groupInfo.content }}
                                             </el-descriptions-item>
                                             <el-descriptions-item label="Comments">
-                                                <el-collapse accordion>
+                                                <el-collapse accordion v-model="isReplyingComment">
                                                     <el-collapse-item v-for="(comment, index) in comments" :key="index"
                                                                       :title="comment.user+': '+comment.comment" :name="index.toString()"
                                                                       @click=replyComment(comment)>
                                                         <div v-if="comment.replies && comment.replies.length > 0" >
-                                                            <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user">
+                                                            <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user"
+                                                                 @click.prevent=replyReply(reply,comment)>
                                                                 {{reply.user}} RE @{{reply.repliedUser}}: {{reply.content}}
                                                             </div>
                                                         </div>
@@ -189,7 +206,7 @@
 
 <script>
 import {ref} from "vue";
-import {Search} from '@element-plus/icons-vue'
+// import {Search} from '@element-plus/icons-vue'
 import {mapState} from "vuex";
 import MapComponent from "@/pages/main/MapComponent.vue";
 
@@ -201,8 +218,9 @@ export default {
         return {
             info: 3,
             activeButton: 'button1',
-            input_post : ref(''),
-            input_group: ref(''),
+            searchBy: ref(''),
+            searchMethods:[{ value: 'WakeUp', label: 'WakeUp',},{ value: 'Sleep', label: 'Sleep',},
+                { value: 'Tag', label: 'Tag',}],
             groupID: null,
             postID: null,
             dialogVisible:false,
@@ -229,7 +247,12 @@ export default {
             currentCommentID:null,
             currentRepliedUser:null,
             replyPlaceholder:null,
-        };
+            startTime: null,
+            endTime: null,
+            tagValue: null,
+            tagOptions:[{ value: 'sports', label: '爱运动',},{ value: 'study', label: '卷王',},
+                { value: 'outgoing', label: '社牛',},{ value: 'introversion', label: '社恐',},]
+        }
     },
     mounted() {
         this.$store.dispatch("forum/loadPost")
@@ -256,11 +279,25 @@ export default {
             this.$store.dispatch("forum/searchGroup",selection.id)
             this.$store.dispatch("forum/listGroupComment")
         },
-        searchPostByInput(){
-            this.$store.dispatch("forum/searchPost",this.input_post)
+        searchPostByOption(){
+            if (this.searchBy === 'Tag'){
+                console.log(this.tagValue)
+                this.$store.dispatch("forum/searchPostByTag",this.tagValue)
+            }else if (this.searchBy === 'WakeUp'){
+                this.$store.dispatch("forum/searchPostByWake",this.startTime,this.endTime)
+            }else if (this.searchBy === 'Sleep'){
+                this.$store.dispatch("forum/searchPostBySleep",this.startTime,this.endTime)
+            }
         },
-        searchGroupByInput(){
-            this.$store.dispatch("forum/searchGroup",this.input_group)
+        searchGroupByOption(){
+            if (this.searchBy === 'Tag'){
+                console.log(this.tagValue)
+                this.$store.dispatch("forum/searchGroupByTag",this.tagValue)
+            }else if (this.searchBy === 'WakeUp'){
+                this.$store.dispatch("forum/searchGroupByWake",this.startTime,this.endTime)
+            }else if (this.searchBy === 'Sleep'){
+                this.$store.dispatch("forum/searchGroupBySleep",this.startTime,this.endTime)
+            }
         },
         joinGroup(){
             this.$store.dispatch("forum/joinGroup",this.groupID)
@@ -343,10 +380,16 @@ export default {
             }
         },
         replyComment(comment){
-            this.isReplyingComment = !this.isReplyingComment
+            // this.isReplyingComment = true
             this.currentRepliedUser = comment.user
             this.currentCommentID = comment.id
             this.replyPlaceholder = "RE @"+this.currentRepliedUser
+        },
+        replyReply(reply,comment){
+            this.currentRepliedUser = reply.user
+            this.currentCommentID = comment.id
+            this.replyPlaceholder = "RE @"+reply.user
+            console.log(this.replyPlaceholder)
         },
     },
     computed: {
@@ -359,15 +402,15 @@ export default {
             newGroupInfo: state => state.newGroupInfo,
             comments: state => state.comments,
             replyLine: state => state.replyLine,
-            commentLine: state => state.commentLine
+            commentLine: state => state.commentLine,
         }),
         ...mapState('DataProcess', {
             userInfo: state => state.userInfo,
         })
     },
-    components: {
-        Search
-    }
+    // components: {
+    //     Search
+    // }
 }
 </script>
 
