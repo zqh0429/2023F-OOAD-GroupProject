@@ -67,8 +67,6 @@ export default {
                 console.log("A")
                 this.$store.dispatch("DataProcess/setUser",this.form.accountNum)
                 console.log(this.form)
-                if (this.form.accountNum.charAt(3) === '1') { this.$router.push('/main') } 
-                else if (this.form.accountNum.charAt(3) === '2') {   this.$router.push('/Tmain') }
             }
         },
         remember(data){

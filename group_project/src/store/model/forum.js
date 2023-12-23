@@ -9,6 +9,7 @@ const state = () => ({
         user: null,
         sleep: null,
         wake: null,
+        tags:null,
         content: null,
         comments:null
     },
@@ -34,6 +35,7 @@ const state = () => ({
         members: "",
         sleep: "",
         wake: "",
+        tags:null,
         content: "",
         comments: null
     },

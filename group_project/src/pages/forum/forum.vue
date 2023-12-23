@@ -19,15 +19,15 @@
                                     </el-select>
                                     <div class="demo-time-range" v-if="searchBy === 'WakeUp' || searchBy === 'Sleep'">
                                         <el-time-select v-model="startTime" :max-time="endTime" class="mr-4"
-                                                        placeholder="Start time" start="08:30" step="00:15" end="18:30"/>
+                                                        placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
                                         <el-time-select v-model="endTime" :min-time="startTime" placeholder="End time"
-                                                        start="08:30" step="00:15" end="18:30"/>
+                                                        start="00:00" step="00:15" end="24:00"/>
                                     </div>
                                     <el-select-v2
                                         v-if="searchBy ==='Tag'" v-model="tagValue" :options="tagOptions" placeholder="Please select"
                                         style="width: 240px" multiple/>
                                     <el-button @click="searchPostByOption">Search</el-button>
-                                    <el-button type="primary" @click="openDialogGroup"> + </el-button>
+                                    <el-button type="primary" @click="openDialog"> + </el-button>
                                 </el-row>
                             </el-header>
                             <el-container>
@@ -46,14 +46,19 @@
                                 <el-container>
                                     <el-main>
                                         <label>{{this.postInfo.title}}</label>
-                                        <el-descriptions
-                                            direction="vertical" :column="3" border
-                                        >
+                                        <el-descriptions direction="vertical" :column="3" border>
                                             <el-descriptions-item label="User" :span="1">{{ postInfo.user }}</el-descriptions-item>
                                             <el-descriptions-item label="Time to Sleep" :span="1">{{ postInfo.sleep }}</el-descriptions-item>
                                             <el-descriptions-item label="Time to Wake Up" :span="1">{{ postInfo.wake }}</el-descriptions-item>
                                         </el-descriptions>
                                         <el-descriptions direction="vertical" :column="1" border>
+                                            <el-descriptions-item label="Tags">
+                                                <el-row>
+                                                    <div v-for="(tag,index) in postInfo.tags" :key="index">
+                                                        <el-tag size="small">{{ tag }}</el-tag>
+                                                    </div>
+                                                </el-row>
+                                            </el-descriptions-item>
                                             <el-descriptions-item label="Description">
                                                 {{ postInfo.content }}
                                             </el-descriptions-item>
@@ -76,7 +81,6 @@
                                         <el-button type="primary" @click.prevent="addPostCommentOrReply">Comment</el-button>
                                     </el-main>
                                     <el-footer>
-
                                     </el-footer>
                                 </el-container>
                             </el-container>
@@ -86,12 +90,20 @@
                                 <label><el-input v-model="editedPostInfo.title" placeholder="Title"/></label>
                                 <el-descriptions
                                     direction="vertical"
-                                    :column="3"
+                                    :column="1"
                                     border
                                 >
                                     <el-descriptions-item label="User">{{ userInfo.username }}</el-descriptions-item>
-                                    <el-descriptions-item label="Time to Sleep"><el-input v-model="editedPostInfo.sleep" /></el-descriptions-item>
-                                    <el-descriptions-item label="Time to Wake Up" :span="2"><el-input v-model="editedPostInfo.wake" /></el-descriptions-item>
+                                    <el-descriptions-item label="Rest Time">
+                                        <el-time-select v-model="editedPostInfo.wake" :max-time="editedPostInfo.sleep" class="mr-4"
+                                                        placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
+                                        <el-time-select v-model="editedPostInfo.sleep" :min-time="editedPostInfo.wake" placeholder="End time"
+                                                        start="00:00" step="00:15" end="24:00"/>
+                                    </el-descriptions-item>
+                                    <el-descriptions-item label="Tags">
+                                        <el-select-v2 v-model="editedPostInfo.tags" :options="tagOptions" placeholder="Please select"
+                                            style="width: 240px" multiple/>
+                                    </el-descriptions-item>
                                     <el-descriptions-item label="Description">
                                         <el-input v-model="editedPostInfo.content" />
                                     </el-descriptions-item>
@@ -114,9 +126,9 @@
                                     </el-select>
                                     <div class="demo-time-range" v-if="searchBy === 'WakeUp' || searchBy === 'Sleep'">
                                         <el-time-select v-model="startTime" :max-time="endTime" class="mr-4"
-                                            placeholder="Start time" start="08:30" step="00:15" end="18:30"/>
+                                            placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
                                         <el-time-select v-model="endTime" :min-time="startTime" placeholder="End time"
-                                            start="08:30" step="00:15" end="18:30"/>
+                                            start="00:00" step="00:15" end="24:00"/>
                                     </div>
                                     <el-select-v2
                                         v-if="searchBy ==='Tag'" v-model="tagValue" :options="tagOptions" placeholder="Please select"
@@ -149,6 +161,13 @@
                                             <el-descriptions-item label="Members">{{ groupInfo.members }}</el-descriptions-item>
                                         </el-descriptions>
                                         <el-descriptions direction="vertical" :column="1" border>
+                                            <el-descriptions-item label="Tags">
+                                                <el-row>
+                                                    <div v-for="(tag,index) in groupInfo.tags" :key="index">
+                                                        <el-tag size="small">{{ tag }}</el-tag>
+                                                    </div>
+                                                </el-row>
+                                            </el-descriptions-item>
                                             <el-descriptions-item label="Description">
                                                 {{ groupInfo.content }}
                                             </el-descriptions-item>
@@ -182,13 +201,21 @@
                                     <label><el-input v-model="editedGroupInfo.groupName" placeholder="Group Name"/></label>
                                     <el-descriptions
                                         direction="vertical"
-                                        :column="4"
+                                        :column="2"
                                         border
                                     >
                                         <el-descriptions-item label="Leader">{{userInfo.username}}</el-descriptions-item>
-                                        <el-descriptions-item label="Time to Sleep"><el-input v-model="editedGroupInfo.sleep" /></el-descriptions-item>
-                                        <el-descriptions-item label="Time to Wake Up" :span="2"><el-input v-model="editedGroupInfo.wake" /></el-descriptions-item>
                                         <el-descriptions-item label="Members"></el-descriptions-item>
+                                        <el-descriptions-item label="Rest Time">
+                                            <el-time-select v-model="editedGroupInfo.wake" :max-time="editedGroupInfo.sleep" class="mr-4"
+                                                            placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
+                                            <el-time-select v-model="editedGroupInfo.sleep" :min-time="editedGroupInfo.wake" placeholder="End time"
+                                                            start="00:00" step="00:15" end="24:00"/>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item label="Tags">
+                                            <el-select-v2 v-model="editedGroupInfo.tags" :options="tagOptions" placeholder="Please select"
+                                                          style="width: 240px" multiple/>
+                                        </el-descriptions-item>
                                         <el-descriptions-item label="Description">
                                             <el-input v-model="editedGroupInfo.content" />
                                         </el-descriptions-item>
@@ -230,6 +257,7 @@ export default {
                 user: null,
                 sleep: null,
                 wake: null,
+                tags:null,
                 content: null,
             },
             editedGroupInfo: {
@@ -238,6 +266,7 @@ export default {
                 members: "",
                 sleep: "",
                 wake: "",
+                tags:null,
                 content: "",
             },
             isLeavingComment: false,

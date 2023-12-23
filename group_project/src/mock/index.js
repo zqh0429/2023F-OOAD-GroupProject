@@ -12,6 +12,7 @@ Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
         data: {
           username : "Student 1",
           studentID: '12330849',
+          isTeacher: false,
           level: "硕士",
           circleUrl:
               'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
@@ -24,6 +25,7 @@ Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
           data: {
             username : "Student 1",
             studentID: '12330849',
+            isTeacher: false,
             level: "博士",
             circleUrl:
                 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
@@ -32,8 +34,22 @@ Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
             description: "本科就读于清华，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
           }
         };
-      } 
-    });
+      } else if (accountNum === '12121111') {
+          return {
+              data: {
+                  username : "Teacher 1",
+                  studentID: '12330849',
+                  isTeacher: true,
+                  level: "博士",
+                  circleUrl:
+                      'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+                  restTime: "23:00 - 9:00",
+                  hometown: "广东深圳",
+                  description: "本科就读于清华，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
+              }
+          };
+      }
+});
 
 
 Mock.mock(RegExp("/api/user/updateinfo" + ".*"), 'post', function(config){
@@ -183,6 +199,7 @@ Mock.mock(RegExp("api/forum/post/searchPost" + ".*"), 'get', function(options) {
                 user: "Student1",
                 sleep: "23:00",
                 wake: "9:00",
+                tags:["爱运动","社牛"],
                 content: "null"
             }
         };
@@ -194,6 +211,7 @@ Mock.mock(RegExp("api/forum/post/searchPost" + ".*"), 'get', function(options) {
                 user: "Student2",
                 sleep: "00:00",
                 wake: "10:00",
+                tags:["社恐"],
                 content: "null",
             },
         };
@@ -223,6 +241,7 @@ Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options)
                 members: "Student 1, Student 2",
                 sleep: "23:00",
                 wake: "9:00",
+                tags:["社恐"],
                 content: "Group 1 Data",
             },
         };
@@ -235,6 +254,7 @@ Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options)
                 members: "Student 3, Student 4",
                 sleep: "22:30",
                 wake: "8:30",
+                tags:["早起"],
                 content: "Group 2 Data",
             },
         };

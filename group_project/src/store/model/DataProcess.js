@@ -8,6 +8,7 @@ const state = () => ({
     userInfo: {          //主页个人信息
         username: "",
         studentID: '',
+        isTeacher:false,
         level: "",
         circleUrl: '',
         restTime: "",
@@ -96,6 +97,7 @@ const actions = {
     setUser(context, accountNum) {
         console.log(accountNum)
         context.commit("setUser", accountNum)
+        context.dispatch("getUserInfo");
         console.log(context.state.accountNum)
     },
 
