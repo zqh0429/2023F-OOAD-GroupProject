@@ -29,7 +29,7 @@ function listComment(param, callback) {
     */
     const url = `${dataServerUrl}/api/main/v1/comments`
     const params = {
-       roomID: param
+        roomID: param
     };
     // const url = `api/main/v1/comments`
     axios.get(url, {params})
@@ -45,20 +45,21 @@ function addComment(param, roomID, callback) {
     param: roomID, username, comment
     */
     const url = `${dataServerUrl}/api/main/v1/addComment`
+
     const params = {
         content:param.comment,
-        comment_student:param.username,
-        comment_room:roomID
+        user:param.user,
+        comment_room:param.roomID
     };
+    console.log(params)
     // const url = `api/main/v1/addComment`
-    axios.post(url, {params})
+    axios.post(url, params)
         .then(resp => {
             callback(resp)
         }, errResp => {
             console.log(errResp)
         })
 }
-
 function getBuildingInfo(param,callback) {
     /*
     param: roomID, username, comment

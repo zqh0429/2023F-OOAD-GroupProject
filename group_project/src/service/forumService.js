@@ -9,7 +9,7 @@ function searchPost(param, callback) {
     const url = `${dataServerUrl}/api/forum/post/searchPost`;
     // const url = `api/forum/post/searchPost`;
     const params = {
-       postID: param
+        postID: param
     };
     console.log(param)
     axios.get(url, {params})
@@ -197,7 +197,7 @@ function addPost(param, callback) {
         param: title, user, sleep, wake, content
     */
     // const url = `${dataServerUrl}/api/post/v1/searchGroup`;
-    const url = `api/forum/post/addPost`;
+    const url = `${dataServerUrl}/api/forum/post/addPost`;
     const params = {
         title:param.title,
         user:param.user,
@@ -206,7 +206,7 @@ function addPost(param, callback) {
         content:param.content
     };
     console.log(param)
-    axios.post(url, {params})
+    axios.post(url, params)
         .then(resp => {
             callback(resp);
         })

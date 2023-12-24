@@ -112,7 +112,6 @@ function askUserData(callback){
         })
 }
 
-
 function setUserInfo(info,callback){  //更新修改后的个人信息
 
     axios.post('/api/Tstudent/setUserData',{info})

@@ -8,12 +8,13 @@ const state = () => ({
         room: "",
     },
     roomInfo: {
-        roomID: "",
-        area: "",
-        building: "",
-        floor: "",
-        room: "",
-        like:"",
+        roomId: null,
+        room_region: "",
+        room_building: "",
+        room_floor: "",
+        room_number: "",
+        room_star:"",
+        room_type:"",
         comments:""
     },
     inputComment:null,
@@ -56,8 +57,8 @@ const actions = {
         mainService.addComment(context.state.commentLine,context.state.roomInfo.roomID, resp => {
             console.log("add record", resp)
             if (resp.data.code === 0) {
-                context.commit("addComment", context.state.commentLine)
-                // context.dispatch("listComment")
+                // context.commit("addComment", context.state.commentLine)
+                context.dispatch("listComment")
             } else {
                 context.state.errorMsg = resp.data.msg
             }
@@ -65,7 +66,7 @@ const actions = {
     },
     listComment(context) {
         mainService.listComment(
-            context.state.roomInfo.roomID, resp => {
+            context.state.roomInfo.roomId, resp => {
                 console.log(resp)
                 if (resp.data.code === 0) {
                     context.commit("updateComment", resp.data.data)
@@ -148,9 +149,9 @@ const mutations = {
     updateComment(state, data) {
         state.comments = data
     },
-    addComment(state, data) {
-        state.comments.push(data)
-    },
+    // addComment(state, data) {
+    //     state.comments.push(data)
+    // },
     getBuildingInfo(state,data) {
         state.buildingInfo = data
     },
@@ -158,7 +159,7 @@ const mutations = {
         state.roomInfo = data
         state.comments = null
     }
-    
+
 }
 
 
