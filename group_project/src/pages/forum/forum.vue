@@ -335,7 +335,7 @@ export default {
             this.dialogVisible = true;
         },
         addGroup(){
-            this.newGroupInfo.leader = this.userInfo.username
+            this.newGroupInfo.leader = this.userInfo.studentID
             this.newGroupInfo.wake = this.editedGroupInfo.wake
             this.newGroupInfo.sleep = this.editedGroupInfo.sleep
             this.newGroupInfo.content = this.editedGroupInfo.content
@@ -354,7 +354,8 @@ export default {
           this.dialogVisibleGroup = true
         },
         addPost(){
-            this.newPostInfo.user = this.userInfo.username
+            this.newPostInfo.title = this.editedPostInfo.title
+            this.newPostInfo.user = this.userInfo.studentID
             this.newPostInfo.wake = this.editedPostInfo.wake
             this.newPostInfo.sleep = this.editedPostInfo.sleep
             this.newPostInfo.content = this.editedPostInfo.content
@@ -370,13 +371,13 @@ export default {
             if (this.inputComment.trim() !== ""){
                 if (!this.isReplyingComment){
                     this.commentLine.id = this.groupID
-                    this.commentLine.user = this.userInfo.username
+                    this.commentLine.user = this.userInfo.studentID
                     this.commentLine.comment = this.inputComment
                     console.log(this.commentLine);
                     this.$store.dispatch("forum/addGroupComment")
                 }else {
                     this.replyLine.commentID = this.currentCommentID
-                    this.replyLine.user = this.userInfo.username
+                    this.replyLine.user = this.userInfo.studentID
                     this.replyLine.repliedUser = this.currentRepliedUser
                     this.replyLine.reply = this.inputComment
                     console.log(this.replyLine);
@@ -391,13 +392,13 @@ export default {
             if (this.inputComment.trim() !== ""){
                 if (!this.isReplyingComment){
                     this.commentLine.id = this.postID
-                    this.commentLine.user = this.userInfo.username
+                    this.commentLine.user = this.userInfo.studentID
                     this.commentLine.comment = this.inputComment
                     console.log(this.commentLine);
                     this.$store.dispatch("forum/addPostComment")
                 }else {
                     this.replyLine.commentID = this.currentCommentID
-                    this.replyLine.user = this.userInfo.username
+                    this.replyLine.user = this.userInfo.studentID
                     this.replyLine.repliedUser = this.currentRepliedUser
                     this.replyLine.reply = this.inputComment
                     console.log(this.replyLine);

@@ -23,14 +23,14 @@
             <div>
                 <el-dialog v-model="dialogVisible" title="Room Information" @opened="handleDialogOpened">
                     <el-descriptions direction="vertical" :column="4" border>
-                        <el-descriptions-item label="Area">{{ roomInfo.area }}</el-descriptions-item>
-                        <el-descriptions-item label="Location">{{ roomInfo.building }}-{{ roomInfo.room
+                        <el-descriptions-item label="Area">{{ roomInfo.room_region }}</el-descriptions-item>
+                        <el-descriptions-item label="Location">{{ roomInfo.room_building }}-{{ roomInfo.room_number
                         }}</el-descriptions-item>
-                        <el-descriptions-item label="❤" :span="2">{{ roomInfo.like }}</el-descriptions-item>
+                        <el-descriptions-item label="❤" :span="2">{{ roomInfo.room_star }}</el-descriptions-item>
                         <el-descriptions-item label="Comments">
                             <el-collapse accordion>
                                 <el-collapse-item v-for="(comment, index) in comments" :key="index"
-                                    :title="comment.user + ': ' + comment.comment" :name="index.toString()"
+                                    :title="comment.user + ': ' + comment.content" :name="index.toString()"
                                     @click=replyComment(comment)>
                                     <div v-if="comment.replies && comment.replies.length > 0">
                                         <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user">
@@ -78,18 +78,18 @@ export default {
             showMsg: false,
             info: 3,
             value_area: ref(''),
-            options_area: [{ value: '一期宿舍', label: '一期宿舍', },
-            { value: '二期宿舍', label: '二期宿舍', }
+            options_area: [{ value: '一期', label: '一期宿舍', },
+            { value: '二期', label: '二期宿舍', }
             ],
             value_building: ref(''),
-            options_building: [{ value: '8栋', label: '8栋', },
-            { value: '9栋', label: '9栋', },
-            { value: '10栋', label: '10栋', },
-            { value: '17栋', label: '17栋', }
+            options_building: [{ value: '8', label: '8栋', },
+            { value: '9', label: '9栋', },
+            { value: '10', label: '10栋', },
+            { value: '17', label: '17栋', }
             ],
             value_floor: ref(''),
-            options_floor: [{ value: '一楼', label: '一楼', },
-            { value: '二楼', label: '二楼', }
+            options_floor: [{ value: '1', label: '一楼', },
+            { value: '2', label: '二楼', }
             ],
             value_room: ref(''),
             options_room: [{ value: '1', label: '1', },
@@ -140,13 +140,14 @@ export default {
             if (this.inputComment.trim() !== "") {
                 if (!this.isReplyingComment) {
                     console.log(this.user)
-                    this.commentLine.user = this.user
+                    this.commentLine.roomID = this.roomInfo.roomId
+                    this.commentLine.user = this.userID
                     this.commentLine.comment = this.inputComment
                     console.log(this.commentLine);
                     this.$store.dispatch("main/addComment")
                 } else {
                     this.replyLine.commentID = this.currentCommentID
-                    this.replyLine.user = this.user
+                    this.replyLine.user = this.userID
                     this.replyLine.repliedUser = this.currentRepliedUser
                     this.replyLine.reply = this.inputComment
                     console.log(this.replyLine);
@@ -195,7 +196,7 @@ export default {
             // inputUser: state => state.inputUser
         }),
         ...mapState('DataProcess', {
-            user: state => state.userInfo.username
+            userID: state => state.userInfo.studentID
         }),
         area_selected() {
             return !!this.value_area;

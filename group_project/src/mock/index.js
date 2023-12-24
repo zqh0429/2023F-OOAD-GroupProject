@@ -81,42 +81,42 @@ Mock.mock(RegExp("api/login/v1/login" + ".*"), 'get', function(){
     }
 
 });
-Mock.mock(RegExp("api/main/v1/loadRoomInfo" + ".*"), 'get', function(config) {
-    const param = config.url.split('?')[1];
-    console.log(param);
-    console.log("进入了 loadRoomInfo 拦截方法");
-    return {
-        code:0,
-        data: {
-            roomID: 1,
-            area: "二期",
-            building: "17栋",
-            floor: "3",
-            room: "312",
-            like: "2",
-            comments: "11111"
-        },
-    };
-});
-Mock.mock(RegExp("api/main/v1/addComment" + ".*"), 'post', function(config){
-    console.log(config);
-    console.log("进入了 add 拦截方法");
-    return{
-        code: 0
-    }
-});
-Mock.mock(RegExp("api/main/v1/comments" + ".*"), 'get', function() {
-    console.log("进入了 comments 拦截方法");
-    return {
-        code:0,
-        data: [
-            { id: 1, user: "Student1", comment: "1111",
-                replies:[{user:"Student 3", repliedUser:"Student 1",content: "aaa"},
-                    {user:"Student 4", repliedUser:"Student 3" ,content: "bbb"}]},
-            { id: 2, user: "Student2", comment: "22222"},
-        ]
-    };
-});
+// Mock.mock(RegExp("api/main/v1/loadRoomInfo" + ".*"), 'get', function(config) {
+//     const param = config.url.split('?')[1];
+//     console.log(param);
+//     console.log("进入了 loadRoomInfo 拦截方法");
+//     return {
+//         code:0,
+//         data: {
+//             roomID: 1,
+//             area: "二期",
+//             building: "17栋",
+//             floor: "3",
+//             room: "312",
+//             like: "2",
+//             comments: "11111"
+//         },
+//     };
+// });
+// Mock.mock(RegExp("api/main/v1/addComment" + ".*"), 'post', function(config){
+//     console.log(config);
+//     console.log("进入了 add 拦截方法");
+//     return{
+//         code: 0
+//     }
+// });
+// Mock.mock(RegExp("api/main/v1/comments" + ".*"), 'get', function() {
+//     console.log("进入了 comments 拦截方法");
+//     return {
+//         code:0,
+//         data: [
+//             { id: 1, user: "Student1", comment: "1111",
+//                 replies:[{user:"Student 3", repliedUser:"Student 1",content: "aaa"},
+//                     {user:"Student 4", repliedUser:"Student 3" ,content: "bbb"}]},
+//             { id: 2, user: "Student2", comment: "22222"},
+//         ]
+//     };
+// });
 Mock.mock(RegExp("api/main/v1/getBuildingInfo" + ".*"), 'get', function(options) {
     const id = options.url.split('=')[1];
     if (id === '1'){
@@ -142,16 +142,16 @@ Mock.mock(RegExp("api/main/v1/getBuildingInfo" + ".*"), 'get', function(options)
     }
 
 });
-Mock.mock(RegExp("api/forum/post/loadPost" + ".*"), 'get', function() {
-    console.log("进入了 loadPost 拦截方法");
-    return {
-        code:0,
-        data: [
-            { id: 1, title: "1111"},
-            { id: 2, title: "2222"},
-        ]
-    };
-});
+// Mock.mock(RegExp("api/forum/post/loadPost" + ".*"), 'get', function() {
+//     console.log("进入了 loadPost 拦截方法");
+//     return {
+//         code:0,
+//         data: [
+//             { id: 1, title: "1111"},
+//             { id: 2, title: "2222"},
+//         ]
+//     };
+// });
 Mock.mock(RegExp("api/forum/group/loadGroup" + ".*"), 'get', function() {
     console.log("进入了 loadGroup 拦截方法");
     return {
@@ -186,45 +186,45 @@ Mock.mock(RegExp("api/forum/group/listGroupComment" + ".*"), 'get', function() {
         ]
     };
 });
-Mock.mock(RegExp("api/forum/post/searchPost" + ".*"), 'get', function(options) {
-    // 从请求参数中获取groupID
-    const postID = options.url.split('=')[1];
-    // 根据不同的groupID返回不同的模拟数据
-    let responseData;
-    if (postID === '1') {
-        responseData = {
-            code: 0,
-            data: {
-                title: "Title1",
-                user: "Student1",
-                sleep: "23:00",
-                wake: "9:00",
-                tags:["爱运动","社牛"],
-                content: "null"
-            }
-        };
-    } else if (postID === '2') {
-        responseData = {
-            code: 0,
-            data: {
-                title: "Title2",
-                user: "Student2",
-                sleep: "00:00",
-                wake: "10:00",
-                tags:["社恐"],
-                content: "null",
-            },
-        };
-    } else {
-        // 处理未知的groupID
-        responseData = {
-            code: -1,
-            msg: "Unknown postID",
-        };
-    }
-
-    return responseData;
-});
+// Mock.mock(RegExp("api/forum/post/searchPost" + ".*"), 'get', function(options) {
+//     // 从请求参数中获取groupID
+//     const postID = options.url.split('=')[1];
+//     // 根据不同的groupID返回不同的模拟数据
+//     let responseData;
+//     if (postID === '1') {
+//         responseData = {
+//             code: 0,
+//             data: {
+//                 title: "Title1",
+//                 user: "Student1",
+//                 sleep: "23:00",
+//                 wake: "9:00",
+//                 tags:["爱运动","社牛"],
+//                 content: "null"
+//             }
+//         };
+//     } else if (postID === '2') {
+//         responseData = {
+//             code: 0,
+//             data: {
+//                 title: "Title2",
+//                 user: "Student2",
+//                 sleep: "00:00",
+//                 wake: "10:00",
+//                 tags:["社恐"],
+//                 content: "null",
+//             },
+//         };
+//     } else {
+//         // 处理未知的groupID
+//         responseData = {
+//             code: -1,
+//             msg: "Unknown postID",
+//         };
+//     }
+//
+//     return responseData;
+// });
 Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options) {
     // 从请求参数中获取groupID
     const groupID = options.url.split('=')[1];
