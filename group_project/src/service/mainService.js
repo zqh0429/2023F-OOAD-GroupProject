@@ -45,7 +45,6 @@ function addComment(param, roomID, callback) {
     param: roomID, username, comment
     */
     const url = `${dataServerUrl}/api/main/v1/addComment`
-
     const params = {
         content:param.comment,
         user:param.user,
