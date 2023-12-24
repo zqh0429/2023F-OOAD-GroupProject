@@ -1,16 +1,20 @@
 import axios from 'axios';
 
-// const dataServerUrl = 'http://127.0.0.1:8082';
+const dataServerUrl = 'http://127.0.0.1:8082';
 
 function loadRoomInfo(param, callback) {
     /*
         param: area,building,floor,room
     */
-    // const url = `${dataServerUrl}/api/main/v1/loadRoomInfo`;
+    const url = `${dataServerUrl}/api/main/v1/loadRoomInfo`;
     const params = {
-        param
+        area:param.area,
+        building:param.building,
+        floor:param.floor,
+        room:param.room
+
     };
-    const url = `api/main/v1/loadRoomInfo`;
+    // const url = `api/main/v1/loadRoomInfo`;
     axios.get(url, {params})
         .then(resp => {
             callback(resp);
@@ -23,11 +27,11 @@ function listComment(param, callback) {
     /*
     param: roomID
     */
-    // const url = `${dataServerUrl}/api/main/v1/comments`
+    const url = `${dataServerUrl}/api/main/v1/comments`
     const params = {
-        param
+       roomID: param
     };
-    const url = `api/main/v1/comments`
+    // const url = `api/main/v1/comments`
     axios.get(url, {params})
         .then(resp => {
             callback(resp)
@@ -38,13 +42,15 @@ function listComment(param, callback) {
 
 function addComment(param, roomID, callback) {
     /*
-    param: username, comment, roomID
+    param: roomID, username, comment
     */
-    // const url = `${dataServerUrl}/api/main/v1/addComment`
+    const url = `${dataServerUrl}/api/main/v1/addComment`
     const params = {
-        param,roomID
+        content:param.comment,
+        comment_student:param.username,
+        comment_room:roomID
     };
-    const url = `api/main/v1/addComment`
+    // const url = `api/main/v1/addComment`
     axios.post(url, {params})
         .then(resp => {
             callback(resp)
@@ -69,7 +75,6 @@ function getBuildingInfo(param,callback) {
             console.log(errResp)
         })
 }
-
 function deleteRoom(param,callback){
     const params = {
         param

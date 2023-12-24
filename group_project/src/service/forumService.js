@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-// const dataServerUrl = 'http://127.0.0.1:8082';
+const dataServerUrl = 'http://127.0.0.1:8082';
 
 function searchPost(param, callback) {
     /*
         param: postID
     */
-    // const url = `${dataServerUrl}/api/post/v1/searchPost`;
-    const url = `api/forum/post/searchPost`;
+    const url = `${dataServerUrl}/api/forum/post/searchPost`;
+    // const url = `api/forum/post/searchPost`;
     const params = {
-        param
+       postID: param
     };
     console.log(param)
     axios.get(url, {params})
@@ -150,8 +150,8 @@ function loadPost(param, callback) {
     /*
         param:
     */
-    // const url = `${dataServerUrl}/api/forum/post/loadPost`;
-    const url = `api/forum/post/loadPost`;
+    const url = `${dataServerUrl}/api/forum/post/loadPost`;
+    // const url = `api/forum/post/loadPost`;
     axios.get(url, param)
         .then(resp => {
             callback(resp);
@@ -199,10 +199,14 @@ function addPost(param, callback) {
     // const url = `${dataServerUrl}/api/post/v1/searchGroup`;
     const url = `api/forum/post/addPost`;
     const params = {
-        param
+        title:param.title,
+        user:param.user,
+        sleep:param.sleep,
+        wake:param.wake,
+        content:param.content
     };
     console.log(param)
-    axios.get(url, {params})
+    axios.post(url, {params})
         .then(resp => {
             callback(resp);
         })
@@ -233,7 +237,6 @@ function addGroup(param, callback) {
             console.log(errResp);
         });
 }
-
 function listPostComment(param, callback) {
     /*
         param:
