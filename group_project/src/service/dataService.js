@@ -47,7 +47,7 @@ function askRoomData(param,callback){
     const params = {
         accountNum : param
     };
-    axios.get('/api/user/Room',{params})
+    axios.get('/api/user/info/api/user/Room',{params})
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -60,7 +60,7 @@ function askRoommateData(param,callback){
     const params = {
         accountNum : param
     };
-    axios.get('/api/user/roommate',{params})
+    axios.get('/api/user/info/api/user/roommate',{params})
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -201,6 +201,14 @@ function setEndTime2(endTime2,callback){
         })
 
 }
+
+function quit(accountNum) {
+    const params = {
+        accountNum : accountNum,
+    };
+    axios.post('/api/user/quit',{params})
+
+}
 export default {
     askUserInfo,
     updateUserInfo,
@@ -215,6 +223,7 @@ export default {
     setBeginTime1,
     setEndTime1,
     setBeginTime2,
-    setEndTime2
+    setEndTime2,
+    quit
 
 }

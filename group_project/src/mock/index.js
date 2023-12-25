@@ -2,15 +2,15 @@ import Mock from 'mockjs'
 
 
 
-Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
+Mock.mock(RegExp("http://127.0.0.1:8082/api/student/information/show/" + ".*"), 'get', function(config){
     //不同账号返回不同参数
     const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
     const accountNum = param.split('=')[1];
     console.log(accountNum);
-    if(accountNum === '12345678'){
+    if(accountNum === '1111'){
         return {
             data: {
-                username : "Student 1",
+                username : "杨一轩",
                 studentID: '12330849',
                 isTeacher: false,
                 level: "硕士",
@@ -18,26 +18,13 @@ Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
                     'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
                 restTime: "23:00 - 9:00",
                 hometown: "广东深圳",
-                description: "本科就读于南方科技大学，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
+                description: "本科就读于南方科技大学，喜欢看书听音乐，不吵闹", // 使用前端传入的account参数
+                gender:"男"
             }
         }}else if (accountNum === '12011429') {
         return {
             data: {
                 username : "Student 1",
-                studentID: '12330849',
-                isTeacher: false,
-                level: "博士",
-                circleUrl:
-                    'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-                restTime: "23:00 - 9:00",
-                hometown: "广东深圳",
-                description: "本科就读于清华，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
-            }
-        };
-    } else if (accountNum === '12121111') {
-        return {
-            data: {
-                username : "Teacher 1",
                 studentID: '12330849',
                 isTeacher: true,
                 level: "博士",
@@ -45,14 +32,30 @@ Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
                     'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
                 restTime: "23:00 - 9:00",
                 hometown: "广东深圳",
-                description: "本科就读于清华，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
+                description: "本科就读于清华，喜欢看书听音乐，不吵闹", // 使用前端传入的account参数
+                gender:"女"
+            }
+        };
+    } else if (accountNum === '2222') {
+        return {
+            data: {
+                username : "郑老师",
+                studentID: '12330849',
+                isTeacher: true,
+                level: "博士",
+                circleUrl:
+                    'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+                restTime: "23:00 - 9:00",
+                hometown: "广东深圳",
+                description: "本科就读于清华，喜欢看书听音乐，不吵闹", // 使用前端传入的account参数
+                gender:"男"
             }
         };
     }
 });
 
 
-Mock.mock(RegExp("/api/user/updateinfo" + ".*"), 'post', function(config){
+Mock.mock(RegExp("http://127.0.0.1:8082/api/student/information/modify/" + ".*"), 'post', function(config){
     console.log(config);
     return{
         message: "提交成功！"
@@ -61,7 +64,7 @@ Mock.mock(RegExp("/api/user/updateinfo" + ".*"), 'post', function(config){
 });
 
 
-Mock.mock(RegExp("/api/user/roommate" + ".*"), 'get', { data: [
+Mock.mock(RegExp("/api/user/info/api/user/roommate" + ".*"), 'get', { data: [
         { username: "杨一轩1", studentID: "12000000", restTime: "23:00 - 9:00"},
         { username: "杨一轩2", studentID: "12000000", restTime: "23:00 - 9:00"},
         { username: "杨一轩3", studentID: "12000000", restTime: "23:00 - 9:00"},
@@ -69,13 +72,13 @@ Mock.mock(RegExp("/api/user/roommate" + ".*"), 'get', { data: [
     ]
 });
 
-Mock.mock(RegExp("/api/user/Room" + ".*"), 'get', { data: [
+Mock.mock(RegExp("/api/user/info/api/user/Room" + ".*"), 'get', { data: [
         { area: "二期", building: "17栋", floor: "3楼", room: "304" },
         { area: "二期", building: "17栋", floor: "3楼", room: "304" },
         { area: "二期", building: "17栋", floor: "3楼", room: "304" }
     ]
 });
-Mock.mock(RegExp("api/login/v1/login" + ".*"), 'get', function(){
+Mock.mock(RegExp("http://127.0.0.1:8082/api/user/login/" + ".*"), 'get', function(){
     return {
         code: 0
     }
@@ -117,7 +120,7 @@ Mock.mock(RegExp("api/login/v1/login" + ".*"), 'get', function(){
 //         ]
 //     };
 // });
-Mock.mock(RegExp("api/main/v1/getBuildingInfo" + ".*"), 'get', function(options) {
+Mock.mock(RegExp("/api/user/info/api/main/v1/getBuildingInfo" + ".*"), 'get', function(options) {
     const id = options.url.split('=')[1];
     if (id === '1'){
         return {
@@ -152,7 +155,7 @@ Mock.mock(RegExp("api/main/v1/getBuildingInfo" + ".*"), 'get', function(options)
 //         ]
 //     };
 // });
-Mock.mock(RegExp("api/forum/group/loadGroup" + ".*"), 'get', function() {
+Mock.mock(RegExp("/api/forum/group/loadGroup" + ".*"), 'get', function() {
     console.log("进入了 loadGroup 拦截方法");
     return {
         code:0,
@@ -162,7 +165,7 @@ Mock.mock(RegExp("api/forum/group/loadGroup" + ".*"), 'get', function() {
         ]
     };
 });
-Mock.mock(RegExp("api/forum/post/listPostComment" + ".*"), 'get', function() {
+Mock.mock(RegExp("/api/user/info/api/forum/post/listPostComment" + ".*"), 'get', function() {
     console.log("进入了 loadGroup 拦截方法");
     return {
         code:0,
@@ -174,7 +177,7 @@ Mock.mock(RegExp("api/forum/post/listPostComment" + ".*"), 'get', function() {
         ]
     };
 });
-Mock.mock(RegExp("api/forum/group/listGroupComment" + ".*"), 'get', function() {
+Mock.mock(RegExp("/api/user/info/api/forum/group/listGroupComment" + ".*"), 'get', function() {
     console.log("进入了 loadGroup 拦截方法");
     return {
         code:0,
@@ -225,7 +228,7 @@ Mock.mock(RegExp("api/forum/group/listGroupComment" + ".*"), 'get', function() {
 //
 //     return responseData;
 // });
-Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options) {
+Mock.mock(RegExp("/api/user/info/api/forum/group/searchGroup" + ".*"), 'get', function(options) {
     // 从请求参数中获取groupID
     const groupID = options.url.split('=')[1];
     console.log(options.url)
@@ -268,7 +271,7 @@ Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options)
 
     return responseData;
 });
-Mock.mock(RegExp("api/forum/post/addPost" + ".*"), 'get', function(config){
+Mock.mock(RegExp("/api/user/info/api/forum/post/addPost" + ".*"), 'get', function(config){
     console.log(config);
     console.log("进入了 add 拦截方法");
     return{
@@ -485,6 +488,13 @@ Mock.mock(RegExp("/api/main/v1/chooseRoom" + ".*"), 'post', function(config) {
     return {
         code:0,
         msg:"添加成功！"
+    };
+});
+
+Mock.mock(RegExp("/api/user/quit" + ".*"), 'post', function(config) {
+    console.log(config);
+    return {
+        code:0,
     };
 });
 

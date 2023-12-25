@@ -19,6 +19,7 @@
                                                 <input v-else v-model="editedUserInfo.username">
                                                 <!-- <h2>{{ userInfo.username }}</h2> -->
                                                 <h3>{{ userInfo.studentID }}
+                                                    <el-tag size="small" style=" margin-right: 10px;">{{ userInfo.gender }}</el-tag>
                                                     <el-tag size="small">{{ userInfo.level }}</el-tag>
                                                 </h3>
                                             </el-col>
@@ -76,6 +77,7 @@
                             <template #header>
                                 <div class="card-header">
                                     <span>我的组队</span>
+                                    <el-button size="small" @click="quit">退出（解散）队伍</el-button>
                                     <!-- <el-button class="button" text>Operation button</el-button> -->
                                 </div>
                             </template>
@@ -233,6 +235,9 @@ export default {
             setTimeout(() => {
                 this.showMsg = false;
             }, 3000); // 3秒后自动消失
+        },
+        quit(){
+            this.$store.dispatch("DataProcess/quit")
         }
     }
 

@@ -90,7 +90,7 @@ export default {
             this.$store.dispatch("DataProcess/setBeginTime1",this.begin1);
         },
         endDate1() {
-            
+            console.log(this.end1);
             this.$store.dispatch("DataProcess/setEndTime1",this.end1);
 
         },

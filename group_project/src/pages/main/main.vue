@@ -44,7 +44,7 @@
           <el-input v-model="inputComment" placeholder="Please input" v-if="!isReplyingComment" />
           <el-input v-model="inputComment" :placeholder=replyPlaceholder v-if="isReplyingComment" />
           <el-button type="primary" @click.prevent="addCommentOrReply">Comment</el-button>
-          <el-button type="primary" @click.prevent="choose">choose</el-button>
+          <el-button type="primary" :disabled="!isTimeInRange" @click.prevent="choose">choose</el-button>
         </el-dialog>
       </div>
       <div>
@@ -65,8 +65,8 @@
 
 <script>
 
-import { ref } from "vue";
-import { mapState } from "vuex";
+import { ref ,computed} from "vue";
+import { mapState,useStore } from "vuex";
 import MapComponent from './MapComponent.vue';
 
 
@@ -103,9 +103,34 @@ export default {
       currentCommentID: null,
       currentRepliedUser: null,
       replyPlaceholder: null,
+     
+    };
+  },
+  setup() {
+    // const beginTime = new Date('2023-12-25 08:00:00');
+    // const endTime = new Date('2023-12-25 17:00:00');
+
+    const store = useStore();
+
+    const currentTime = ref(new Date());
+
+    const isTimeInRange = computed(() => {
+      const begin1 =  new Date(store.state.DataProcess.beginTime1);
+      const end1 =  new Date(store.state.DataProcess.endTime1);
+      console.log(begin1)
+      console.log(currentTime)
+      return currentTime.value >=begin1 && currentTime.value <= end1;
+    });
+
+    return {
+      isTimeInRange
     };
   },
   mounted() {
+    // const currentTime = ref(new Date());
+    // this.isTimeInRange = computed(() => {
+    //   return currentTime.value >= this.beginTime1 && currentTime.value <= this.endTime1;
+    // });
     // if(localStorage.getItem("news")){
     //     this.form=JSON.parse(localStorage.getItem("news"))
     //     this.checked=true
@@ -134,7 +159,7 @@ export default {
       this.$store.dispatch("main/loadRoomInfo")
       this.$store.dispatch("main/listComment")
       console.log(this.roomInfo);
-      console.log(this.commentLine)
+      console.log(this.beginTime1)
     },
     addCommentOrReply() {
       if (this.inputComment.trim() !== "") {
@@ -196,6 +221,10 @@ export default {
       // inputUser: state => state.inputUser
     }),
     ...mapState('DataProcess', {
+      beginTime1 : state => state.beginTime1,
+      beginTime2 : state => state.beginTime2,
+      endTime1 : state => state.endTime1,
+      endTime2 : state => state.endTime2,
       userID: state => state.userInfo.studentID
     }),
     area_selected() {
