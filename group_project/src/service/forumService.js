@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {time} from "mockjs/src/mock/random/date";
 
 const dataServerUrl = 'http://127.0.0.1:8082';
 
@@ -75,15 +76,15 @@ function searchPostByWake(time, callback) {
             console.log(errResp);
         });
 }
-function searchPostBySleep(startTime,endTime, callback) {
+function searchPostBySleep(time, callback) {
     /*
         param: startTime,endTime
     */
     // const url = `${dataServerUrl}/api/post/v1/searchPost`;
     const url = `${dataServerUrl}/api/forum/post/searchPostBySleep`;
     const params = {
-        startTime: startTime,
-        endTime: endTime
+        startTime: time.startTime,
+        endTime: time.endTime
     };
     console.log(params)
     axios.post(url, params)
