@@ -159,7 +159,7 @@ const mutations = {
         state.roomInfo = data
         state.comments = null
     }
-    
+
 }
 
 

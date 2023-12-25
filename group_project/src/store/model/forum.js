@@ -18,6 +18,7 @@ const state = () => ({
         user: null,
         sleep: null,
         wake: null,
+        tags:null,
         content: null,
     },
     newGroupInfo: {
@@ -26,6 +27,7 @@ const state = () => ({
         members: "",
         sleep: "",
         wake: "",
+        tags:null,
         content: "",
     },
     groupInfo: {
@@ -148,8 +150,8 @@ const actions = {
             }
         })
     },
-    joinGroup(context,id) {
-        forumService.joinGroup(id, resp => {
+    joinGroup(context,id,studentID) {
+        forumService.joinGroup(id, studentID,resp => {
             if (resp.data.code === 0) {
                 context.commit("joinGroup", true)
                 console.log(context.state.joinGroupValid)
