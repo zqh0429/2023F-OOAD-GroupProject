@@ -340,10 +340,12 @@ export default {
       this.newGroupInfo.sleep = this.editedGroupInfo.sleep
       this.newGroupInfo.content = this.editedGroupInfo.content
       this.newGroupInfo.members = this.editedGroupInfo.members
+      this.newGroupInfo.tags = this.editedGroupInfo.tags
       this.newGroupInfo.groupName = this.editedGroupInfo.groupName
       this.editedGroupInfo.wake = null
       this.editedGroupInfo.groupName = null
       this.editedGroupInfo.content = null
+        this.editedPostInfo.tags = null
       this.editedGroupInfo.leader = null
       this.editedGroupInfo.members = null
       this.editedGroupInfo.sleep = null
@@ -358,12 +360,14 @@ export default {
       this.newPostInfo.user = this.userInfo.studentID
       this.newPostInfo.wake = this.editedPostInfo.wake
       this.newPostInfo.sleep = this.editedPostInfo.sleep
+        this.newPostInfo.tags = this.editedPostInfo.tags
       this.newPostInfo.content = this.editedPostInfo.content
       this.editedPostInfo.title = null
       this.editedPostInfo.user = null
       this.editedPostInfo.wake = null
       this.editedPostInfo.sleep = null
       this.editedPostInfo.content = null
+        this.editedPostInfo.tags = null
       this.dialogVisible = false
       this.$store.dispatch("forum/addPost")
     },
