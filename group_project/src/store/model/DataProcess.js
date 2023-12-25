@@ -13,7 +13,8 @@ const state = () => ({
         circleUrl: '',
         restTime: "",
         hometown: "",
-        description: ""
+        description: "",
+        gender : ""
     },
 
 
@@ -27,8 +28,8 @@ const state = () => ({
 
     memberData: [],
 
-    beginTime1 : "",
-    endTime1 : "",
+    beginTime1 : "2023-12-26 00:00:00",
+    endTime1 : "2023-12-29 00:00:00",
     beginTime2 : "",
     endTime2 : ""
 
@@ -128,28 +129,35 @@ const actions = {
     setBeginTime1(context,param) {
         context.commit("setBegin1",param)
 
-        dataService.setBeginTime1(context.state.beginTime1,resp => {
-            console.log(resp.data)
-        })
+        // dataService.setBeginTime1(context.state.beginTime1,resp => {
+        //     console.log(resp.data)
+        // })
     },
     setEndTime1(context,param) {
         context.commit("setEnd1",param)
-        dataService.setEndTime1(context.state.endTime1,resp => {
-            console.log(resp.data)
-        })
+        // dataService.setEndTime1(context.state.endTime1,resp => {
+        //     console.log(resp.data)
+        // })
     },
     setBeginTime2(context,param) {
         context.commit("setBegin2",param)
 
-        dataService.setBeginTime2(context.state.beginTime2,resp => {
-            console.log(resp.data)
-        })
+        // dataService.setBeginTime2(context.state.beginTime2,resp => {
+        //     console.log(resp.data)
+        // })
     },
     setEndTime2(context,param) {
         context.commit("setEnd2",param)
-        dataService.setEndTime2(context.state.endTime2,resp => {
-            console.log(resp.data)
-        })
+        // dataService.setEndTime2(context.state.endTime2,resp => {
+        //     console.log(resp.data)
+        // })
+    },
+
+    quit(context){
+        dataService.quit(context.state.accountNum) 
+        context.commit("quit") 
+        
+        
     }
 
 
@@ -203,6 +211,10 @@ const mutations = {
     },
     setEnd2(state,data){
         state.endTime2=data
+    },
+    quit(state){
+        const data = []
+        state.roommateData = data
     }
 }
 

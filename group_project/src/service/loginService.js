@@ -7,6 +7,7 @@ function loginCheck(param, callback) {
         param: username, password
     */
     const url = `${dataServerUrl}/api/user/login/`;
+    console.log(url)
     // const url = `api/user/login/`;
     const params = {
         userId: param.accountNum,
