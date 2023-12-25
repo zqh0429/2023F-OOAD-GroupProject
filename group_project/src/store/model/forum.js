@@ -118,8 +118,8 @@ const actions = {
             }
         })
     },
-    searchGroupByWake(context,startTime,endTime) {
-        forumService.searchGroupByWake(startTime,endTime, resp => {
+    searchGroupByWake(context,time) {
+        forumService.searchGroupByWake(time, resp => {
             if (resp.data.code === 0) {
                 context.commit("loadGroupOverviewData", resp.data.data)
             } else {
@@ -127,8 +127,8 @@ const actions = {
             }
         })
     },
-    searchGroupBySleep(context,startTime,endTime) {
-        forumService.searchGroupBySleep(startTime,endTime, resp => {
+    searchGroupBySleep(context,time) {
+        forumService.searchGroupBySleep(time, resp => {
             if (resp.data.code === 0) {
                 context.commit("loadGroupOverviewData", resp.data.data)
             } else {

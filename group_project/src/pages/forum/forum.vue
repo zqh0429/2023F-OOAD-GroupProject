@@ -18,9 +18,9 @@
                                         />
                                     </el-select>
                                     <div class="demo-time-range" v-if="searchBy === 'WakeUp' || searchBy === 'Sleep'">
-                                        <el-time-select v-model="startTime" :max-time="endTime" class="mr-4"
+                                        <el-time-select v-model="startTime"  class="mr-4"
                                                         placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
-                                        <el-time-select v-model="endTime" :min-time="startTime" placeholder="End time"
+                                        <el-time-select v-model="endTime" placeholder="End time"
                                                         start="00:00" step="00:15" end="24:00"/>
                                     </div>
                                     <el-select-v2
@@ -95,9 +95,9 @@
                                 >
                                     <el-descriptions-item label="User">{{ userInfo.username }}</el-descriptions-item>
                                     <el-descriptions-item label="Rest Time">
-                                        <el-time-select v-model="editedPostInfo.wake" :max-time="editedPostInfo.sleep" class="mr-4"
+                                        <el-time-select v-model="editedPostInfo.wake" class="mr-4"
                                                         placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
-                                        <el-time-select v-model="editedPostInfo.sleep" :min-time="editedPostInfo.wake" placeholder="End time"
+                                        <el-time-select v-model="editedPostInfo.sleep" placeholder="End time"
                                                         start="00:00" step="00:15" end="24:00"/>
                                     </el-descriptions-item>
                                     <el-descriptions-item label="Tags">
@@ -125,9 +125,9 @@
                                         />
                                     </el-select>
                                     <div class="demo-time-range" v-if="searchBy === 'WakeUp' || searchBy === 'Sleep'">
-                                        <el-time-select v-model="startTime" :max-time="endTime" class="mr-4"
+                                        <el-time-select v-model="startTime"  class="mr-4"
                                             placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
-                                        <el-time-select v-model="endTime" :min-time="startTime" placeholder="End time"
+                                        <el-time-select v-model="endTime" placeholder="End time"
                                             start="00:00" step="00:15" end="24:00"/>
                                     </div>
                                     <el-select-v2
@@ -207,9 +207,9 @@
                                         <el-descriptions-item label="Leader">{{userInfo.username}}</el-descriptions-item>
                                         <el-descriptions-item label="Members"></el-descriptions-item>
                                         <el-descriptions-item label="Rest Time">
-                                            <el-time-select v-model="editedGroupInfo.wake" :max-time="editedGroupInfo.sleep" class="mr-4"
+                                            <el-time-select v-model="editedGroupInfo.wake" class="mr-4"
                                                             placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
-                                            <el-time-select v-model="editedGroupInfo.sleep" :min-time="editedGroupInfo.wake" placeholder="End time"
+                                            <el-time-select v-model="editedGroupInfo.sleep" placeholder="End time"
                                                             start="00:00" step="00:15" end="24:00"/>
                                         </el-descriptions-item>
                                         <el-descriptions-item label="Tags">
@@ -327,9 +327,11 @@ export default {
                 console.log(this.tagValue)
                 this.$store.dispatch("forum/searchGroupByTag",this.tagValue)
             }else if (this.searchBy === 'WakeUp'){
-                this.$store.dispatch("forum/searchGroupByWake",this.startTime,this.endTime)
+                const time = {startTime: this.startTime, endTime: this.endTime}
+                this.$store.dispatch("forum/searchGroupByWake",time)
             }else if (this.searchBy === 'Sleep'){
-                this.$store.dispatch("forum/searchGroupBySleep",this.startTime,this.endTime)
+                const time = {startTime: this.startTime, endTime: this.endTime}
+                this.$store.dispatch("forum/searchGroupBySleep",time)
             }
         },
         joinGroup(){
