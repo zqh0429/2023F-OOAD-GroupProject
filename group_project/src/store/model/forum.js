@@ -18,6 +18,7 @@ const state = () => ({
         user: null,
         sleep: null,
         wake: null,
+        tags:null,
         content: null,
     },
     newGroupInfo: {
@@ -26,6 +27,7 @@ const state = () => ({
         members: "",
         sleep: "",
         wake: "",
+        tags:null,
         content: "",
     },
     groupInfo: {
