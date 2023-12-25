@@ -24,10 +24,10 @@ function searchGroup(param, callback) {
     /*
         param: groupID
     */
-    // const url = `${dataServerUrl}/api/post/v1/searchGroup`;
-    const url = `api/forum/group/searchGroup`;
+    const url = `${dataServerUrl}/api/team/show`;
+    // const url = `api/forum/group/searchGroup`;
     const params = {
-        param
+        team_id: param
     };
     console.log(param)
     axios.get(url, {params})
@@ -167,8 +167,8 @@ function loadGroup(param, callback) {
         param:
     */
     // const url = `${dataServerUrl}/api/forum/group/loadGroup`;
-    const url = `api/forum/group/loadGroup`;
-    axios.get(url, param)
+    const url = `${dataServerUrl}/api/team/load`;
+    axios.get(url)
         .then(resp => {
             callback(resp);
         })
@@ -227,12 +227,17 @@ function addGroup(param, callback) {
         content: "",
     */
     // const url = `${dataServerUrl}/api/post/v1/searchGroup`;
-    const url = `api/forum/group/addGroup`;
+    const url = `${dataServerUrl}/api/team/create`;
     const params = {
-        param
+        creatorId: param.leader,
+        team_name: param.groupName,
+        team_description: param.content,
+        sleep_time: param.sleep,
+        wake_time: param.wake,
+        team_tags: param.tags
     };
     console.log(param)
-    axios.get(url, {params})
+    axios.post(url, params)
         .then(resp => {
             callback(resp);
         })
