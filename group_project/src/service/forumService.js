@@ -98,13 +98,13 @@ function searchGroupByTag(param, callback) {
     /*
         param: tagValue (array)
     */
-    // const url = `${dataServerUrl}/api/Group/v1/searchGroup`;
-    const url = `api/forum/group/searchGroupByTag`;
+    const url = `${dataServerUrl}/api/team/searchByTag`;
+    // const url = `api/forum/group/searchGroupByTag`;
     const params = {
-        param
+        team_tags: param
     };
     console.log(param)
-    axios.get(url, {params})
+    axios.post(url, params)
         .then(resp => {
             callback(resp);
         })

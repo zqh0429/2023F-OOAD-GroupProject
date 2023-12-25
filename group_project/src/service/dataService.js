@@ -22,7 +22,7 @@ function updateUserInfo(param,information,callback){  //更新修改后的个人
     const params = {
         studentId: param,
         studentName: information.username,
-        gender: null,
+        gender: information.gender,
         degree: information.level,
         major: null,
         undergraduateSchool: null,
