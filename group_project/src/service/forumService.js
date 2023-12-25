@@ -176,7 +176,7 @@ function loadGroup(param, callback) {
 }
 function joinGroup(param, callback) {
     /*
-        param: groupID
+        param: groupID,studentID
     */
     // const url = `${dataServerUrl}/api/post/v1/searchGroup`;
     const url = `api/forum/group/searchGroup`;

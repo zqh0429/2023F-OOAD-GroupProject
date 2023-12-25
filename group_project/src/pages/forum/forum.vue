@@ -329,7 +329,7 @@ export default {
       }
     },
     joinGroup(){
-      this.$store.dispatch("forum/joinGroup",this.groupID)
+      this.$store.dispatch("forum/joinGroup",this.groupID,this.userInfo.studentID)
     },
     openDialog(){
       this.dialogVisible = true;
