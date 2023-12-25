@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {time} from "mockjs/src/mock/random/date";
 
 const dataServerUrl = 'http://127.0.0.1:8082';
 
