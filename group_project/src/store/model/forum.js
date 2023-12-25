@@ -44,7 +44,7 @@ const state = () => ({
     commentLine: {
         id:null,
         user:null,
-        comment:null,
+        content:null,
         replies:[]
     },
     replyLine: {
@@ -64,6 +64,8 @@ const actions = {
         forumService.searchPost(id, resp => {
             if (resp.data.code === 0) {
                 context.commit("searchPost", resp.data.data)
+                console.log(resp.data.data)
+                context.dispatch("listPostComment")
             } else {
                 context.state.errorMsg = resp.data.msg
             }
@@ -87,8 +89,10 @@ const actions = {
             }
         })
     },
-    searchPostByWake(context,startTime,endTime) {
-        forumService.searchPostByWake(startTime,endTime, resp => {
+    searchPostByWake(context,time) {
+        console.log(time)
+        forumService.searchPostByWake(time, resp => {
+
             if (resp.data.code === 0) {
                 context.commit("loadPostOverviewData", resp.data.data)
             } else {
@@ -96,8 +100,8 @@ const actions = {
             }
         })
     },
-    searchPostBySleep(context,startTime,endTime) {
-        forumService.searchPostBySleep(startTime,endTime, resp => {
+    searchPostBySleep(context,time) {
+        forumService.searchPostBySleep(time, resp => {
             if (resp.data.code === 0) {
                 context.commit("loadPostOverviewData", resp.data.data)
             } else {
@@ -205,32 +209,42 @@ const actions = {
         )
     },
     addPostComment(context) {
-        forumService.addPostComment(context.state.commentLine,context.state.postInfo.id, resp => {
+        forumService.addPostComment(context.state.commentLine, resp => {
             console.log("add record", resp)
             if (resp.data.code === 0) {
-                context.commit("addComment", context.state.commentLine)
-                // context.dispatch("listPostComment")
+                // context.commit("addComment", context.state.commentLine)
+                context.dispatch("listPostComment")
             } else {
                 context.state.errorMsg = resp.data.msg
             }
         })
     },
     addGroupComment(context) {
-        forumService.addGroupComment(context.state.commentLine,context.state.groupInfo.id, resp => {
+        forumService.addGroupComment(context.state.commentLine, resp => {
             console.log("add record", resp)
             if (resp.data.code === 0) {
-                context.commit("addComment", context.state.commentLine)
-                // context.dispatch("listGroupComment")
+                // context.commit("addComment", context.state.commentLine)
+                context.dispatch("listGroupComment")
             } else {
                 context.state.errorMsg = resp.data.msg
             }
         })
     },
-    addReply(context) {
-        forumService.addReply(context.state.replyLine, resp => {
+    addPostReply(context) {
+        forumService.addPostReply(context.state.replyLine, resp => {
             console.log("add record", resp)
             if (resp.data.code === 0) {
-                context.dispatch("listComment")
+                context.dispatch("listPostComment")
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    addGroupReply(context) {
+        forumService.addGroupReply(context.state.replyLine, resp => {
+            console.log("add record", resp)
+            if (resp.data.code === 0) {
+                context.dispatch("listGroupComment")
             } else {
                 context.state.errorMsg = resp.data.msg
             }

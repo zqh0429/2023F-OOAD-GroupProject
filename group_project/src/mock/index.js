@@ -162,18 +162,18 @@ Mock.mock(RegExp("api/forum/group/loadGroup" + ".*"), 'get', function() {
         ]
     };
 });
-Mock.mock(RegExp("api/forum/post/listPostComment" + ".*"), 'get', function() {
-    console.log("进入了 loadGroup 拦截方法");
-    return {
-        code:0,
-        data: [
-            { id: 3, user: "Student1", comment: "post",
-                replies:[{user:"Student 3", repliedUser:"Student 1",content: "aaa"},
-                    {user:"Student 4", repliedUser:"Student 3" ,content: "bbb"}]},
-            { id: 4, user: "Student2", comment: "22222"},
-        ]
-    };
-});
+// Mock.mock(RegExp("api/forum/post/listPostComment" + ".*"), 'get', function() {
+//     console.log("进入了 loadGroup 拦截方法");
+//     return {
+//         code:0,
+//         data: [
+//             { id: 3, user: "Student1", comment: "post",
+//                 replies:[{user:"Student 3", repliedUser:"Student 1",content: "aaa"},
+//                     {user:"Student 4", repliedUser:"Student 3" ,content: "bbb"}]},
+//             { id: 4, user: "Student2", comment: "22222"},
+//         ]
+//     };
+// });
 Mock.mock(RegExp("api/forum/group/listGroupComment" + ".*"), 'get', function() {
     console.log("进入了 loadGroup 拦截方法");
     return {
@@ -268,13 +268,13 @@ Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options)
 
     return responseData;
 });
-Mock.mock(RegExp("api/forum/post/addPost" + ".*"), 'get', function(config){
-    console.log(config);
-    console.log("进入了 add 拦截方法");
-    return{
-        code: 0
-    }
-});
+// Mock.mock(RegExp("api/forum/post/addPost" + ".*"), 'get', function(config){
+//     console.log(config);
+//     console.log("进入了 add 拦截方法");
+//     return{
+//         code: 0
+//     }
+// });
 Mock.mock(RegExp("api/forum/group/addGroup" + ".*"), 'get', function(config){
     console.log(config);
     console.log("进入了 add 拦截方法");

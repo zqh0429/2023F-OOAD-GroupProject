@@ -65,7 +65,7 @@
                                             <el-descriptions-item label="Comments">
                                                 <el-collapse accordion>
                                                     <el-collapse-item v-for="(comment, index) in comments" :key="index"
-                                                                      :title="comment.user+': '+comment.comment" :name="index.toString()"
+                                                                      :title="comment.user+': '+comment.content" :name="index.toString()"
                                                                       @click=replyComment(comment)>
                                                         <div v-if="comment.replies && comment.replies.length > 0" >
                                                             <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user">
@@ -174,7 +174,7 @@
                                             <el-descriptions-item label="Comments">
                                                 <el-collapse accordion v-model="isReplyingComment">
                                                     <el-collapse-item v-for="(comment, index) in comments" :key="index"
-                                                                      :title="comment.user+': '+comment.comment" :name="index.toString()"
+                                                                      :title="comment.user+': '+comment.content" :name="index.toString()"
                                                                       @click=replyComment(comment)>
                                                         <div v-if="comment.replies && comment.replies.length > 0" >
                                                             <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user"
@@ -301,7 +301,7 @@ export default {
         searchPost(selection){
             this.postID = selection.id
             this.$store.dispatch("forum/searchPost",selection.id)
-            this.$store.dispatch("forum/listPostComment")
+
         },
         searchGroup(selection){
             this.groupID = selection.id
@@ -313,9 +313,13 @@ export default {
                 console.log(this.tagValue)
                 this.$store.dispatch("forum/searchPostByTag",this.tagValue)
             }else if (this.searchBy === 'WakeUp'){
-                this.$store.dispatch("forum/searchPostByWake",this.startTime,this.endTime)
+              console.log(this.startTime+" "+this.endTime)
+              const time = {startTime: this.startTime, endTime: this.endTime}
+                this.$store.dispatch("forum/searchPostByWake",time)
+
             }else if (this.searchBy === 'Sleep'){
-                this.$store.dispatch("forum/searchPostBySleep",this.startTime,this.endTime)
+              const time = {startTime: this.startTime, endTime: this.endTime}
+                this.$store.dispatch("forum/searchPostBySleep",time)
             }
         },
         searchGroupByOption(){
@@ -341,12 +345,14 @@ export default {
             this.newGroupInfo.content = this.editedGroupInfo.content
             this.newGroupInfo.members = this.editedGroupInfo.members
             this.newGroupInfo.groupName = this.editedGroupInfo.groupName
+          this.newGroupInfo.tags = this.editedGroupInfo.tags
             this.editedGroupInfo.wake = null
             this.editedGroupInfo.groupName = null
             this.editedGroupInfo.content = null
             this.editedGroupInfo.leader = null
             this.editedGroupInfo.members = null
             this.editedGroupInfo.sleep = null
+          this.editedGroupInfo.tags = null
             this.dialogVisibleGroup = false
             this.$store.dispatch("forum/addGroup")
         },
@@ -359,11 +365,13 @@ export default {
             this.newPostInfo.wake = this.editedPostInfo.wake
             this.newPostInfo.sleep = this.editedPostInfo.sleep
             this.newPostInfo.content = this.editedPostInfo.content
+          this.newPostInfo.tags = this.editedPostInfo.tags
             this.editedPostInfo.title = null
             this.editedPostInfo.user = null
             this.editedPostInfo.wake = null
             this.editedPostInfo.sleep = null
             this.editedPostInfo.content = null
+          this.editedPostInfo.tags = null
             this.dialogVisible = false
             this.$store.dispatch("forum/addPost")
         },
@@ -372,7 +380,7 @@ export default {
                 if (!this.isReplyingComment){
                     this.commentLine.id = this.groupID
                     this.commentLine.user = this.userInfo.studentID
-                    this.commentLine.comment = this.inputComment
+                    this.commentLine.content = this.inputComment
                     console.log(this.commentLine);
                     this.$store.dispatch("forum/addGroupComment")
                 }else {
@@ -381,7 +389,7 @@ export default {
                     this.replyLine.repliedUser = this.currentRepliedUser
                     this.replyLine.reply = this.inputComment
                     console.log(this.replyLine);
-                    this.$store.dispatch("forum/addReply")
+                    this.$store.dispatch("forum/addGroupReply")
                 }
 
             }else {
@@ -393,7 +401,7 @@ export default {
                 if (!this.isReplyingComment){
                     this.commentLine.id = this.postID
                     this.commentLine.user = this.userInfo.studentID
-                    this.commentLine.comment = this.inputComment
+                    this.commentLine.content = this.inputComment
                     console.log(this.commentLine);
                     this.$store.dispatch("forum/addPostComment")
                 }else {
@@ -402,7 +410,7 @@ export default {
                     this.replyLine.repliedUser = this.currentRepliedUser
                     this.replyLine.reply = this.inputComment
                     console.log(this.replyLine);
-                    this.$store.dispatch("forum/addReply")
+                    this.$store.dispatch("forum/addPostReply")
                 }
 
             }else {
@@ -410,8 +418,8 @@ export default {
             }
         },
         replyComment(comment){
-            // this.isReplyingComment = true
-            this.currentRepliedUser = comment.user
+          this.isReplyingComment = !this.isReplyingComment
+          this.currentRepliedUser = comment.user
             this.currentCommentID = comment.id
             this.replyPlaceholder = "RE @"+this.currentRepliedUser
         },

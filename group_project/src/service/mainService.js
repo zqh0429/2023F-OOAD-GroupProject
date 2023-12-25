@@ -99,10 +99,13 @@ function addReply(param, callback) {
     */
     // const url = `${dataServerUrl}/api/main/v1/addComment`
     const params = {
-        param
+        id:param.commentID,
+        user:param.user,
+        repliedUser:param.repliedUser,
+        content:param.reply
     };
-    const url = `api/main/v1/addReply`
-    axios.post(url, {params})
+    const url = `${dataServerUrl}/api/main/v1/addReply`
+    axios.post(url, params)
         .then(resp => {
             callback(resp)
         }, errResp => {

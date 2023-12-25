@@ -56,17 +56,18 @@ function searchPostByTag(param, callback) {
             console.log(errResp);
         });
 }
-function searchPostByWake(param, callback) {
+function searchPostByWake(time, callback) {
     /*
         param: startTime,endTime
     */
     // const url = `${dataServerUrl}/api/post/v1/searchPost`;
-    const url = `api/forum/post/searchPostByWake`;
+    const url = `${dataServerUrl}/api/forum/post/searchPostByWake`;
     const params = {
-        param
+        startTime: time.startTime,
+        endTime: time.endTime
     };
-    console.log(param)
-    axios.get(url, {params})
+    console.log(params)
+    axios.post(url, params)
         .then(resp => {
             callback(resp);
         })
@@ -74,17 +75,18 @@ function searchPostByWake(param, callback) {
             console.log(errResp);
         });
 }
-function searchPostBySleep(param, callback) {
+function searchPostBySleep(startTime,endTime, callback) {
     /*
         param: startTime,endTime
     */
     // const url = `${dataServerUrl}/api/post/v1/searchPost`;
-    const url = `api/forum/post/searchPostBySleep`;
+    const url = `${dataServerUrl}/api/forum/post/searchPostBySleep`;
     const params = {
-        param
+        startTime: startTime,
+        endTime: endTime
     };
-    console.log(param)
-    axios.get(url, {params})
+    console.log(params)
+    axios.post(url, params)
         .then(resp => {
             callback(resp);
         })
@@ -203,7 +205,8 @@ function addPost(param, callback) {
         user:param.user,
         sleep:param.sleep,
         wake:param.wake,
-        content:param.content
+        content:param.content,
+        tags:param.tags
     };
     console.log(param)
     axios.post(url, params)
@@ -242,8 +245,13 @@ function listPostComment(param, callback) {
         param:
     */
     // const url = `${dataServerUrl}/api/forum/post/loadPost`;
-    const url = `api/forum/post/listPostComment`;
-    axios.get(url, param)
+    const url = `${dataServerUrl}/api/forum/post/listPostComment`;
+    console.log(param)
+    const params = {
+        postid:param
+    };
+    console.log(params)
+    axios.get(url, {params})
         .then(resp => {
             callback(resp);
         })
@@ -256,8 +264,11 @@ function listGroupComment(param, callback) {
         param:
     */
     // const url = `${dataServerUrl}/api/forum/group/loadGroup`;
-    const url = `api/forum/group/listGroupComment`;
-    axios.get(url, param)
+    const url = `${dataServerUrl}/api/forum/group/listGroupComment`;
+    const params = {
+        param
+    };
+    axios.get(url, {params})
         .then(resp => {
             callback(resp);
         })
@@ -265,39 +276,43 @@ function listGroupComment(param, callback) {
             console.log(errResp);
         });
 }
-function addPostComment(param, postID, callback) {
+function addPostComment(param, callback) {
     /*
     param: username, comment, id
     */
     // const url = `${dataServerUrl}/api/main/v1/addComment`
     const params = {
-        param,postID
+        content:param.content,
+        user:param.user,
+        reply_post:param.id
     };
-    const url = `api/forum/Post/addPostComment`
-    axios.post(url, {params})
+    const url = `${dataServerUrl}/api/forum/post/addPostComment`
+    axios.post(url, params)
         .then(resp => {
             callback(resp)
         }, errResp => {
             console.log(errResp)
         })
 }
-function addGroupComment(param, groupID, callback) {
+function addGroupComment(param, callback) {
     /*
     param: username, comment, id
     */
     // const url = `${dataServerUrl}/api/main/v1/addComment`
     const params = {
-        param,groupID
+        content:param.content,
+        user:param.user,
+        reply_post:param.id
     };
     const url = `api/forum/group/addGroupComment`
-    axios.post(url, {params})
+    axios.post(url, params)
         .then(resp => {
             callback(resp)
         }, errResp => {
             console.log(errResp)
         })
 }
-function addReply(param, callback) {
+function addPostReply(param, callback) {
     /*
     param:
     replyLine: {
@@ -309,10 +324,40 @@ function addReply(param, callback) {
     */
     // const url = `${dataServerUrl}/api/main/v1/addComment`
     const params = {
-        param
+        id:param.commentID,
+        user:param.user,
+        repliedUser:param.repliedUser,
+        content:param.reply
+
     };
-    const url = `api/main/v1/addReply`
-    axios.post(url, {params})
+    const url = `${dataServerUrl}/api/forum/post/addReply`
+    axios.post(url, params)
+        .then(resp => {
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+function addGroupReply(param, callback) {
+    /*
+    param:
+    replyLine: {
+        commentID:null,
+        user:null,
+        repliedUser:null,
+        reply:null,
+    },
+    */
+    // const url = `${dataServerUrl}/api/main/v1/addComment`
+    const params = {
+        id:param.commentID,
+        user:param.user,
+        repliedUser:param.repliedUser,
+        content:param.reply
+
+    };
+    const url = `${dataServerUrl}/api/forum/post/addReply`
+    axios.post(url, params)
         .then(resp => {
             callback(resp)
         }, errResp => {
@@ -337,5 +382,6 @@ export default {
     listGroupComment,
     addPostComment,
     addGroupComment,
-    addReply
+    addPostReply,
+    addGroupReply
 };
