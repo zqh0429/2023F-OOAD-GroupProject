@@ -251,11 +251,13 @@ function listPostComment(param, callback) {
     */
     // const url = `${dataServerUrl}/api/forum/post/loadPost`;
     const url = `${dataServerUrl}/api/forum/post/listPostComment`;
+
     console.log(param)
     const params = {
         postid:param
     };
     console.log(params)
+
     axios.get(url, {params})
         .then(resp => {
             callback(resp);
@@ -289,8 +291,10 @@ function addPostComment(param, callback) {
     const params = {
         content:param.content,
         user:param.user,
+
         reply_post:param.id
     };
+
     const url = `${dataServerUrl}/api/forum/post/addPostComment`
     axios.post(url, params)
         .then(resp => {
@@ -305,9 +309,11 @@ function addGroupComment(param, callback) {
     */
     // const url = `${dataServerUrl}/api/main/v1/addComment`
     const params = {
-        content:param.content,
+
+        content:param.comment,
         user:param.user,
-        reply_post:param.id
+        reply_group: param.id
+
     };
     const url = `api/forum/group/addGroupComment`
     axios.post(url, params)
@@ -336,6 +342,7 @@ function addPostReply(param, callback) {
 
     };
     const url = `${dataServerUrl}/api/forum/post/addReply`
+
     axios.post(url, params)
         .then(resp => {
             callback(resp)

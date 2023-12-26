@@ -99,7 +99,9 @@ function addReply(param, callback) {
     */
     // const url = `${dataServerUrl}/api/main/v1/addComment`
     const params = {
-        id:param.commentID,
+
+        reply_comment:param.commentID,
+
         user:param.user,
         repliedUser:param.repliedUser,
         content:param.reply
