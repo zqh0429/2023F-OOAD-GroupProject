@@ -98,9 +98,10 @@ function askRoomData(param,callback){
 
 function askRoommateData(param,callback){
     const params = {
-        accountNum : param
+        student_id: param
     };
-    axios.get('/api/user/roommate',{params})
+    const url = `${dataServerUrl}/api/team/loadTeammate`;
+    axios.get(url,{params})
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -232,9 +233,10 @@ function setEndTime2(endTime2,callback){
 
 function quit(accountNum) {
     const params = {
-        accountNum : accountNum,
+        student_id : accountNum,
     };
-    axios.post('/api/user/quit',{params})
+    const url = `${dataServerUrl}/api/team/quit`;
+    axios.get(url,{params})
 
 }
 export default {
