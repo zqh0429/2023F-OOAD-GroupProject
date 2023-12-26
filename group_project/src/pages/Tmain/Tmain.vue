@@ -26,20 +26,20 @@
             <div>
                 <el-dialog v-model="dialogVisible" title="Room Information" @opened="handleDialogOpened">
                     <el-descriptions direction="vertical" :column="4" border>
-                        <el-descriptions-item v-if="!isEditing" label="Area">{{ roomInfo.area }}</el-descriptions-item>
-                        <el-descriptions-item v-else label="Area"><el-select v-model="area" class="m-2" placeholder="Area"
+                        <el-descriptions-item v-if="!isEditing" label="Area">{{ roomInfo.room_region  }}</el-descriptions-item>
+                        <el-descriptions-item v-else label="Area"><el-select v-model="region" class="m-2" placeholder="Area"
                                 @change="select_building()">
                                 <el-option v-for="item in options_area" :key="item.value" :label="item.label"
                                     :value="item.value" /></el-select></el-descriptions-item>
 
-                        <el-descriptions-item v-if="!isEditing" label="Location">{{ roomInfo.building }}-{{ roomInfo.room
+                        <el-descriptions-item v-if="!isEditing" label="Location">{{ roomInfo.room_building }}-{{ roomInfo.room
                         }}</el-descriptions-item>
                         <el-descriptions-item v-else label="Location"><el-select v-model="building" class="m-2"
                                 placeholder="Building" @change="select_floor()" :disabled=!area_selected>
                                 <el-option v-for="item in options_building" :key="item.value" :label="item.label"
                                     :value="item.value" />
                             </el-select></el-descriptions-item>
-                        <el-descriptions-item v-if="!isEditing" label="❤" :span="2">{{ roomInfo.like
+                        <el-descriptions-item v-if="!isEditing" label="❤" :span="2">{{ roomInfo.room_star
                         }}</el-descriptions-item>
                         <el-descriptions-item v-else label="Room"><el-input v-model="room" /></el-descriptions-item>
                         <el-descriptions-item label="Comments">
@@ -86,18 +86,18 @@ export default {
             Visible: false,
             info: 3,
             value_area: ref(''),
-            options_area: [{ value: '一期宿舍', label: '一期宿舍', },
-            { value: '二期宿舍', label: '二期宿舍', }
+            options_area: [{ value: '一期', label: '一期宿舍', },
+            { value: '二期', label: '二期宿舍', }
             ],
             value_building: ref(''),
-            options_building: [{ value: '8栋', label: '8栋', },
-            { value: '9栋', label: '9栋', },
-            { value: '10栋', label: '10栋', },
-            { value: '17栋', label: '17栋', }
+            options_building: [{ value: '8', label: '8栋', },
+            { value: '9', label: '9栋', },
+            { value: '10', label: '10栋', },
+            { value: '17', label: '17栋', }
             ],
             value_floor: ref(''),
-            options_floor: [{ value: '一楼', label: '一楼', },
-            { value: '二楼', label: '二楼', }
+            options_floor: [{ value: '1', label: '一楼', },
+            { value: '2', label: '二楼', }
             ],
             value_room: ref(''),
             options_room: [{ value: '1', label: '1', },

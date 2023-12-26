@@ -4,6 +4,46 @@ const dataServerUrl = "http://127.0.0.1:8082";
 
 
 
+function askMsgDataTeam(accountNum, callback){
+    const params = {
+        accountNum : accountNum,
+    };
+    axios.get('/api/chat/message/MsgDataTeam',{params})
+        .then(resp => {
+            console.log(resp.data)
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+
+function askMsgDataDom(accountNum, callback){
+    const params = {
+        accountNum : accountNum,
+    };
+    axios.get('/api/chat/message/MsgDataDom',{params})
+        .then(resp => {
+            console.log(resp.data)
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+
+function askMsgDataPost(accountNum, callback){
+    const params = {
+        accountNum : accountNum,
+    };
+    axios.get('/api/chat/message/MsgDataPost',{params})
+        .then(resp => {
+            console.log(resp.data)
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+
+
 function askUserInfo(param,callback){  //请求个人信息
     const params = {
         studentId: param
@@ -72,35 +112,23 @@ function askRoommateData(param,callback){
 
 
 
-function askMsgOverviewData(param,callback){
+// function askMsgOverviewData(param,callback){
 
 
-    const params = {
-        accountNum : param
-    };
-    axios.get('/api/chat/message/MsgOverview',{params})
-        .then(resp => {
-            console.log(resp.data)
-            callback(resp)
-        }, errResp => {
-            console.log(errResp)
-        })
+//     const params = {
+//         accountNum : param
+//     };
+//     axios.get('/api/chat/message/MsgOverview',{params})
+//         .then(resp => {
+//             console.log(resp.data)
+//             callback(resp)
+//         }, errResp => {
+//             console.log(errResp)
+//         })
 
-}
+// }
 
-function askMsgData(ID,accountNum, callback){
-    const params = {
-        accountNum : accountNum,
-        msgID : ID
-    };
-    axios.get('/api/chat/message/MsgData',{params})
-        .then(resp => {
-            console.log(resp.data)
-            callback(resp)
-        }, errResp => {
-            console.log(errResp)
-        })
-}
+
 
 function askUserData(callback){
     axios.get('/api/Tstudent/userData')
@@ -214,8 +242,10 @@ export default {
     updateUserInfo,
     askRoomData,
     askRoommateData,
-    askMsgOverviewData,
-    askMsgData,
+    // askMsgOverviewData,
+    askMsgDataTeam,
+    askMsgDataDom,
+    askMsgDataPost,
     askUserData,
     setUserInfo,
     addUser,
