@@ -64,7 +64,7 @@
                                             </el-descriptions-item>
                                             <el-descriptions-item label="Comments">
                                                 <el-collapse accordion>
-                                                    <el-collapse-item v-for="(comment, index) in comments" :key="index"
+                                                    <el-collapse-item v-for="(comment, index) in commentsPost" :key="index"
                                                                       :title="comment.user+': '+comment.content" :name="index.toString()"
                                                                       @click=replyComment(comment)>
                                                         <div v-if="comment.replies && comment.replies.length > 0" >
@@ -171,20 +171,19 @@
                                             <el-descriptions-item label="Description">
                                                 {{ groupInfo.content }}
                                             </el-descriptions-item>
-                                            <el-descriptions-item label="Comments">
-                                                <el-collapse accordion v-model="isReplyingComment">
-                                                    <el-collapse-item v-for="(comment, index) in comments" :key="index"
-                                                                      :title="comment.user+': '+comment.content" :name="index.toString()"
-                                                                      @click=replyComment(comment)>
-                                                        <div v-if="comment.replies && comment.replies.length > 0" >
-                                                            <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user"
-                                                                 @click.prevent=replyReply(reply,comment)>
-                                                                {{reply.user}} RE @{{reply.repliedUser}}: {{reply.content}}
-                                                            </div>
-                                                        </div>
-                                                    </el-collapse-item>
-                                                </el-collapse>
-                                            </el-descriptions-item>
+                                          <el-descriptions-item label="Comments">
+                                            <el-collapse accordion>
+                                              <el-collapse-item v-for="(comment, index) in commentsGroup" :key="index"
+                                                                :title="comment.user+': '+comment.content" :name="index.toString()"
+                                                                @click=replyComment(comment)>
+                                                <div v-if="comment.replies && comment.replies.length > 0" >
+                                                  <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user">
+                                                    {{reply.user}} RE @{{reply.repliedUser}}: {{reply.content}}
+                                                  </div>
+                                                </div>
+                                              </el-collapse-item>
+                                            </el-collapse>
+                                          </el-descriptions-item>
                                         </el-descriptions>
                                         <el-input v-model="inputComment" placeholder="Please input" v-if="!isReplyingComment"/>
                                         <el-input v-model="inputComment" :placeholder=replyPlaceholder v-if="isReplyingComment"/>
@@ -301,12 +300,11 @@ export default {
         searchPost(selection){
             this.postID = selection.id
             this.$store.dispatch("forum/searchPost",selection.id)
-
+          console.log(this.postInfo)
         },
         searchGroup(selection){
             this.groupID = selection.id
             this.$store.dispatch("forum/searchGroup",selection.id)
-            this.$store.dispatch("forum/listGroupComment")
         },
         searchPostByOption(){
             if (this.searchBy === 'Tag'){
@@ -381,17 +379,17 @@ export default {
         addGroupCommentOrReply() {
             if (this.inputComment.trim() !== ""){
                 if (!this.isReplyingComment){
-                    this.commentLine.id = this.groupID
-                    this.commentLine.user = this.userInfo.studentID
-                    this.commentLine.content = this.inputComment
-                    console.log(this.commentLine);
+                    this.commentLineGroup.id = this.groupID
+                    this.commentLineGroup.user = this.userInfo.studentID
+                    this.commentLineGroup.content = this.inputComment
+                    console.log(this.commentLineGroup);
                     this.$store.dispatch("forum/addGroupComment")
                 }else {
-                    this.replyLine.commentID = this.currentCommentID
-                    this.replyLine.user = this.userInfo.studentID
-                    this.replyLine.repliedUser = this.currentRepliedUser
-                    this.replyLine.reply = this.inputComment
-                    console.log(this.replyLine);
+                    this.replyLineGroup.commentID = this.currentCommentID
+                    this.replyLineGroup.user = this.userInfo.studentID
+                    this.replyLineGroup.repliedUser = this.currentRepliedUser
+                    this.replyLineGroup.reply = this.inputComment
+                    console.log(this.replyLineGroup);
                     this.$store.dispatch("forum/addGroupReply")
                 }
 
@@ -402,17 +400,17 @@ export default {
         addPostCommentOrReply() {
             if (this.inputComment.trim() !== ""){
                 if (!this.isReplyingComment){
-                    this.commentLine.id = this.postID
-                    this.commentLine.user = this.userInfo.studentID
-                    this.commentLine.content = this.inputComment
-                    console.log(this.commentLine);
+                    this.commentLinePost.id = this.postID
+                    this.commentLinePost.user = this.userInfo.studentID
+                    this.commentLinePost.content = this.inputComment
+                    console.log(this.commentLinePost);
                     this.$store.dispatch("forum/addPostComment")
                 }else {
-                    this.replyLine.commentID = this.currentCommentID
-                    this.replyLine.user = this.userInfo.studentID
-                    this.replyLine.repliedUser = this.currentRepliedUser
-                    this.replyLine.reply = this.inputComment
-                    console.log(this.replyLine);
+                    this.replyLinePost.commentID = this.currentCommentID
+                    this.replyLinePost.user = this.userInfo.studentID
+                    this.replyLinePost.repliedUser = this.currentRepliedUser
+                    this.replyLinePost.reply = this.inputComment
+                    console.log(this.replyLinePost);
                     this.$store.dispatch("forum/addPostReply")
                 }
 
@@ -441,9 +439,12 @@ export default {
             groupInfo: state => state.groupInfo,
             newPostInfo: state => state.newPostInfo,
             newGroupInfo: state => state.newGroupInfo,
-            comments: state => state.comments,
-            replyLine: state => state.replyLine,
-            commentLine: state => state.commentLine,
+            commentsPost: state => state.commentsPost,
+            commentsGroup: state => state.commentsGroup,
+            replyLinePost: state => state.replyLinePost,
+            commentLineGroup: state => state.commentLineGroup,
+            replyLineGroup: state => state.replyLineGroup,
+            commentLinePost: state => state.commentLinePost,
         }),
         ...mapState('DataProcess', {
             userInfo: state => state.userInfo,

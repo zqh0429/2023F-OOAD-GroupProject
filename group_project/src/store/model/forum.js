@@ -41,20 +41,33 @@ const state = () => ({
         content: "",
         comments: null
     },
-    commentLine: {
+    commentLinePost: {
         id:null,
         user:null,
         content:null,
         replies:[]
     },
-    replyLine: {
+    commentLineGroup: {
+        id:null,
+        user:null,
+        content:null,
+        replies:[]
+    },
+    replyLinePost: {
+        commentID:null,
+        user:null,
+        repliedUser:null,
+        reply:null,
+    },
+    replyLineGroup: {
         commentID:null,
         user:null,
         repliedUser:null,
         reply:null,
     },
     tagValue:null,
-    comments: null,
+    commentsPost: null,
+    commentsGroup: null,
     errorMsg: null,
     joinGroupValid:false,
 })
@@ -75,6 +88,7 @@ const actions = {
         forumService.searchGroup(id, resp => {
             if (resp.data.code === 0) {
                 context.commit("searchGroup", resp.data.data)
+                context.dispatch("listGroupComment")
             } else {
                 context.state.errorMsg = resp.data.msg
             }
@@ -190,6 +204,7 @@ const actions = {
                 console.log(resp)
                 if (resp.data.code === 0) {
                     context.commit("updatePostComment", resp.data.data)
+                    console.log(resp.data.data)
                 } else {
                     context.state.errorMsg = resp.data.msg
                 }
@@ -197,11 +212,13 @@ const actions = {
         )
     },
     listGroupComment(context) {
+        console.log(context)
         forumService.listGroupComment(
             context.state.groupInfo.id, resp => {
                 console.log(resp)
                 if (resp.data.code === 0) {
                     context.commit("updateGroupComment", resp.data.data)
+                    console.log(resp)
                 } else {
                     context.state.errorMsg = resp.data.msg
                 }
@@ -209,7 +226,7 @@ const actions = {
         )
     },
     addPostComment(context) {
-        forumService.addPostComment(context.state.commentLine, resp => {
+        forumService.addPostComment(context.state.commentLinePost, resp => {
             console.log("add record", resp)
             if (resp.data.code === 0) {
                 // context.commit("addComment", context.state.commentLine)
@@ -220,7 +237,7 @@ const actions = {
         })
     },
     addGroupComment(context) {
-        forumService.addGroupComment(context.state.commentLine, resp => {
+        forumService.addGroupComment(context.state.commentLineGroup, resp => {
             console.log("add record", resp)
             if (resp.data.code === 0) {
                 // context.commit("addComment", context.state.commentLine)
@@ -231,7 +248,7 @@ const actions = {
         })
     },
     addPostReply(context) {
-        forumService.addPostReply(context.state.replyLine, resp => {
+        forumService.addPostReply(context.state.replyLinePost, resp => {
             console.log("add record", resp)
             if (resp.data.code === 0) {
                 context.dispatch("listPostComment")
@@ -241,7 +258,7 @@ const actions = {
         })
     },
     addGroupReply(context) {
-        forumService.addGroupReply(context.state.replyLine, resp => {
+        forumService.addGroupReply(context.state.replyLineGroup, resp => {
             console.log("add record", resp)
             if (resp.data.code === 0) {
                 context.dispatch("listGroupComment")
@@ -268,10 +285,10 @@ const mutations = {
         state.joinGroupValid = status
     },
     updatePostComment(state, data) {
-        state.comments = data
+        state.commentsPost = data
     },
     updateGroupComment(state, data) {
-        state.comments = data
+        state.commentsGroup = data
     },
 }
 
