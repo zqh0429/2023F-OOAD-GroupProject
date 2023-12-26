@@ -20,7 +20,7 @@ const state = () => ({
 
     msgOverviewData: [],
     msgID: "",
-    msgInfo: {},
+    msgInfo: [],
 
     roomData: [],      //收藏房间信息
 
@@ -39,6 +39,23 @@ const state = () => ({
 
 const actions = {
 
+    getMsgTeam(context) {
+        dataService.askMsgDataTeam( context.state.accountNum, resp => {
+            context.commit("setMsgData", resp.data.data)
+        })
+    },
+
+    getMsgDom(context) {
+        dataService.askMsgDataDom( context.state.accountNum, resp => {
+            context.commit("setMsgData", resp.data.data)
+        })
+    },
+
+    getMsgPost(context) {
+        dataService.askMsgDataPost( context.state.accountNum, resp => {
+            context.commit("setMsgData", resp.data.data)
+        })
+    },
 
     getUserInfo(context) {//初始化个人信息
         console.log(context.state.accountNum)
@@ -90,11 +107,7 @@ const actions = {
         })
     },
 
-    getMsg(context, ID) {
-        dataService.askMsgData(ID, context.state.accountNum, resp => {
-            context.commit("setMsgData", resp.data.data)
-        })
-    },
+
     setUser(context, accountNum) {
         console.log(accountNum)
         context.commit("setUser", accountNum)

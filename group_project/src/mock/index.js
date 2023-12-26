@@ -1,13 +1,19 @@
 import Mock from 'mockjs'
 
+Mock.mock(RegExp("http://127.0.0.1:8082/api/user/updateinfo" + ".*"), 'post', function(config){
+    console.log(config);
+    return{
+        message: "提交成功！"
+    }
 
+});
 
-Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
+Mock.mock(RegExp("http://127.0.0.1:8082/api/student/information/show/" + ".*"), 'get', function(config){
     //不同账号返回不同参数
     const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
     const accountNum = param.split('=')[1];
     console.log(accountNum);
-    if(accountNum === '12345678'){
+    if(accountNum === '1111'){
         return {
             data: {
                 username : "Student 1",
@@ -20,21 +26,7 @@ Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
                 hometown: "广东深圳",
                 description: "本科就读于南方科技大学，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
             }
-        }}else if (accountNum === '12011429') {
-        return {
-            data: {
-                username : "Student 1",
-                studentID: '12330849',
-                isTeacher: false,
-                level: "博士",
-                circleUrl:
-                    'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-                restTime: "23:00 - 9:00",
-                hometown: "广东深圳",
-                description: "本科就读于清华，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
-            }
-        };
-    } else if (accountNum === '12121111') {
+        }}else if (accountNum === '2222') {
         return {
             data: {
                 username : "Teacher 1",
@@ -52,13 +44,7 @@ Mock.mock(RegExp("api/user/info" + ".*"), 'get', function(config){
 });
 
 
-Mock.mock(RegExp("/api/user/updateinfo" + ".*"), 'post', function(config){
-    console.log(config);
-    return{
-        message: "提交成功！"
-    }
 
-});
 
 
 Mock.mock(RegExp("/api/user/roommate" + ".*"), 'get', { data: [
@@ -75,7 +61,7 @@ Mock.mock(RegExp("/api/user/Room" + ".*"), 'get', { data: [
         { area: "二期", building: "17栋", floor: "3楼", room: "304" }
     ]
 });
-Mock.mock(RegExp("api/login/v1/login" + ".*"), 'get', function(){
+Mock.mock(RegExp("/api/user/login/" + ".*"), 'get', function(){
     return {
         code: 0
     }
@@ -282,59 +268,81 @@ Mock.mock(RegExp("api/forum/group/addGroup" + ".*"), 'get', function(config){
         code: 0
     }
 });
-Mock.mock(RegExp("api/chat/message/MsgOverview" + ".*"), 'get', function() {
-    console.log("进入了 MsgOverview 拦截方法");
-    return {
-        code:0,
-        data: [
-            { id: 111, type: "组队信息"},
-            { id: 222, type: "帖子信息"},
-            { id: 333, type: "宿舍信息"},
-        ]
-    };
-});
+// Mock.mock(RegExp("api/chat/message/MsgOverview" + ".*"), 'get', function() {
+//     console.log("进入了 MsgOverview 拦截方法");
+//     return {
+//         code:0,
+//         data: [
+//             { id: 111, type: "组队信息"},
+//             { id: 222, type: "帖子信息"},
+//             { id: 333, type: "宿舍信息"},
+//         ]
+//     };
+// });
 
-Mock.mock(RegExp("/api/chat/message/MsgData" + ".*"), 'get', function(config) {
+Mock.mock(RegExp("/api/chat/message/MsgDataTeam" + ".*"), 'get', function(config) {
     console.log(config.url);
     const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
-    const msgID = param.split('=')[2];
+    console.log(param)
 
-    if (msgID === '111') {
+
+  
         return {
             code:0,
             data:
-                {
-                    sender: '系统',
-                    title: '组队通知',
-                    content: 'Student2已经加入了你的队伍'
-                }
+            [
+                    { sender: 'Sender 1', title: 'Team', content: 'Content 1' },
+                    { sender: 'Sender 2', title: 'Title 2', content: 'Content 2' }
+                    // 添加更多的消息信息
+                ]
 
 
-        };}
-    else if (msgID === '222') {
+        };
+   
+
+});
+
+Mock.mock(RegExp("/api/chat/message/MsgDataDom" + ".*"), 'get', function(config) {
+    console.log(config.url);
+    const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
+    console.log(param)
+
+
+  
         return {
             code:0,
             data:
-                {
-                    sender: 'Student2',
-                    title: '求组队啊啊啊',
-                    content: '我觉得很不错'
-                }
+            [
+                    { sender: 'Sender 1', title: 'Dom', content: 'Content 1' },
+                    { sender: 'Sender 2', title: 'Title 2', content: 'Content 2' }
+                    // 添加更多的消息信息
+                ]
 
 
-        };}
-    else if (msgID === '333') {
+        }
+   
+
+});
+
+Mock.mock(RegExp("/api/chat/message/MsgDataPost" + ".*"), 'get', function(config) {
+    console.log(config.url);
+    const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
+    console.log(param)
+
+
+  
         return {
             code:0,
             data:
-                {
-                    sender: '系统',
-                    title: '抢宿舍成功通知',
-                    content: '恭喜你抢到了二期17栋312宿舍！'
-                }
+            [
+                    { sender: 'Sender 1', title: 'Post', content: 'Content 1' },
+                    { sender: 'Sender 2', title: 'Title 2', content: 'Content 2' }
+                    // 添加更多的消息信息
+                ]
 
 
-        };}
+        }
+   
 
 });
 
