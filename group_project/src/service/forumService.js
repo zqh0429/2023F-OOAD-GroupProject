@@ -116,10 +116,11 @@ function searchGroupByWake(param, callback) {
     /*
         param: startTime,endTime
     */
-    // const url = `${dataServerUrl}/api/Group/v1/searchGroup`;
-    const url = `api/forum/group/searchGroupByWake`;
+    const url = `${dataServerUrl}/api/team/searchByWake`;
+    // const url = `api/forum/group/searchGroupByWake`;
     const params = {
-        param
+        startTime: param.startTime,
+        endTime: param.endTime
     };
     console.log(param)
     axios.get(url, {params})
@@ -134,10 +135,11 @@ function searchGroupBySleep(param, callback) {
     /*
         param: startTime,endTime
     */
-    // const url = `${dataServerUrl}/api/Group/v1/searchGroup`;
-    const url = `api/forum/group/searchGroupBySleep`;
+    const url = `${dataServerUrl}/api/team/searchBySleep`;
+    // const url = `api/forum/group/searchGroupBySleep`;
     const params = {
-        param
+        startTime: param.startTime,
+        endTime: param.endTime
     };
     console.log(param)
     axios.get(url, {params})
@@ -180,12 +182,14 @@ function joinGroup(param, callback) {
     /*
         param: groupID,studentID
     */
-    // const url = `${dataServerUrl}/api/post/v1/searchGroup`;
-    const url = `api/forum/group/searchGroup`;
+    const url = `${dataServerUrl}/api/team/join`;
+    // const url = `api/forum/group/searchGroup`;
     const params = {
-        param
+        team_id: param.groupID,
+        student_id: param.studentID
     };
-    console.log(param)
+    console.log(param.groupID)
+    console.log(param.studentID)
     axios.get(url, {params})
         .then(resp => {
             callback(resp);
