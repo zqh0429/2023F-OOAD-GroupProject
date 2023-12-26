@@ -335,7 +335,8 @@ export default {
             }
         },
         joinGroup(){
-            this.$store.dispatch("forum/joinGroup",this.groupID)
+            const info = {groupID: this.groupID, studentID: this.userInfo.studentID}
+            this.$store.dispatch("forum/joinGroup",info)
         },
         openDialog(){
             this.dialogVisible = true;

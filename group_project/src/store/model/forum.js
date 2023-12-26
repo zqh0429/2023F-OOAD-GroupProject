@@ -154,8 +154,8 @@ const actions = {
             }
         })
     },
-    joinGroup(context,id,studentID) {
-        forumService.joinGroup(id, studentID,resp => {
+    joinGroup(context,info) {
+        forumService.joinGroup(info,resp => {
             if (resp.data.code === 0) {
                 context.commit("joinGroup", true)
                 console.log(context.state.joinGroupValid)
