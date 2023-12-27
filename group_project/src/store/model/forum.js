@@ -1,4 +1,5 @@
 import forumService from "@/service/forumService";
+import dataService from "@/service/dataService";
 
 const state = () => ({
     postOverviewData: null,
@@ -7,6 +8,8 @@ const state = () => ({
         id:null,
         title:null,
         user: null,
+        gender: null,
+        level: null,
         sleep: null,
         wake: null,
         tags:null,
@@ -16,6 +19,8 @@ const state = () => ({
     newPostInfo: {
         title:null,
         user: null,
+        gender: null,
+        level: null,
         sleep: null,
         wake: null,
         tags:null,
@@ -25,6 +30,8 @@ const state = () => ({
         groupName:"",
         leader: "",
         members: "",
+        gender: null,
+        level: null,
         sleep: "",
         wake: "",
         tags:null,
@@ -37,6 +44,8 @@ const state = () => ({
         members: "",
         sleep: "",
         wake: "",
+        gender: null,
+        level: null,
         tags:null,
         content: "",
         comments: null
@@ -65,6 +74,17 @@ const state = () => ({
         repliedUser:null,
         reply:null,
     },
+    currentUserInfo: {          //主页个人信息
+        username: "",
+        studentID: '',
+        isTeacher:false,
+        level: "",
+        circleUrl: '',
+        restTime: "",
+        hometown: "",
+        description: "",
+        gender : ""
+    },
     tagValue:null,
     commentsPost: null,
     commentsGroup: null,
@@ -73,6 +93,12 @@ const state = () => ({
 })
 
 const actions = {
+    searchUser(context) {
+        console.log(context.state.postInfo.user)
+        dataService.askUserInfo(context.state.postInfo.user, resp => {
+            context.commit("searchUser", resp.data.data)
+        })
+    },
     searchPost(context,id) {
         forumService.searchPost(id, resp => {
             if (resp.data.code === 0) {
@@ -269,6 +295,9 @@ const actions = {
     },
 }
 const mutations = {
+    searchUser(state, data) {
+        state.currentUserInfo = data
+    },
     searchPost(state, data) {
         state.postInfo = data
     },

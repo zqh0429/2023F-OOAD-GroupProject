@@ -9,6 +9,16 @@
                         <el-container>
                             <el-header>
                                 <el-row :gutter="10">
+                                    <el-select v-model="genderValue" placeholder="Gender">
+                                        <el-option label="不限" value="all"/>
+                                        <el-option label="男" value="nan"/>
+                                        <el-option label="女" value="nv"/>
+                                    </el-select>
+                                    <el-select v-model="levelValue" placeholder="level">
+                                        <el-option label="不限" value="all"/>
+                                        <el-option label="硕士" value="master"/>
+                                        <el-option label="博士" value="doctor"/>
+                                    </el-select>
                                     <el-select v-model="searchBy" class="m-2" placeholder="Select">
                                         <el-option
                                             v-for="item in searchMethods"
@@ -26,6 +36,7 @@
                                     <el-select-v2
                                         v-if="searchBy ==='Tag'" v-model="tagValue" :options="tagOptions" placeholder="Please select"
                                         style="width: 240px" multiple/>
+
                                     <el-button @click="searchPostByOption">Search</el-button>
                                     <el-button type="primary" @click="openDialog"> + </el-button>
                                 </el-row>
@@ -47,9 +58,13 @@
                                     <el-main>
                                         <label>{{this.postInfo.title}}</label>
                                         <el-descriptions direction="vertical" :column="3" border>
-                                            <el-descriptions-item label="User" :span="1">{{ postInfo.user }}</el-descriptions-item>
+                                            <el-descriptions-item label="User" :span="1">
+                                                <a @click="handleUserClick">{{ postInfo.user }}</a>
+                                            </el-descriptions-item>
                                             <el-descriptions-item label="Time to Sleep" :span="1">{{ postInfo.sleep }}</el-descriptions-item>
                                             <el-descriptions-item label="Time to Wake Up" :span="1">{{ postInfo.wake }}</el-descriptions-item>
+                                            <el-descriptions-item label="Gender">{{ postInfo.gender }}</el-descriptions-item>
+                                            <el-descriptions-item label="level">{{ postInfo.level }}</el-descriptions-item>
                                         </el-descriptions>
                                         <el-descriptions direction="vertical" :column="1" border>
                                             <el-descriptions-item label="Tags">
@@ -90,10 +105,18 @@
                                 <label><el-input v-model="editedPostInfo.title" placeholder="Title"/></label>
                                 <el-descriptions
                                     direction="vertical"
-                                    :column="1"
+                                    :column="3"
                                     border
                                 >
                                     <el-descriptions-item label="User">{{ userInfo.username }}</el-descriptions-item>
+                                    <el-descriptions-item label="Gender">{{ userInfo.gender }}</el-descriptions-item>
+                                    <el-descriptions-item label="level"><el-tag>{{ userInfo.level }}</el-tag></el-descriptions-item>
+                                </el-descriptions>
+                                <el-descriptions
+                                    direction="vertical"
+                                    :column="1"
+                                    border
+                                >
                                     <el-descriptions-item label="Rest Time">
                                         <el-time-select v-model="editedPostInfo.wake" class="mr-4"
                                                         placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
@@ -154,11 +177,13 @@
                                     <el-main>
                                         <label>{{ this.groupInfo.groupName }}</label>
                                         <el-descriptions
-                                            direction="vertical" :column="4" border>
+                                            direction="vertical" :column="2" border>
                                             <el-descriptions-item label="Leader">{{ groupInfo.leader }}</el-descriptions-item>
-                                            <el-descriptions-item label="Time to Sleep">{{ groupInfo.sleep }}</el-descriptions-item>
-                                            <el-descriptions-item label="Time to Wake Up" :span="2">{{ groupInfo.wake }}</el-descriptions-item>
                                             <el-descriptions-item label="Members">{{ groupInfo.members }}</el-descriptions-item>
+                                            <el-descriptions-item label="Gender">{{ groupInfo.gender }}</el-descriptions-item>
+                                            <el-descriptions-item label="level">{{ groupInfo.level }}</el-descriptions-item>
+                                            <el-descriptions-item label="Time to Sleep">{{ groupInfo.sleep }}</el-descriptions-item>
+                                            <el-descriptions-item label="Time to Wake Up">{{ groupInfo.wake }}</el-descriptions-item>
                                         </el-descriptions>
                                         <el-descriptions direction="vertical" :column="1" border>
                                             <el-descriptions-item label="Tags">
@@ -205,6 +230,8 @@
                                     >
                                         <el-descriptions-item label="Leader">{{userInfo.username}}</el-descriptions-item>
                                         <el-descriptions-item label="Members"></el-descriptions-item>
+                                        <el-descriptions-item label="Gender">{{ userInfo.gender }}</el-descriptions-item>
+                                        <el-descriptions-item label="level"><el-tag>{{ userInfo.level }}</el-tag></el-descriptions-item>
                                         <el-descriptions-item label="Rest Time">
                                             <el-time-select v-model="editedGroupInfo.wake" class="mr-4"
                                                             placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
@@ -224,6 +251,18 @@
                             </div>
                         </el-container>
                     </div>
+                    <el-dialog v-model="checkUserInfo" title="User Info">
+                        <el-descriptions direction="vertical" :column="3" border>
+                            <el-descriptions-item label="User">{{ currentUserInfo.username }}</el-descriptions-item>
+                            <el-descriptions-item label="Gender" >{{ currentUserInfo.gender }}</el-descriptions-item>
+                            <el-descriptions-item label="level" :span="2"><el-tag>{{ currentUserInfo.level }}</el-tag></el-descriptions-item>
+                            <el-descriptions-item label="Rest Time">{{ currentUserInfo.restTime }}</el-descriptions-item>
+                            <el-descriptions-item label="Hometown">{{ currentUserInfo.hometown }}</el-descriptions-item>
+                        </el-descriptions>
+                        <el-descriptions direction="vertical" :column="2" border>
+                            <el-descriptions-item label="Description">{{ currentUserInfo.description }}</el-descriptions-item>
+                        </el-descriptions>
+                    </el-dialog>
                 </div>
             </div>
         </div>
@@ -251,6 +290,7 @@ export default {
             postID: null,
             dialogVisible:false,
             dialogVisibleGroup:false,
+            checkUserInfo: false,
             editedPostInfo: {
                 title:null,
                 user: null,
@@ -278,6 +318,8 @@ export default {
             startTime: null,
             endTime: null,
             tagValue: null,
+            genderValue: 'all',
+            levelValue: 'all',
             tagOptions:[{ value: 'sports', label: '爱运动',},{ value: 'study', label: '卷王',},
                 { value: 'outgoing', label: '社牛',},{ value: 'introversion', label: '社恐',},]
         }
@@ -289,6 +331,11 @@ export default {
     methods: {
         showContent(button) {
             this.activeButton = button;
+        },
+        handleUserClick() {
+            this.checkUserInfo = true;
+            console.log('User clicked:', this.postInfo.user);
+            this.$store.dispatch("forum/loadGroup")
         },
         loadPost(){
             this.$store.dispatch("forum/loadPost")
@@ -308,15 +355,20 @@ export default {
         },
         searchPostByOption(){
             if (this.searchBy === 'Tag'){
-                console.log(this.tagValue)
-                this.$store.dispatch("forum/searchPostByTag",this.tagValue)
+                const params = {gender:this.genderValue,level:this.levelValue,
+                    tags: this.tagValue}
+                console.log(params)
+                this.$store.dispatch("forum/searchPostByTag",params)
             }else if (this.searchBy === 'WakeUp'){
-              console.log(this.startTime+" "+this.endTime)
-              const time = {startTime: this.startTime, endTime: this.endTime}
+
+                console.log(this.startTime+" "+this.endTime)
+                const time = {gender:this.genderValue, level:this.levelValue,
+                    startTime: this.startTime, endTime: this.endTime}
                 this.$store.dispatch("forum/searchPostByWake",time)
 
             }else if (this.searchBy === 'Sleep'){
-              const time = {startTime: this.startTime, endTime: this.endTime}
+                const time = {gender:this.genderValue, level:this.levelValue,
+                    startTime: this.startTime, endTime: this.endTime}
                 this.$store.dispatch("forum/searchPostBySleep",time)
             }
         },
@@ -346,7 +398,9 @@ export default {
             this.newGroupInfo.content = this.editedGroupInfo.content
             this.newGroupInfo.members = this.editedGroupInfo.members
             this.newGroupInfo.groupName = this.editedGroupInfo.groupName
-          this.newGroupInfo.tags = this.editedGroupInfo.tags
+            this.newGroupInfo.tags = this.editedGroupInfo.tags
+            this.newGroupInfo.level = this.userInfo.level
+            this.newGroupInfo.gender = this.userInfo.gender
             this.editedGroupInfo.wake = null
             this.editedGroupInfo.groupName = null
             this.editedGroupInfo.content = null
@@ -363,16 +417,19 @@ export default {
         addPost(){
             this.newPostInfo.title = this.editedPostInfo.title
             this.newPostInfo.user = this.userInfo.studentID
+            this.newPostInfo.level = this.userInfo.level
+            this.newPostInfo.gender = this.userInfo.gender
             this.newPostInfo.wake = this.editedPostInfo.wake
             this.newPostInfo.sleep = this.editedPostInfo.sleep
             this.newPostInfo.content = this.editedPostInfo.content
-          this.newPostInfo.tags = this.editedPostInfo.tags
+            this.newPostInfo.tags = this.editedPostInfo.tags
+
             this.editedPostInfo.title = null
             this.editedPostInfo.user = null
             this.editedPostInfo.wake = null
             this.editedPostInfo.sleep = null
             this.editedPostInfo.content = null
-          this.editedPostInfo.tags = null
+            this.editedPostInfo.tags = null
             this.dialogVisible = false
             this.$store.dispatch("forum/addPost")
         },
@@ -445,6 +502,7 @@ export default {
             commentLineGroup: state => state.commentLineGroup,
             replyLineGroup: state => state.replyLineGroup,
             commentLinePost: state => state.commentLinePost,
+            currentUserInfo:state => state.currentUserInfo
         }),
         ...mapState('DataProcess', {
             userInfo: state => state.userInfo,

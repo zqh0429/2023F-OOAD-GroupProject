@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const dataServerUrl = 'http://127.0.0.1:8082';
 
+
+
 function searchPost(param, callback) {
     /*
         param: postID
@@ -44,11 +46,14 @@ function searchPostByTag(param, callback) {
     */
     // const url = `${dataServerUrl}/api/post/v1/searchPost`;
     const url = `api/forum/post/searchPostByTag`;
-    const params = {
-        param
-    };
     console.log(param)
-    axios.get(url, {params})
+    const params = {
+        gender:param.gender,
+        level:param.level,
+        tags:param.tags
+    };
+    console.log(params)
+    axios.post(url, params)
         .then(resp => {
             callback(resp);
         })
@@ -63,6 +68,8 @@ function searchPostByWake(time, callback) {
     // const url = `${dataServerUrl}/api/post/v1/searchPost`;
     const url = `${dataServerUrl}/api/forum/post/searchPostByWake`;
     const params = {
+        gender:time.gender,
+        level:time.level,
         startTime: time.startTime,
         endTime: time.endTime
     };
@@ -82,6 +89,8 @@ function searchPostBySleep(time, callback) {
     // const url = `${dataServerUrl}/api/post/v1/searchPost`;
     const url = `${dataServerUrl}/api/forum/post/searchPostBySleep`;
     const params = {
+        gender:time.gender,
+        level:time.level,
         startTime: time.startTime,
         endTime: time.endTime
     };
@@ -207,6 +216,8 @@ function addPost(param, callback) {
     const params = {
         title:param.title,
         user:param.user,
+        gender:param.gender,
+        level:param.level,
         sleep:param.sleep,
         wake:param.wake,
         content:param.content,
@@ -238,7 +249,9 @@ function addGroup(param, callback) {
         team_description: param.content,
         sleep_time: param.sleep,
         wake_time: param.wake,
-        team_tags: param.tags
+        team_tags: param.tags,
+        gender:param.gender,
+        level:param.level,
     };
     console.log(param)
     axios.post(url, params)
