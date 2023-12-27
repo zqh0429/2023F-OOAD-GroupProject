@@ -1,6 +1,24 @@
 import axios from 'axios';
 
 const dataServerUrl = 'http://127.0.0.1:8082';
+function starCurrentRoom(param, callback) {
+    /*
+        param: roomID,studentID
+    */
+    const url = `${dataServerUrl}/api/main/v1/starCurrentRoom`;
+    const params = {
+       roomID:param.roomID,
+       studentID:param.studentID
+    };
+    // const url = `api/main/v1/loadRoomInfo`;
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp);
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
 
 function loadRoomInfo(param, callback) {
     /*
@@ -153,6 +171,7 @@ function ChooseRoom(param,callback){
 }
 
 export default {
+    starCurrentRoom,
     loadRoomInfo,
     listComment,
     addComment,

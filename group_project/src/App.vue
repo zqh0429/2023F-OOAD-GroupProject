@@ -5,6 +5,7 @@
         </h2>
         <el-container class="h-full">
             <el-aside width="200px">
+                <img src="./assets/sustc.png" alt="Static Image" width="120" height="120" />
                 <el-menu
                     theme="light"
                     style="margin-right: 20px"

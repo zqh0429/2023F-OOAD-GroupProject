@@ -1,35 +1,38 @@
 <template>
-    <div class="logindata">
-        <div v-if="!accountValid" class="logintext">
-            <h2>Welcome</h2>
-        </div>
-        <div v-else class="usertext">
-            <h2>Welcome,<br>{{ username }}</h2>
-        </div>
-        <div v-if="!accountValid" class="formdata">
-            <el-form ref="form" :model="form">
-                <el-form-item prop="username">
-                    <el-input v-model="form.accountNum" clearable placeholder="请输入账号"></el-input>
-                    <p class="login" v-if="isLoginClick && this.isUsernameEmpty">Empty Username!</p>
-                </el-form-item>
-                <el-form-item prop="password">
-                    <el-input v-model="form.password" clearable placeholder="请输入密码" show-password></el-input>
-                    <p class="login" v-if="isLoginClick && !accountValid">Wrong Password or Valid Username</p>
-                </el-form-item>
-            </el-form>
-        </div>
-        <div v-if="!accountValid" class="tool">
-            <div>
-                <el-checkbox v-model="checked" @change="remember">记住密码</el-checkbox>
+    <div class="loginbody">
+        <div class="logindata">
+            <div v-if="!accountValid" class="logintext">
+                <h2>Welcome</h2>
             </div>
-            <div>
-                <span class="shou" @click="forgetpas">忘记密码？</span>
+            <div v-else class="usertext">
+                <h2>Welcome,<br>{{ username }}</h2>
             </div>
-        </div>
-        <div v-if="!accountValid" class="butt">
-            <el-button type="primary" @click="loginClick">Login</el-button>
+            <div v-if="!accountValid" class="formdata">
+                <el-form ref="form" :model="form">
+                    <el-form-item prop="username">
+                        <el-input v-model="form.accountNum" clearable placeholder="请输入账号"></el-input>
+                        <p class="login" v-if="isLoginClick && this.isUsernameEmpty">Empty Username!</p>
+                    </el-form-item>
+                    <el-form-item prop="password">
+                        <el-input v-model="form.password" clearable placeholder="请输入密码" show-password></el-input>
+                        <p class="login" v-if="isLoginClick && !accountValid">Wrong Password or Valid Username</p>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <div v-if="!accountValid" class="tool">
+                <div>
+                    <el-checkbox v-model="checked" @change="remember">记住密码</el-checkbox>
+                </div>
+                <div>
+                    <span class="shou" @click="forgetpas">忘记密码？</span>
+                </div>
+            </div>
+            <div v-if="!accountValid" class="butt">
+                <el-button type="primary" @click="loginClick">Login</el-button>
+            </div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -109,6 +112,7 @@ export default {
     position: fixed;
     line-height: 100%;
     padding-top: 150px;
+    background-image: url('../../assets/background.png');
 }
 
 .logintext {

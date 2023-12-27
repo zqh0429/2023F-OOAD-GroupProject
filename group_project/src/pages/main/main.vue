@@ -22,16 +22,19 @@
             </div>
             <div>
                 <el-dialog v-model="dialogVisible" title="Room Information" @opened="handleDialogOpened">
-                    <el-descriptions direction="vertical" :column="4" border>
+                    <el-descriptions direction="vertical" :column="3" border>
                         <el-descriptions-item label="Area">{{ roomInfo.room_region }}</el-descriptions-item>
-                        <el-descriptions-item label="Location">{{ roomInfo.room_building }}-{{ roomInfo.room_number
-                        }}</el-descriptions-item>
+                        <el-descriptions-item label="Location">{{ roomInfo.room_building }}-{{ roomInfo.room_number }}</el-descriptions-item>
                         <el-descriptions-item label="❤" :span="2">{{ roomInfo.room_star }}</el-descriptions-item>
+                        <el-descriptions-item label="Gender">{{ roomInfo.room_gender }}</el-descriptions-item>
+                        <el-descriptions-item label="Level"><el-tag>{{ roomInfo.room_level }}</el-tag></el-descriptions-item>
+                    </el-descriptions>
+                    <el-descriptions direction="vertical" :column="3" border>
                         <el-descriptions-item label="Comments">
                             <el-collapse accordion>
                                 <el-collapse-item v-for="(comment, index) in comments" :key="index"
-                                    :title="comment.user + ': ' + comment.content" :name="index.toString()"
-                                    @click=replyComment(comment)>
+                                                  :title="comment.user + ': ' + comment.content" :name="index.toString()"
+                                                  @click=replyComment(comment)>
                                     <div v-if="comment.replies && comment.replies.length > 0">
                                         <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user">
                                             {{ reply.user }} RE @{{ reply.repliedUser }}: {{ reply.content }}
@@ -43,6 +46,7 @@
                     </el-descriptions>
                     <el-input v-model="inputComment" placeholder="Please input" v-if="!isReplyingComment" />
                     <el-input v-model="inputComment" :placeholder=replyPlaceholder v-if="isReplyingComment" />
+                    <el-button type="primary" @click.prevent="star">❤</el-button>
                     <el-button type="primary" @click.prevent="addCommentOrReply">Comment</el-button>
                     <el-button type="primary" @click.prevent="choose">choose</el-button>
                 </el-dialog>
@@ -135,6 +139,11 @@ export default {
             this.$store.dispatch("main/listComment")
             console.log(this.roomInfo);
             console.log(this.commentLine)
+        },
+        star(){
+            const params = {roomID:this.roomInfo.roomId,studentID:this.userID}
+            console.log(params)
+            this.$store.dispatch("main/starCurrentRoom",params)
         },
         addCommentOrReply() {
             if (this.inputComment.trim() !== "") {

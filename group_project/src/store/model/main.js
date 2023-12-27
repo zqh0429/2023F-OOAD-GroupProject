@@ -15,6 +15,8 @@ const state = () => ({
         room_number: "",
         room_star:"",
         room_type:"",
+        room_gender:"",
+        room_level:"",
         comments:""
     },
     inputComment:null,
@@ -44,6 +46,15 @@ const state = () => ({
 })
 
 const actions = {
+    starCurrentRoom(context) {
+        mainService.starCurrentRoom(context.state.selectedRoom, resp => {
+            if (resp.data.code === 0) {
+                context.dispatch("loadRoomInfo")
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
     loadRoomInfo(context) {
         mainService.loadRoomInfo(context.state.selectedRoom, resp => {
             if (resp.data.code === 0) {

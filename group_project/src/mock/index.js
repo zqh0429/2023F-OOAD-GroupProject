@@ -46,21 +46,21 @@ import Mock from 'mockjs'
 //
 //
 //
-
-Mock.mock(RegExp("/api/user/roommate" + ".*"), 'get', { data: [
-        { username: "杨一轩1", studentID: "12000000", restTime: "23:00 - 9:00"},
-        { username: "杨一轩2", studentID: "12000000", restTime: "23:00 - 9:00"},
-        { username: "杨一轩3", studentID: "12000000", restTime: "23:00 - 9:00"},
-        { username: "杨一轩4", studentID: "12000000", restTime: "23:00 - 9:00"}
-    ]
-});
-
-Mock.mock(RegExp("/api/user/Room" + ".*"), 'get', { data: [
-        { area: "二期", building: "17栋", floor: "3楼", room: "304" },
-        { area: "二期", building: "17栋", floor: "3楼", room: "304" },
-        { area: "二期", building: "17栋", floor: "3楼", room: "304" }
-    ]
-});
+//
+// Mock.mock(RegExp("/api/user/roommate" + ".*"), 'get', { data: [
+//         { username: "杨一轩1", studentID: "12000000", restTime: "23:00 - 9:00"},
+//         { username: "杨一轩2", studentID: "12000000", restTime: "23:00 - 9:00"},
+//         { username: "杨一轩3", studentID: "12000000", restTime: "23:00 - 9:00"},
+//         { username: "杨一轩4", studentID: "12000000", restTime: "23:00 - 9:00"}
+//     ]
+// });
+//
+// Mock.mock(RegExp("/api/user/Room" + ".*"), 'get', { data: [
+//         { area: "二期", building: "17栋", floor: "3楼", room: "304" },
+//         { area: "二期", building: "17栋", floor: "3楼", room: "304" },
+//         { area: "二期", building: "17栋", floor: "3楼", room: "304" }
+//     ]
+// });
 // Mock.mock(RegExp("/api/user/login/" + ".*"), 'get', function(){
 //     return {
 //         code: 0
@@ -74,13 +74,16 @@ Mock.mock(RegExp("/api/user/Room" + ".*"), 'get', { data: [
 //     return {
 //         code:0,
 //         data: {
-//             roomID: 1,
-//             area: "二期",
-//             building: "17栋",
-//             floor: "3",
-//             room: "312",
-//             like: "2",
-//             comments: "11111"
+//             roomId: 1,
+//             room_region: "一期",
+//             room_building: "1",
+//             room_floor: "2",
+//             room_number: "3",
+//             room_star:"4",
+//             room_type:"4",
+//             room_gender:"male",
+//             room_level:"master",
+//             comments:""
 //         },
 //     };
 // });
@@ -211,49 +214,49 @@ Mock.mock(RegExp("api/main/v1/getBuildingInfo" + ".*"), 'get', function(options)
 //
 //     return responseData;
 // });
-Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options) {
-    // 从请求参数中获取groupID
-    const groupID = options.url.split('=')[1];
-    console.log(options.url)
-    console.log("进入了 searchGroup 拦截方法，groupID:", groupID);
-    // 根据不同的groupID返回不同的模拟数据
-    let responseData;
-    if (groupID === '1') {
-        responseData = {
-            code: 0,
-            data: {
-                groupName: "Group 1",
-                leader: "Student 1",
-                members: "Student 1, Student 2",
-                sleep: "23:00",
-                wake: "9:00",
-                tags:["社恐"],
-                content: "Group 1 Data",
-            },
-        };
-    } else if (groupID === '2') {
-        responseData = {
-            code: 0,
-            data: {
-                groupName: "Group 2",
-                leader: "Student 3",
-                members: "Student 3, Student 4",
-                sleep: "22:30",
-                wake: "8:30",
-                tags:["早起"],
-                content: "Group 2 Data",
-            },
-        };
-    } else {
-        // 处理未知的groupID
-        responseData = {
-            code: -1,
-            msg: "Unknown groupID",
-        };
-    }
-
-    return responseData;
-});
+// Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options) {
+//     // 从请求参数中获取groupID
+//     const groupID = options.url.split('=')[1];
+//     console.log(options.url)
+//     console.log("进入了 searchGroup 拦截方法，groupID:", groupID);
+//     // 根据不同的groupID返回不同的模拟数据
+//     let responseData;
+//     if (groupID === '1') {
+//         responseData = {
+//             code: 0,
+//             data: {
+//                 groupName: "Group 1",
+//                 leader: "Student 1",
+//                 members: "Student 1, Student 2",
+//                 sleep: "23:00",
+//                 wake: "9:00",
+//                 tags:["社恐"],
+//                 content: "Group 1 Data",
+//             },
+//         };
+//     } else if (groupID === '2') {
+//         responseData = {
+//             code: 0,
+//             data: {
+//                 groupName: "Group 2",
+//                 leader: "Student 3",
+//                 members: "Student 3, Student 4",
+//                 sleep: "22:30",
+//                 wake: "8:30",
+//                 tags:["早起"],
+//                 content: "Group 2 Data",
+//             },
+//         };
+//     } else {
+//         // 处理未知的groupID
+//         responseData = {
+//             code: -1,
+//             msg: "Unknown groupID",
+//         };
+//     }
+//
+//     return responseData;
+// });
 // Mock.mock(RegExp("api/forum/post/addPost" + ".*"), 'get', function(config){
 //     console.log(config);
 //     console.log("进入了 add 拦截方法");
