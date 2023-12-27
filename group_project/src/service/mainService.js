@@ -135,8 +135,16 @@ function AddRoom(param,callback){
 }
 
 function ChooseRoom(param,callback){
-    const url ='/api/main/v1/chooseRoom'
-    axios.post(url, {param})
+
+    const url = `${dataServerUrl}/api/main/v1/chooseRoom`
+
+    const params = {
+        accountNum:param.accountNum,
+        roomId:param.roomId
+
+    };
+    console.log(params)
+    axios.get(url, {params})
         .then(resp => {
             callback(resp)
         }, errResp => {

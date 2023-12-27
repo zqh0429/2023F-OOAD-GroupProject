@@ -11,8 +11,8 @@
                                 <el-row :gutter="10">
                                     <el-select v-model="genderValue" placeholder="Gender">
                                         <el-option label="不限" value="all"/>
-                                        <el-option label="男" value="nan"/>
-                                        <el-option label="女" value="nv"/>
+                                        <el-option label="男" value="male"/>
+                                        <el-option label="女" value="female"/>
                                     </el-select>
                                     <el-select v-model="levelValue" placeholder="level">
                                         <el-option label="不限" value="all"/>

@@ -136,6 +136,7 @@ const actions = {
                 console.log(resp.data.msg)
             } else {
                 context.state.errorMsg = resp.data.msg
+                console.log(resp.data.msg)
             }
         })
     }

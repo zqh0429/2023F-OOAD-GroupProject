@@ -8,7 +8,8 @@ function askMsgDataTeam(accountNum, callback){
     const params = {
         accountNum : accountNum,
     };
-    axios.get('/api/chat/message/MsgDataTeam',{params})
+    const url = `${dataServerUrl}/api/chat/message/MsgDataTeam`;
+    axios.get(url,{params})
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -21,7 +22,8 @@ function askMsgDataDom(accountNum, callback){
     const params = {
         accountNum : accountNum,
     };
-    axios.get('/api/chat/message/MsgDataDom',{params})
+    const url = `${dataServerUrl}/api/chat/message/MsgDataDom`;
+    axios.get(url,{params})
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -34,7 +36,8 @@ function askMsgDataPost(accountNum, callback){
     const params = {
         accountNum : accountNum,
     };
-    axios.get('/api/chat/message/MsgDataPost',{params})
+    const url = `${dataServerUrl}/api/chat/message/MsgDataPost`;
+    axios.get(url,{params})
         .then(resp => {
             console.log(resp.data)
             callback(resp)

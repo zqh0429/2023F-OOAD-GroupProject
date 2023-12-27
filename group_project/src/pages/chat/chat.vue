@@ -27,7 +27,7 @@
                             <el-descriptions v-for="(message, index) in msgInfo" :key="index" direction="vertical"
                                 :column="4" :size="size" border>
                                 <el-descriptions-item label="Sender">{{ message.sender }}</el-descriptions-item>
-                                <el-descriptions-item label="Title">{{ message.title }}</el-descriptions-item>
+                                <el-descriptions-item label="Time">{{ message.time }}</el-descriptions-item>
                                 <el-descriptions-item label="Content">{{ message.content }}</el-descriptions-item>
                             </el-descriptions>
                         </el-main>

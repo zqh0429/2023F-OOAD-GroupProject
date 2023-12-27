@@ -166,11 +166,8 @@ export default {
         },
         choose() {
             const info = {
-                accountNum: this.accountNum,
-                area: this.roomInfo.area,
-                building: this.roomInfo.building,
-                floor: this.roomInfo.floor,
-                room: this.roomInfo.room
+                accountNum: this.userID,
+              roomId:this.roomInfo.roomId
 
             }
             this.$store.dispatch("main/choose", info)

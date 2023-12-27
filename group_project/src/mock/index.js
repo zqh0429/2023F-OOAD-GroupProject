@@ -280,71 +280,71 @@ Mock.mock(RegExp("api/forum/group/searchGroup" + ".*"), 'get', function(options)
 //     };
 // });
 
-Mock.mock(RegExp("/api/chat/message/MsgDataTeam" + ".*"), 'get', function(config) {
-    console.log(config.url);
-    const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
-    console.log(param)
-
-
-  
-        return {
-            code:0,
-            data:
-            [
-                    { sender: 'Sender 1', title: 'Team', content: 'Content 1' },
-                    { sender: 'Sender 2', title: 'Title 2', content: 'Content 2' }
-                    // 添加更多的消息信息
-                ]
-
-
-        };
-   
-
-});
-
-Mock.mock(RegExp("/api/chat/message/MsgDataDom" + ".*"), 'get', function(config) {
-    console.log(config.url);
-    const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
-    console.log(param)
-
-
-  
-        return {
-            code:0,
-            data:
-            [
-                    { sender: 'Sender 1', title: 'Dom', content: 'Content 1' },
-                    { sender: 'Sender 2', title: 'Title 2', content: 'Content 2' }
-                    // 添加更多的消息信息
-                ]
-
-
-        }
-   
-
-});
-
-Mock.mock(RegExp("/api/chat/message/MsgDataPost" + ".*"), 'get', function(config) {
-    console.log(config.url);
-    const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
-    console.log(param)
-
-
-  
-        return {
-            code:0,
-            data:
-            [
-                    { sender: 'Sender 1', title: 'Post', content: 'Content 1' },
-                    { sender: 'Sender 2', title: 'Title 2', content: 'Content 2' }
-                    // 添加更多的消息信息
-                ]
-
-
-        }
-   
-
-});
+// Mock.mock(RegExp("/api/chat/message/MsgDataTeam" + ".*"), 'get', function(config) {
+//     console.log(config.url);
+//     const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
+//     console.log(param)
+//
+//
+//
+//         return {
+//             code:0,
+//             data:
+//             [
+//                     { sender: 'Sender 1', title: 'Team', content: 'Content 1' },
+//                     { sender: 'Sender 2', title: 'Title 2', content: 'Content 2' }
+//                     // 添加更多的消息信息
+//                 ]
+//
+//
+//         };
+//
+//
+// });
+//
+// Mock.mock(RegExp("/api/chat/message/MsgDataDom" + ".*"), 'get', function(config) {
+//     console.log(config.url);
+//     const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
+//     console.log(param)
+//
+//
+//
+//         return {
+//             code:0,
+//             data:
+//             [
+//                     { sender: 'Sender 1', title: 'Dom', content: 'Content 1' },
+//                     { sender: 'Sender 2', title: 'Title 2', content: 'Content 2' }
+//                     // 添加更多的消息信息
+//                 ]
+//
+//
+//         }
+//
+//
+// });
+//
+// Mock.mock(RegExp("/api/chat/message/MsgDataPost" + ".*"), 'get', function(config) {
+//     console.log(config.url);
+//     const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
+//     console.log(param)
+//
+//
+//
+//         return {
+//             code:0,
+//             data:
+//             [
+//                     { sender: 'Sender 1', title: 'Post', content: 'Content 1' },
+//                     { sender: 'Sender 2', title: 'Title 2', content: 'Content 2' }
+//                     // 添加更多的消息信息
+//                 ]
+//
+//
+//         }
+//
+//
+// });
 
 //教师端宿舍管理
 Mock.mock(RegExp("/api/main/v1/deleteRoom" + ".*"), 'post', function() {
@@ -488,13 +488,13 @@ Mock.mock(RegExp("/api/main/v1/addRoom" + ".*"), 'post', function(config) {
     };
 });
 
-Mock.mock(RegExp("/api/main/v1/chooseRoom" + ".*"), 'post', function(config) {
-    console.log(config);
-    return {
-        code:0,
-        msg:"添加成功！"
-    };
-});
+// Mock.mock(RegExp("/api/main/v1/chooseRoom" + ".*"), 'post', function(config) {
+//     console.log(config);
+//     return {
+//         code:0,
+//         msg:"添加成功！"
+//     };
+// });
 
 
 export default Mock;
