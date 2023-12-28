@@ -242,6 +242,16 @@ function quit(accountNum) {
     axios.get(url,{params})
 
 }
+
+function resetMemberData(callback){
+    axios.post('/api/Tselect/filterMemberData')
+    .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })
+}
 export default {
     askUserInfo,
     updateUserInfo,
@@ -259,6 +269,7 @@ export default {
     setEndTime1,
     setBeginTime2,
     setEndTime2,
-    quit
+    quit,
+    resetMemberData
 
 }

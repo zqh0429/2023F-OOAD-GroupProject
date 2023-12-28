@@ -27,21 +27,41 @@
                 <el-dialog v-model="dialogVisible" title="Room Information" @opened="handleDialogOpened">
                     <el-descriptions direction="vertical" :column="4" border>
                         <el-descriptions-item v-if="!isEditing" label="Area">{{ roomInfo.room_region  }}</el-descriptions-item>
-                        <el-descriptions-item v-else label="Area"><el-select v-model="region" class="m-2" placeholder="Area"
+                        <el-descriptions-item v-else label="Area"><el-select v-model="roomRegion" class="m-2" placeholder="Area"
                                 @change="select_building()">
                                 <el-option v-for="item in options_area" :key="item.value" :label="item.label"
                                     :value="item.value" /></el-select></el-descriptions-item>
 
                         <el-descriptions-item v-if="!isEditing" label="Location">{{ roomInfo.room_building }}-{{ roomInfo.room
                         }}</el-descriptions-item>
-                        <el-descriptions-item v-else label="Location"><el-select v-model="building" class="m-2"
+                        <el-descriptions-item v-else label="Location"><el-select v-model="roomBuilding" class="m-2"
                                 placeholder="Building" @change="select_floor()" :disabled=!area_selected>
                                 <el-option v-for="item in options_building" :key="item.value" :label="item.label"
                                     :value="item.value" />
                             </el-select></el-descriptions-item>
                         <el-descriptions-item v-if="!isEditing" label="❤" :span="2">{{ roomInfo.room_star
                         }}</el-descriptions-item>
-                        <el-descriptions-item v-else label="Room"><el-input v-model="room" /></el-descriptions-item>
+                        <el-descriptions-item v-else label="Floor"><el-input v-model="roomFloor" /></el-descriptions-item>
+                        <el-descriptions-item v-if="isEditing" label="Number" ><el-input v-model="roomNumber" /></el-descriptions-item>
+                        <el-descriptions-item v-if="!isEditing" label="Gender">{{ roomInfo.room_gender }}</el-descriptions-item>
+                        <el-descriptions-item v-else label="Gender"><el-select v-model="roomGender"> <el-option label="男" value="男"></el-option> <el-option label="女" value="女"></el-option> </el-select> </el-descriptions-item>
+                        <el-descriptions-item v-if="isEditing" label="Type"><el-select v-model="roomType"> <el-option label="单人间" value="1"></el-option> <el-option label="双人间" value="2"></el-option><el-option label="三人间" value="3"></el-option><el-option label="四人间" value="3"></el-option> </el-select></el-descriptions-item>
+                        <el-descriptions-item v-else label="Capacity">{{ roomInfo.room_type }}</el-descriptions-item>
+                        <el-descriptions-item v-if="!isEditing" label="Level"><el-tag>{{ roomInfo.room_level }}</el-tag></el-descriptions-item>
+                        <el-descriptions-item v-else label="Level"><el-select v-model="roomLevel"> <el-option label="硕士" value="硕士"></el-option> <el-option label="博士" value="博士"></el-option> </el-select> </el-descriptions-item>
+                    </el-descriptions>
+
+                    <el-descriptions v-if="!isEditing" direction="vertical" :column="3" border>
+                        <el-descriptions-item label="Description">
+                            {{ roomInfo.room_description }}
+                        </el-descriptions-item>
+                    </el-descriptions>
+                    <el-descriptions v-if="isEditing" direction="vertical" :column="3" border>
+                        <el-descriptions-item label="Description">
+                            <el-input v-model="roomDescription" />
+                        </el-descriptions-item>
+                    </el-descriptions>
+                        <el-descriptions v-if="!isEditing" direction="vertical" :column="3" border>
                         <el-descriptions-item label="Comments">
                             <el-table :data="comments" style="width: 100%">
                                 <el-table-column prop="user" width="180" />
@@ -49,6 +69,8 @@
                             </el-table>
                         </el-descriptions-item>
                     </el-descriptions>
+
+              
                     <el-button v-if="!isEditing" type="primary" @click.prevent="Edit">Edit</el-button>
                     <el-button v-else type="primary" @click.prevent="Submit">Submit</el-button>
                     <el-button v-if="!isEditing" type="primary" @click.prevent="deleteRoom">Delete</el-button>
@@ -62,9 +84,15 @@
     <div>
         <el-dialog v-model="Visible" title="Add New Room">
             <el-descriptions direction="vertical" :column="4" border>
+                <el-descriptions-item label="Gender"><el-select v-model="roomGender"> <el-option label="男" value="男"></el-option> <el-option label="女" value="女"></el-option> </el-select> </el-descriptions-item>
+                <el-descriptions-item label="Level"><el-select v-model="roomLevel"> <el-option label="硕士" value="硕士"></el-option> <el-option label="博士" value="博士"></el-option> </el-select> </el-descriptions-item>
+
+                <el-descriptions-item label="Type"><el-select v-model="roomType"> <el-option label="单人间" value="1"></el-option> <el-option label="双人间" value="2"></el-option><el-option label="三人间" value="3"></el-option><el-option label="四人间" value="3"></el-option> </el-select></el-descriptions-item>
                 <el-descriptions-item label="Area">{{ value_area }}</el-descriptions-item>
                 <el-descriptions-item label="Building">{{ value_building }}</el-descriptions-item>
-                <el-descriptions-item label="Room"><input v-model="roomID" /></el-descriptions-item>
+                <el-descriptions-item label="Floor"><input v-model="roomFloor" /></el-descriptions-item>
+                <el-descriptions-item label="Room"><input v-model="roomNumber" /></el-descriptions-item>
+                <el-descriptions-item label="Description"><input v-model="roomDescription" /></el-descriptions-item>
             </el-descriptions>
             <el-button type="primary" @click.prevent="ConfirmAdd">ConfirmAdd</el-button>
         </el-dialog>
@@ -111,7 +139,15 @@ export default {
             area: "",
             building: "",
             room: "",
-            roomID : ""
+            roomID : "",
+            roomGender:"",
+            roomLevel :"",
+            roomType :"",
+            roomFloor :"",
+            roomNumber :"",
+            roomDescription:"",
+            roomRegion :"",
+            roomBuilding : ""
         };
     },
     mounted() {
@@ -173,6 +209,12 @@ export default {
         },
         Edit() {
             this.isEditing = true
+            this.roomLevel = this.roomInfo.level
+            this.roomGender = this.roomInfo.gender
+            this.roomDescription = this.roomInfo.room_description
+            this.roomFloor = this.roomInfo.room_floor
+            this.roomNumber = this.roomInfo.room_number
+            this.roomType = this.roomInfo.room_type
         },
         Cancel() {
             this.isEditing = false
@@ -180,12 +222,15 @@ export default {
         Submit() {
             this.isEditing = false
             const info = {
-                previous_area: this.selectedRoom.area,
-                previous_building: this.selectedRoom.building,
-                previous_room: this.roomInfo.room,
-                new_area: this.area,
-                new_building: this.building,
-                new_room: this.room
+                room_id: this.roomInfo.room_id,
+                room_region: this.roomRegion,
+            room_building: this.roomBuilding,
+            room_floor : this.roomFloor,
+            room_number : this.roomNumber,
+            gender : this.roomGender,
+            level : this.roomLevel,
+            room_description : this.roomDescription,
+            room_type : this.roomType,
             }
             this.$store.dispatch("main/EditRoom", info)
             this.roomInfo.area = this.area
@@ -200,9 +245,14 @@ export default {
             
             this.selectedRoom.building = this.value_building;
           const info = {
-            area: this.selectedRoom.area,
-            building: this.selectedRoom.building,
-            room: this.roomID
+            room_region: this.selectedRoom.area,
+            room_building: this.selectedRoom.building,
+            room_floor : this.roomFloor,
+            room_number : this.roomNumber,
+            gender : this.roomGender,
+            level : this.roomLevel,
+            room_description : this.roomDescription,
+            room_type : this.roomType,
           } 
           this.$store.dispatch("main/AddRoom", info) 
           this.Visible = false

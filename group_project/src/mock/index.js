@@ -5,7 +5,15 @@ import Mock from 'mockjs'
 //     return{
 //         message: "提交成功！"
 //     }
-//
+
+// });
+
+
+// Mock.mock(RegExp("http://127.0.0.1:8082/api/user/login/" + ".*"), 'get', function(){
+//     return {
+//         code: 0
+//     }
+
 // });
 
 // Mock.mock(RegExp("http://127.0.0.1:8082/api/student/information/show/" + ".*"), 'get', function(config){
@@ -416,34 +424,11 @@ Mock.mock(RegExp("/api/Tselect/memberData" + ".*"), 'get', function() {
     return {
         code:0,
         data: [
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {Area:"二期", Location:"2栋", Room:"201" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"}
+            {gender:"男",level:"博士",room_locate:"二期13栋2楼2号房间" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {gender:"男",level:"博士",room_locate:"二期13栋2楼2号房间" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {gender:"男",level:"博士",room_locate:"二期13栋2楼2号房间" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {gender:"男",level:"博士",room_locate:"二期13栋2楼2号房间" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {gender:"男",level:"博士",room_locate:"二期13栋2楼2号房间" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"}
         ]
     };
 });
