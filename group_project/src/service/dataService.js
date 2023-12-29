@@ -136,7 +136,8 @@ function askRoommateData(param,callback){
 
 
 function askUserData(callback){
-    axios.get('/api/Tstudent/userData')
+    const url = `${dataServerUrl}/api/teacher/loadAllStudents`;
+    axios.get(url)
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -146,8 +147,19 @@ function askUserData(callback){
 }
 
 function setUserInfo(info,callback){  //更新修改后的个人信息
-
-    axios.post('/api/Tstudent/setUserData',{info})
+    const params = {
+        accountNum: info.accountNum,
+        username: info.username,
+        password: info.password,
+        gender: info.gender,
+        level: info.level,
+        room_id: info.room_id,
+        address: null,
+        editable: null
+    }
+    console.log(info)
+    const url = `${dataServerUrl}/api/teacher/updateAccount`;
+    axios.post(url,params)
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -158,8 +170,18 @@ function setUserInfo(info,callback){  //更新修改后的个人信息
 }
 
 function addUser(info,callback){
-
-    axios.post('/api/Tstudent/addUser',{info})
+    const url = `${dataServerUrl}/api/teacher/addAccount`;
+    const params = {
+        accountNum: info.accountNum,
+        username: info.username,
+        password: info.password,
+        gender: info.gender,
+        level: info.level,
+        room_id: null,
+        address: null,
+        editable: null
+    }
+    axios.post(url,params)
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -257,11 +279,12 @@ function filter(callback){
 
 function kick(info, callback){
     const params = {
-        studentID : info.studentId,
+        studentID : info.studentID,
         accountNum :info.accountNum
-
     };
-    axios.post('/api/user/kick',{params})
+    console.log(params)
+    const url = `${dataServerUrl}/api/team/expelTeammate`;
+    axios.get(url,{params})
     .then(resp => {
         console.log(resp.data)
         callback(resp)
