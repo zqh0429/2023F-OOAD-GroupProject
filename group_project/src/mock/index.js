@@ -363,21 +363,21 @@ Mock.mock(RegExp("api/main/v1/getBuildingInfo" + ".*"), 'get', function(options)
 // });
 
 //教师端宿舍管理
-Mock.mock(RegExp("/api/main/v1/deleteRoom" + ".*"), 'post', function() {
-    console.log("进入了 deleteRoom 拦截方法");
-    return {
-        code:0,
-        data: {
-            roomID: "",
-            area: "",
-            building: "",
-            floor: "",
-            room: "",
-            like:"",
-            comments:""
-        }
-    };
-});
+// Mock.mock(RegExp("/api/main/v1/deleteRoom" + ".*"), 'post', function() {
+//     console.log("进入了 deleteRoom 拦截方法");
+//     return {
+//         code:0,
+//         data: {
+//             roomID: "",
+//             area: "",
+//             building: "",
+//             floor: "",
+//             room: "",
+//             like:"",
+//             comments:""
+//         }
+//     };
+// });
 
 
 
@@ -412,26 +412,26 @@ Mock.mock(RegExp("/api/Tstudent/addUser" + ".*"), 'post', function(config) {
         code:0
     };
 });
-Mock.mock(RegExp("/api/Tselect/memberData" + ".*"), 'get', function() {
-    console.log("进入了 memberData 拦截方法");
-    return {
-        code:0,
-        data: [
-            {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"}
-        ]
-    };
-});
+// Mock.mock(RegExp("/api/Tselect/memberData" + ".*"), 'get', function() {
+//     console.log("进入了 memberData 拦截方法");
+//     return {
+//         code:0,
+//         data: [
+//             {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+//             {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+//             {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+//             {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+//             {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"}
+//         ]
+//     };
+// });
 
-Mock.mock(RegExp("/api/main/v1/editRoom" + ".*"), 'post', function(config) {
-    console.log(config);
-    return {
-        code:0
-    };
-});
+// Mock.mock(RegExp("/api/main/v1/editRoom" + ".*"), 'post', function(config) {
+//     console.log(config);
+//     return {
+//         code:0
+//     };
+// });
 
 Mock.mock(RegExp("/api/Tselect/setEnd1" + ".*"), 'post', function(config) {
     console.log(config);
@@ -462,12 +462,12 @@ Mock.mock(RegExp("/api/Tselect/setBegin2" + ".*"), 'post', function(config) {
     };
 });
 
-Mock.mock(RegExp("/api/main/v1/addRoom" + ".*"), 'post', function(config) {
-    console.log(config);
-    return {
-        code:0
-    };
-});
+// Mock.mock(RegExp("/api/main/v1/addRoom" + ".*"), 'post', function(config) {
+//     console.log(config);
+//     return {
+//         code:0
+//     };
+// });
 
 // Mock.mock(RegExp("/api/main/v1/chooseRoom" + ".*"), 'post', function(config) {
 //     console.log(config);

@@ -33,10 +33,10 @@
                                     <el-table-column prop="room_gender" label="Gender"  />
                                     <el-table-column prop="room_type" label="Type"  />
                                     <el-table-column prop="room_locate" label="Address"  />
-                                    <el-table-column prop="Student1" label="Student1" />
-                                    <el-table-column prop="Student2" label="Student2" />
-                                    <el-table-column prop="Student3" label="Student3" />
-                                    <el-table-column prop="Student4" label="Student4" />
+                                    <el-table-column prop="student1" label="Student1" />
+                                    <el-table-column prop="student2" label="Student2" />
+                                    <el-table-column prop="student3" label="Student3" />
+                                    <el-table-column prop="student4" label="Student4" />
                                 
                                 </el-table>
                                 

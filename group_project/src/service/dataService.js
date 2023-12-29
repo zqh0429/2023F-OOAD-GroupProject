@@ -88,10 +88,9 @@ function updateUserInfo(param,information,callback){  //更新修改后的个人
 
 function askRoomData(param,callback){
     const params = {
-        student_id: param
+        accountNum : param
     };
-    const url = `${dataServerUrl}/api/main/v1/loadStarRoom`;
-    axios.get(url,{params})
+    axios.get('/api/user/Room',{params})
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -191,7 +190,7 @@ function addUser(info,callback){
 }
 
 function askMemberData(callback){
-    axios.get('/api/Tselect/memberData')
+    axios.get(`${dataServerUrl}/api/main/v1/listdormitoryselection`)
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -267,7 +266,8 @@ function quit(accountNum) {
 }
 
 function filter(callback){
-    axios.post('/api/Tselect/filterMemberData')
+
+    axios.get(`${dataServerUrl}/api/main/v1/listfilterdormitoryselection`)
     .then(resp => {
         console.log(resp.data)
         callback(resp)
@@ -275,6 +275,7 @@ function filter(callback){
         console.log(errResp)
     })
 }
+<<<<<<< HEAD
 
 
 function kick(info, callback){
@@ -293,6 +294,8 @@ function kick(info, callback){
     })
 }
 
+=======
+>>>>>>> 83f1271f57388b4efca155a1db497219692a1c9c
 export default {
     askUserInfo,
     updateUserInfo,
@@ -311,7 +314,6 @@ export default {
     setBeginTime2,
     setEndTime2,
     quit,
-    filter,
-    kick
+    filter
 
 }
