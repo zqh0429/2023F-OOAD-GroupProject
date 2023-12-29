@@ -239,7 +239,7 @@ const mutations = {
         state.roommateData = data
     },
     resetMemberData(state,data){
-        state.roommateData =data
+        state.memberData =data
     }
 }
 

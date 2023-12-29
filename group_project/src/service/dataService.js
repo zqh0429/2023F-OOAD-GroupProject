@@ -168,7 +168,7 @@ function addUser(info,callback){
 }
 
 function askMemberData(callback){
-    axios.get('/api/Tselect/memberData')
+    axios.get(`${dataServerUrl}/api/main/v1/listdormitoryselection`)
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -243,8 +243,9 @@ function quit(accountNum) {
 
 }
 
-function resetMemberData(callback){
-    axios.post('/api/Tselect/filterMemberData')
+function filter(callback){
+
+    axios.get(`${dataServerUrl}/api/main/v1/listfilterdormitoryselection`)
     .then(resp => {
         console.log(resp.data)
         callback(resp)
@@ -270,6 +271,6 @@ export default {
     setBeginTime2,
     setEndTime2,
     quit,
-    resetMemberData
+    filter
 
 }
