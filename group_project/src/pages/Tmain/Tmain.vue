@@ -26,29 +26,41 @@
             <div>
                 <el-dialog v-model="dialogVisible" title="Room Information" @opened="handleDialogOpened">
                     <el-descriptions direction="vertical" :column="4" border>
-                        <el-descriptions-item v-if="!isEditing" label="Area">{{ roomInfo.room_region  }}</el-descriptions-item>
-                        <el-descriptions-item v-else label="Area"><el-select v-model="roomRegion" class="m-2" placeholder="Area"
-                                @change="select_building()">
+                        <el-descriptions-item v-if="!isEditing" label="Area">{{ roomInfo.room_region
+                        }}</el-descriptions-item>
+                        <el-descriptions-item v-else label="Area"><el-select v-model="roomRegion"
+                                v-bind:placeholder="roomRegion" class="m-2" @change="select_building()">
                                 <el-option v-for="item in options_area" :key="item.value" :label="item.label"
                                     :value="item.value" /></el-select></el-descriptions-item>
 
-                        <el-descriptions-item v-if="!isEditing" label="Location">{{ roomInfo.room_building }}-{{ roomInfo.room
-                        }}</el-descriptions-item>
+                        <el-descriptions-item v-if="!isEditing" label="Location">{{ roomInfo.room_building }}栋
+                            </el-descriptions-item>
                         <el-descriptions-item v-else label="Location"><el-select v-model="roomBuilding" class="m-2"
-                                placeholder="Building" @change="select_floor()" :disabled=!area_selected>
+                                v-bind:placeholder="roomBuilding" @change="select_floor()" :disabled=!area_selected>
                                 <el-option v-for="item in options_building" :key="item.value" :label="item.label"
                                     :value="item.value" />
                             </el-select></el-descriptions-item>
                         <el-descriptions-item v-if="!isEditing" label="❤" :span="2">{{ roomInfo.room_star
                         }}</el-descriptions-item>
-                        <el-descriptions-item v-else label="Floor"><el-input v-model="roomFloor" /></el-descriptions-item>
-                        <el-descriptions-item v-if="isEditing" label="Number" ><el-input v-model="roomNumber" /></el-descriptions-item>
-                        <el-descriptions-item v-if="!isEditing" label="Gender">{{ roomInfo.room_gender }}</el-descriptions-item>
-                        <el-descriptions-item v-else label="Gender"><el-select v-model="roomGender"> <el-option label="男" value="男"></el-option> <el-option label="女" value="女"></el-option> </el-select> </el-descriptions-item>
-                        <el-descriptions-item v-if="isEditing" label="Type"><el-select v-model="roomType"> <el-option label="单人间" value="1"></el-option> <el-option label="双人间" value="2"></el-option><el-option label="三人间" value="3"></el-option><el-option label="四人间" value="3"></el-option> </el-select></el-descriptions-item>
+                        <el-descriptions-item v-else label="Floor"><el-input v-model="roomFloor"
+                                @input="FloorValidateInput" /></el-descriptions-item>
+                        <el-descriptions-item v-if="isEditing" label="Number"><el-input v-model="roomNumber"
+                                @input="RoomValidateInput" /></el-descriptions-item>
+                        <el-descriptions-item v-if="!isEditing" label="Gender">{{ roomInfo.room_gender
+                        }}</el-descriptions-item>
+                        <el-descriptions-item v-else label="Gender"><el-select v-model="roomGender"> <el-option label="男"
+                                    value="男"></el-option> <el-option label="女" value="女"></el-option> </el-select>
+                        </el-descriptions-item>
+                        <el-descriptions-item v-if="isEditing" label="Type"><el-select v-bind:placeholder="roomType"
+                                v-model="roomType"> <el-option label="单人间" value="1"></el-option> <el-option label="双人间"
+                                    value="2"></el-option><el-option label="三人间" value="3"></el-option><el-option
+                                    label="四人间" value="3"></el-option> </el-select></el-descriptions-item>
                         <el-descriptions-item v-else label="Capacity">{{ roomInfo.room_type }}</el-descriptions-item>
-                        <el-descriptions-item v-if="!isEditing" label="Level"><el-tag>{{ roomInfo.room_level }}</el-tag></el-descriptions-item>
-                        <el-descriptions-item v-else label="Level"><el-select v-model="roomLevel"> <el-option label="硕士" value="硕士"></el-option> <el-option label="博士" value="博士"></el-option> </el-select> </el-descriptions-item>
+                        <el-descriptions-item v-if="!isEditing" label="Level"><el-tag>{{ roomInfo.room_level
+                        }}</el-tag></el-descriptions-item>
+                        <el-descriptions-item v-else label="Level"><el-select v-bind:placeholder="roomGender"
+                                v-model="roomLevel"> <el-option label="硕士" value="硕士"></el-option> <el-option label="博士"
+                                    value="博士"></el-option> </el-select> </el-descriptions-item>
                     </el-descriptions>
 
                     <el-descriptions v-if="!isEditing" direction="vertical" :column="3" border>
@@ -61,7 +73,7 @@
                             <el-input v-model="roomDescription" />
                         </el-descriptions-item>
                     </el-descriptions>
-                        <el-descriptions v-if="!isEditing" direction="vertical" :column="3" border>
+                    <el-descriptions v-if="!isEditing" direction="vertical" :column="3" border>
                         <el-descriptions-item label="Comments">
                             <el-table :data="comments" style="width: 100%">
                                 <el-table-column prop="user" width="180" />
@@ -70,7 +82,7 @@
                         </el-descriptions-item>
                     </el-descriptions>
 
-              
+
                     <el-button v-if="!isEditing" type="primary" @click.prevent="Edit">Edit</el-button>
                     <el-button v-else type="primary" @click.prevent="Submit">Submit</el-button>
                     <el-button v-if="!isEditing" type="primary" @click.prevent="deleteRoom">Delete</el-button>
@@ -84,14 +96,23 @@
     <div>
         <el-dialog v-model="Visible" title="Add New Room">
             <el-descriptions direction="vertical" :column="4" border>
-                <el-descriptions-item label="Gender"><el-select v-model="roomGender"> <el-option label="男" value="男"></el-option> <el-option label="女" value="女"></el-option> </el-select> </el-descriptions-item>
-                <el-descriptions-item label="Level"><el-select v-model="roomLevel"> <el-option label="硕士" value="硕士"></el-option> <el-option label="博士" value="博士"></el-option> </el-select> </el-descriptions-item>
+                <el-descriptions-item label="Gender"><el-select v-model="roomGender"> <el-option label="男"
+                            value="男"></el-option> <el-option label="女" value="女"></el-option> </el-select>
+                </el-descriptions-item>
+                <el-descriptions-item label="Level"><el-select v-model="roomLevel"> <el-option label="硕士"
+                            value="硕士"></el-option> <el-option label="博士" value="博士"></el-option> </el-select>
+                </el-descriptions-item>
 
-                <el-descriptions-item label="Type"><el-select v-model="roomType"> <el-option label="单人间" value="1"></el-option> <el-option label="双人间" value="2"></el-option><el-option label="三人间" value="3"></el-option><el-option label="四人间" value="3"></el-option> </el-select></el-descriptions-item>
+                <el-descriptions-item label="Type"><el-select v-model="roomType"> <el-option label="单人间"
+                            value="1"></el-option> <el-option label="双人间" value="2"></el-option><el-option label="三人间"
+                            value="3"></el-option><el-option label="四人间" value="4"></el-option>
+                    </el-select></el-descriptions-item>
                 <el-descriptions-item label="Area">{{ value_area }}</el-descriptions-item>
                 <el-descriptions-item label="Building">{{ value_building }}</el-descriptions-item>
-                <el-descriptions-item label="Floor"><input v-model="roomFloor" /></el-descriptions-item>
-                <el-descriptions-item label="Room"><input v-model="roomNumber" /></el-descriptions-item>
+                <el-descriptions-item label="Floor"><input v-model="roomFloor"
+                        @input="FloorValidateInput" /></el-descriptions-item>
+                <el-descriptions-item label="Room"><input v-model="roomNumber"
+                        @input="RoomValidateInput" /></el-descriptions-item>
                 <el-descriptions-item label="Description"><input v-model="roomDescription" /></el-descriptions-item>
             </el-descriptions>
             <el-button type="primary" @click.prevent="ConfirmAdd">ConfirmAdd</el-button>
@@ -139,15 +160,15 @@ export default {
             area: "",
             building: "",
             room: "",
-            roomID : "",
-            roomGender:"",
-            roomLevel :"",
-            roomType :"",
-            roomFloor :"",
-            roomNumber :"",
-            roomDescription:"",
-            roomRegion :"",
-            roomBuilding : ""
+            roomID: "",
+            roomGender: "",
+            roomLevel: "",
+            roomType: "",
+            roomFloor: "",
+            roomNumber: "",
+            roomDescription: "",
+            roomRegion: "",
+            roomBuilding: ""
         };
     },
     mounted() {
@@ -166,6 +187,16 @@ export default {
         },
         select_room() {
             //TODO: load information from database
+        },
+        FloorValidateInput() {
+            if (this.roomFloor !== '' && (isNaN(this.roomFloor) || this.roomFloor < 1 || this.roomFloor > 20 || !Number.isInteger(Number(this.roomFloor)))) {
+                this.roomFloor = '';
+            }
+        },
+        RoomValidateInput() {
+            if (this.roomNumber !== '' && (isNaN(this.roomNumber) || this.roomNumber < 1 || this.roomNumber > 30 || !Number.isInteger(Number(this.roomNumber)))) {
+                this.roomNumber = '';
+            }
         },
         loadRoomInfo() {
             this.dialogVisible = true;
@@ -209,8 +240,10 @@ export default {
         },
         Edit() {
             this.isEditing = true
-            this.roomLevel = this.roomInfo.level
-            this.roomGender = this.roomInfo.gender
+            this.roomRegion = this.roomInfo.room_region
+            this.roomBuilding = this.roomInfo.room_building
+            this.roomLevel = this.roomInfo.room_level
+            this.roomGender = this.roomInfo.room_gender
             this.roomDescription = this.roomInfo.room_description
             this.roomFloor = this.roomInfo.room_floor
             this.roomNumber = this.roomInfo.room_number
@@ -224,13 +257,13 @@ export default {
             const info = {
                 room_id: this.roomInfo.room_id,
                 room_region: this.roomRegion,
-            room_building: this.roomBuilding,
-            room_floor : this.roomFloor,
-            room_number : this.roomNumber,
-            gender : this.roomGender,
-            level : this.roomLevel,
-            room_description : this.roomDescription,
-            room_type : this.roomType,
+                room_building: this.roomBuilding,
+                room_floor: this.roomFloor,
+                room_number: this.roomNumber,
+                room_gender: this.roomGender,
+                room_level: this.roomLevel,
+                room_description: this.roomDescription,
+                room_type: this.roomType
             }
             this.$store.dispatch("main/EditRoom", info)
             this.roomInfo.area = this.area
@@ -239,25 +272,25 @@ export default {
 
 
         },
-        ConfirmAdd(){
-            
+        ConfirmAdd() {
+
             this.selectedRoom.area = this.value_area;
-            
+
             this.selectedRoom.building = this.value_building;
-          const info = {
-            room_region: this.selectedRoom.area,
-            room_building: this.selectedRoom.building,
-            room_floor : this.roomFloor,
-            room_number : this.roomNumber,
-            gender : this.roomGender,
-            level : this.roomLevel,
-            room_description : this.roomDescription,
-            room_type : this.roomType,
-          } 
-          this.$store.dispatch("main/AddRoom", info) 
-          this.Visible = false
+            const info = {
+                room_region: this.selectedRoom.area,
+                room_building: this.selectedRoom.building,
+                room_floor: this.roomFloor,
+                room_number: this.roomNumber,
+                room_gender: this.roomGender,
+                room_level: this.roomLevel,
+                room_description: this.roomDescription,
+                room_type: this.roomType,
+            }
+            this.$store.dispatch("main/AddRoom", info)
+            this.Visible = false
         },
-        addRoom(){
+        addRoom() {
             this.Visible = true
         }
 
@@ -296,5 +329,4 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-</style>
+}</style>

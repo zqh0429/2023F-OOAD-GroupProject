@@ -29,8 +29,8 @@
                                 
                                 
                                 <el-table :data="memberData" style="width: 100%">
-                                    <el-table-column prop="level" label="Level"  />
-                                    <el-table-column prop="gender" label="Gender"  />
+                                    <el-table-column prop="room_level" label="Level"  />
+                                    <el-table-column prop="room_gender" label="Gender"  />
                                     <el-table-column prop="room_type" label="Type"  />
                                     <el-table-column prop="room_locate" label="Address"  />
                                     <el-table-column prop="Student1" label="Student1" />

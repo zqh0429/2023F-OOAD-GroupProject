@@ -30,25 +30,31 @@
                                             <el-input v-else v-model="edit_password">{{ scope.row.password }}</el-input>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="hometown" label="家乡" width="180">
+                                    <el-table-column prop="gender" label="性别" width="80">
                                         <template v-slot="scope">
-                                            <span v-if="!scope.row.editable">{{ scope.row.hometown }}</span>
-                                            <el-input v-else v-model="edit_hometown">{{ scope.row.hometown }}</el-input>
+                                            <span v-if="!scope.row.editable">{{ scope.row.gender }}</span>
+                                            <el-input v-else v-model="edit_gender">{{ scope.row.gender }}</el-input>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="restTime" label="作息时间">
+                                    <el-table-column prop="level" label="学历" width="80">
                                         <template v-slot="scope">
-                                            <span v-if="!scope.row.editable">{{ scope.row.restTime }}</span>
-                                            <el-input v-else v-model="edit_restTime">{{ scope.row.restTime }}</el-input>
+                                            <span v-if="!scope.row.editable">{{ scope.row.level }}</span>
+                                            <el-input v-else v-model="edit_level">{{ scope.row.level }}</el-input>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="description" label="个人描述">
+                                    <el-table-column prop="address" label="宿舍地址">
                                         <template v-slot="scope">
-                                            <span v-if="!scope.row.editable">{{ scope.row.description }}</span>
-                                            <el-input v-else v-model="edit_description">{{ scope.row.description
-                                            }}</el-input>
+                                            <span v-if="!scope.row.editable">{{ scope.row.address }}</span>
+                            
+                                            <el-select v-else v-model="edit_address" class="m-2" placeholder="请选择一个空宿舍"
+                                                @change="select_dormitory()">
+                                                <el-option v-for="item in options_dormitory" :key="item.room_id"
+                                                    :label="item.room_level+' '+item.room_gender+' '+item.room_locate" :value="item.room_id" />
+                                            </el-select>
                                         </template>
                                     </el-table-column>
+
+
 
                                     <el-table-column label="操作">
                                         <template v-slot="scope">
@@ -76,7 +82,12 @@
                 <el-descriptions-item label="账号"><input v-model="edit_accountNum" /></el-descriptions-item>
                 <el-descriptions-item label="用户名"><input v-model="edit_username" /></el-descriptions-item>
                 <el-descriptions-item label="起始密码"><input v-model="edit_password" /></el-descriptions-item>
-                <el-descriptions-item label="家乡"><input v-model="edit_hometown" /></el-descriptions-item>
+                <el-descriptions-item label="性别"><el-select v-model="edit_gender"> <el-option label="男"
+                            value="男"></el-option> <el-option label="女" value="女"></el-option> </el-select>
+                </el-descriptions-item>
+                <el-descriptions-item label="学历"><el-select v-model="edit_level"> <el-option label="硕士"
+                            value="硕士"></el-option> <el-option label="博士" value="博士"></el-option> </el-select>
+                </el-descriptions-item>
             </el-descriptions>
             <el-button type="primary" @click.prevent="Submit">Submit</el-button>
         </el-dialog>
@@ -97,15 +108,16 @@ export default {
             edit_accountNum: "",
             edit_username: "",
             edit_password: "",
-            edit_restTime: "",
-            edit_description: "",
-            edit_hometown: "",
+            edit_gender: "",
+            edit_level: "",
+            edit_roomID:"",
             dialogVisible: false
         };
     },
     computed: {
         ...mapState('DataProcess', {
             userData: state => state.userData,
+            options_dormitory: state =>state.memberData
         })
     },
     mounted() {
@@ -117,6 +129,9 @@ export default {
     },
     methods: {
         Import() {
+
+        },
+        select_dormitory() {
 
         },
         goToMain() {
@@ -138,6 +153,8 @@ export default {
             this.edit_restTime = row.restTime;
             this.edit_password = row.password;
             this.edit_description = row.description;
+            this.edit_gender = row.gender;
+            this.edit_level = row.level;
             row.editable = true; // Set the row to editable
         },
         handleCancel(row) {
@@ -146,30 +163,29 @@ export default {
         handleSubmit(row) {
             // Submit the changes for the row
             // ... (your submit logic here)
-
-            row.username = this.edit_username;
-            row.hometown = this.edit_hometown;
-            row.restTime = this.edit_restTime;
-            row.password = this.edit_password;
-            row.description = this.edit_description;
             const info = {
-                accountNum: row.accountNum,
-                username: row.username,
-                password: row.password,
-                hometown: row.hometown,
-                restTime: row.restTime,
-                description: row.description,
+                accountNum: this.edit_accountNum,
+                room_id :this.edit_roomID,
+                username: this.edit_username,
+                password: this.edit_password,
+                gender: this.edit_gender,
+                level : this.edit_level,
+            
             }
             this.$store.dispatch("DataProcess/editUser", info);
             row.editable = false;// Set the row back to non-editable after submitting
+            
         },
         Submit() {
             const info = {
                 accountNum: this.edit_accountNum,
                 username: this.edit_username,
                 password: this.edit_password,
-                hometown: this.edit_hometown
+                level: this.edit_level,
+                gender :this.edit_gender
             }
+
+
             this.edit_accountNum = ""
             this.edit_username = ""
             this.edit_password = ""

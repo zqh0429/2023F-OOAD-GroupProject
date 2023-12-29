@@ -26,7 +26,10 @@ const state = () => ({
 
     roommateData: [],  //组队队友信息
 
-    memberData: [],
+    memberData: [{room_id:"1001",room_gender:"男",room_level:"硕士",room_locate:"一期八栋10楼2号房间"},
+    {room_id:"1003",room_gender:"男",room_level:"硕士",room_locate:"一期八栋10楼3号房间"},
+    {room_id:"1002",room_gender:"男",room_level:"硕士",room_locate:"一期八栋10楼2号房间"}
+],
 
     beginTime1 : "2023-12-26 00:00:00",
     endTime1 : "2023-12-29 00:00:00",

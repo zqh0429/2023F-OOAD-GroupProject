@@ -50,6 +50,30 @@ import Mock from 'mockjs'
 //         };
 //     }
 // });
+
+
+// Mock.mock(RegExp("http://127.0.0.1:8082/api/main/v1/loadRoomInfo" + ".*"), 'get', function(config) {
+//     const param = config.url.split('?')[1];
+//     console.log(param);
+//     console.log("进入了 loadRoomInfo 拦截方法");
+//     return {
+//         code:0,
+//         data: {
+//             roomId: 1,
+//             room_region: "一期",
+//             room_building: "8",
+//             room_floor: "2",
+//             room_number: "3",
+//             room_star:"4",
+//             room_type:"4",
+//             room_gender:"男",
+//             room_level:"硕士",
+//             comments:""
+//         },
+//     };
+// });
+
+
 //
 //
 //
@@ -75,26 +99,7 @@ import Mock from 'mockjs'
 //     }
 //
 // });
-// Mock.mock(RegExp("api/main/v1/loadRoomInfo" + ".*"), 'get', function(config) {
-//     const param = config.url.split('?')[1];
-//     console.log(param);
-//     console.log("进入了 loadRoomInfo 拦截方法");
-//     return {
-//         code:0,
-//         data: {
-//             roomId: 1,
-//             room_region: "一期",
-//             room_building: "1",
-//             room_floor: "2",
-//             room_number: "3",
-//             room_star:"4",
-//             room_type:"4",
-//             room_gender:"male",
-//             room_level:"master",
-//             comments:""
-//         },
-//     };
-// });
+
 // Mock.mock(RegExp("api/main/v1/addComment" + ".*"), 'post', function(config){
 //     console.log(config);
 //     console.log("进入了 add 拦截方法");
@@ -382,22 +387,10 @@ Mock.mock(RegExp("/api/Tstudent/userData" + ".*"), 'get', function() {
     return {
         code:0,
         data: [
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false},
-            {accountNum:12011429, username:"Gordon", password:"666",hometown:"广东深圳" ,restTime:"12:00 - 6:00", description:"沙雕一枚", editable: false}
+            {accountNum:12011429, username:"Gordon", password:"666",gender:"男",level:"硕士", address:"一期八栋3楼5号房间", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",gender:"男",level:"硕士", address:"一期八栋3楼5号房间", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",gender:"男",level:"硕士", address:"一期八栋3楼5号房间", editable: false},
+            {accountNum:12011429, username:"Gordon", password:"666",gender:"男",level:"硕士", address:"一期八栋3楼5号房间", editable: false}
         ]
     };
 });
@@ -424,11 +417,11 @@ Mock.mock(RegExp("/api/Tselect/memberData" + ".*"), 'get', function() {
     return {
         code:0,
         data: [
-            {gender:"男",level:"博士",room_locate:"二期13栋2楼2号房间" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {gender:"男",level:"博士",room_locate:"二期13栋2楼2号房间" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {gender:"男",level:"博士",room_locate:"二期13栋2楼2号房间" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {gender:"男",level:"博士",room_locate:"二期13栋2楼2号房间" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
-            {gender:"男",level:"博士",room_locate:"二期13栋2楼2号房间" , Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"}
+            {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"},
+            {room_gender:"男",room_level:"博士",room_locate:"二期13栋2楼2号房间" , room_type: "4", Student1:"杨一轩" , Student2:"杨一轩", Student3:"杨一轩", Student4:"杨一轩"}
         ]
     };
 });
