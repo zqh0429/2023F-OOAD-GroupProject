@@ -5,13 +5,13 @@ function starCurrentRoom(param, callback) {
     /*
         param: roomID,studentID
     */
-    const url = `${dataServerUrl}/api/main/v1/starCurrentRoom`;
+    const url = `${dataServerUrl}/api/main/v1/star`;
     const params = {
        roomID:param.roomID,
        studentID:param.studentID
     };
     // const url = `api/main/v1/loadRoomInfo`;
-    axios.get(url, {params})
+    axios.post(url, params)
         .then(resp => {
             callback(resp);
         })

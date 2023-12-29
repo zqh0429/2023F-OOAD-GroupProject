@@ -88,9 +88,10 @@ function updateUserInfo(param,information,callback){  //更新修改后的个人
 
 function askRoomData(param,callback){
     const params = {
-        accountNum : param
+        student_id: param
     };
-    axios.get('/api/user/Room',{params})
+    const url = `${dataServerUrl}/api/main/v1/loadStarRoom`;
+    axios.get(url,{params})
         .then(resp => {
             console.log(resp.data)
             callback(resp)

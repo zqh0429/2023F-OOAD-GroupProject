@@ -63,7 +63,7 @@
                                     <el-table-column prop="area" label="区划" width="180" />
                                     <el-table-column prop="building" label="楼栋" width="180" />
                                     <el-table-column prop="floor" label="楼层" />
-                                    <el-table-column prop="room" label="房间号" />
+                                    <el-table-column prop="number" label="房间号" />
                                     <el-table-column label="操作">
                                         <template v-slot="scope">
 
