@@ -46,8 +46,8 @@ const state = () => ({
 })
 
 const actions = {
-    starCurrentRoom(context) {
-        mainService.starCurrentRoom(context.state.selectedRoom, resp => {
+    starCurrentRoom(context,param) {
+        mainService.starCurrentRoom(param, resp => {
             if (resp.data.code === 0) {
                 context.dispatch("loadRoomInfo")
             } else {
