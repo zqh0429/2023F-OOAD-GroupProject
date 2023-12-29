@@ -5,13 +5,13 @@ function starCurrentRoom(param, callback) {
     /*
         param: roomID,studentID
     */
-    const url = `${dataServerUrl}/api/main/v1/starCurrentRoom`;
+    const url = `${dataServerUrl}/api/main/v1/star`;
     const params = {
        roomID:param.roomID,
        studentID:param.studentID
     };
     // const url = `api/main/v1/loadRoomInfo`;
-    axios.get(url, {params})
+    axios.post(url, params)
         .then(resp => {
             callback(resp);
         })
@@ -36,6 +36,7 @@ function loadRoomInfo(param, callback) {
     axios.get(url, {params})
         .then(resp => {
             callback(resp);
+            console.log(resp.data)
         })
         .catch(errResp => {
             console.log(errResp);
@@ -132,9 +133,10 @@ function addReply(param, callback) {
 }
 
 function EditRoom(param,callback){
+    console.log(param)
 
-    const url ='/api/main/v1/editRoom'
-    axios.post(url, {param})
+    const url =`${dataServerUrl}/api/main/v1/editRoom`
+    axios.post(url, param)
         .then(resp => {
             callback(resp)
         }, errResp => {
@@ -143,8 +145,9 @@ function EditRoom(param,callback){
 }
 
 function AddRoom(param,callback){
-    const url ='/api/main/v1/addRoom'
-    axios.post(url, {param})
+    const url =`${dataServerUrl}/api/main/v1/addRoom`
+    console.log(param)
+    axios.post(url, param)
         .then(resp => {
             callback(resp)
         }, errResp => {
@@ -155,7 +158,6 @@ function AddRoom(param,callback){
 function ChooseRoom(param,callback){
 
     const url = `${dataServerUrl}/api/main/v1/chooseRoom`
-
     const params = {
         accountNum:param.accountNum,
         roomId:param.roomId

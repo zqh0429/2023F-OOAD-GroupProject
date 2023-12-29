@@ -200,6 +200,7 @@ export default {
         },
         loadRoomInfo() {
             this.dialogVisible = true;
+
             this.selectedRoom.room = this.value_room;
             this.selectedRoom.area = this.value_area;
             this.selectedRoom.floor = this.value_floor;
@@ -208,7 +209,7 @@ export default {
         handleDialogOpened() {
             // 在对话框打开时调用的方法
             this.$store.dispatch("main/loadRoomInfo")
-            this.$store.dispatch("main/listComment")
+         //   this.$store.dispatch("main/listComment")
             console.log(this.roomInfo);
             console.log(this.commentLine)
         },
