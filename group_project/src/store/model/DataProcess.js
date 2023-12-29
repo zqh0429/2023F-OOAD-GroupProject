@@ -179,6 +179,11 @@ const actions = {
         dataService.filter(resp => {
             context.commit("resetMemberData", resp.data.data)
         })
+    },
+    kick(context,info){
+        dataService.kick(info,resp => {
+            context.commit("kick", resp.data.data)
+        })
     }
 
 
@@ -239,6 +244,9 @@ const mutations = {
         state.roommateData = data
     },
     resetMemberData(state,data){
+        state.memberData =data
+    },
+    kick(state,data){
         state.roommateData =data
     }
 }

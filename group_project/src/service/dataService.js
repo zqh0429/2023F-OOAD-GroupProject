@@ -243,7 +243,7 @@ function quit(accountNum) {
 
 }
 
-function resetMemberData(callback){
+function filter(callback){
     axios.post('/api/Tselect/filterMemberData')
     .then(resp => {
         console.log(resp.data)
@@ -252,6 +252,23 @@ function resetMemberData(callback){
         console.log(errResp)
     })
 }
+
+
+function kick(info, callback){
+    const params = {
+        studentID : info.studentId,
+        accountNum :info.accountNum
+
+    };
+    axios.post('/api/user/kick',{params})
+    .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })
+}
+
 export default {
     askUserInfo,
     updateUserInfo,
@@ -270,6 +287,7 @@ export default {
     setBeginTime2,
     setEndTime2,
     quit,
-    resetMemberData
+    filter,
+    kick
 
 }

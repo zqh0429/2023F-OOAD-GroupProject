@@ -63,7 +63,7 @@
                                     <el-table-column prop="area" label="区划" width="180" />
                                     <el-table-column prop="building" label="楼栋" width="180" />
                                     <el-table-column prop="floor" label="楼层" />
-                                    <el-table-column prop="room" label="房间号" />
+                                    <el-table-column prop="number" label="房间号" />
                                     <el-table-column label="操作">
                                         <template v-slot="scope">
 
@@ -86,7 +86,12 @@
                                     <el-table-column prop="username" label="名称" width="180" />
                                     <el-table-column prop="studentID" label="学号" width="180" />
                                     <el-table-column prop="restTime" label="作息时间" width="180" />
+                                    <el-table-column label="操作">
+                                        <template v-slot="scope">
 
+                                            <el-button @click="Kick(scope.row)">踢掉</el-button>
+                                        </template>
+                                    </el-table-column>
                                 </el-table>
                             </div>
                         </el-card>
@@ -97,10 +102,10 @@
             <div>
                 <el-dialog v-model="dialogVisible" title="Room Information" @opened="handleDialogOpened">
                     <el-descriptions direction="vertical" :column="4" border>
-                        <el-descriptions-item label="Area">{{ roomInfo.area }}</el-descriptions-item>
-                        <el-descriptions-item label="Location">{{ roomInfo.building }}-{{ roomInfo.room
+                        <el-descriptions-item label="Area">{{ roomInfo.room_region }}</el-descriptions-item>
+                        <el-descriptions-item label="Location">{{ roomInfo.room_building }}-{{ roomInfo.room
                         }}</el-descriptions-item>
-                        <el-descriptions-item label="❤" :span="2">{{ roomInfo.like }}</el-descriptions-item>
+                        <el-descriptions-item label="❤" :span="2">{{ roomInfo.room_star }}</el-descriptions-item>
                         <el-descriptions-item label="Comments">
                             <el-collapse accordion>
                                 <el-collapse-item v-for="(comment, index) in comments" :key="index"
@@ -235,6 +240,13 @@ export default {
         },
         quit(){
             this.$store.dispatch("DataProcess/quit")
+        },
+        Kick(row){
+            const info ={
+                studentID :row.studentID,
+                accountNum : this.userInfo.studentID
+            }
+            this.$store.dispatch("DataProcess/kick",info)
         }
     }
 
