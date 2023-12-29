@@ -16,6 +16,7 @@ function loginCheck(param, callback) {
     axios.get(url, {params})
         .then(resp => {
             callback(resp);
+            console.log(resp);
         })
         .catch(errResp => {
             console.log(errResp);
