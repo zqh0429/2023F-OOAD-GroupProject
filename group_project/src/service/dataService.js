@@ -200,62 +200,7 @@ function askMemberData(callback){
         })
 }
 
-function setBeginTime1(beginTime1,callback){
-    const params = {
-        begintime1 : beginTime1,
-    };
-    axios.post('/api/Tselect/setBegin1',{params})
-        .then(resp => {
-            console.log(resp.data)
-            callback(resp)
-        }, errResp => {
-            console.log(errResp)
-        })
 
-}
-
-function setEndTime1(endTime1,callback){
-    const params = {
-        endtime1 : endTime1,
-    };
-    axios.post('/api/Tselect/setEnd1',{params})
-        .then(resp => {
-            console.log(resp.data)
-            callback(resp)
-        }, errResp => {
-            console.log(errResp)
-        })
-
-}
-
-
-function setBeginTime2(beginTime2,callback){
-    const params = {
-        begintime2 : beginTime2,
-    };
-    axios.post('/api/Tselect/setBegin2',{params})
-        .then(resp => {
-            console.log(resp.data)
-            callback(resp)
-        }, errResp => {
-            console.log(errResp)
-        })
-
-}
-
-function setEndTime2(endTime2,callback){
-    const params = {
-        endtime2 : endTime2,
-    };
-    axios.post('/api/Tselect/setEnd2',{params})
-        .then(resp => {
-            console.log(resp.data)
-            callback(resp)
-        }, errResp => {
-            console.log(errResp)
-        })
-
-}
 
 function quit(accountNum) {
     const params = {
@@ -317,10 +262,6 @@ export default {
     setUserInfo,
     addUser,
     askMemberData,
-    setBeginTime1,
-    setEndTime1,
-    setBeginTime2,
-    setEndTime2,
     quit,
     filter,
     kick,

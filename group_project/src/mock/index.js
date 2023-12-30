@@ -9,47 +9,47 @@ import Mock from 'mockjs'
 // });
 
 
-Mock.mock(RegExp("http://127.0.0.1:8082/api/user/login/" + ".*"), 'get', function(){
-    return {
-        code: 0
-    }
+// Mock.mock(RegExp("http://127.0.0.1:8082/api/user/login/" + ".*"), 'get', function(){
+//     return {
+//         code: 0
+//     }
 
-});
+// });
 
-Mock.mock(RegExp("http://127.0.0.1:8082/api/student/information/show/" + ".*"), 'get', function(config){
-    //不同账号返回不同参数
-    const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
-    const accountNum = param.split('=')[1];
-    console.log(accountNum);
-    if(accountNum === '1111'){
-        return {
-            data: {
-                username : "Student 1",
-                studentID: '12330849',
-                isTeacher: false,
-                level: "硕士",
-                circleUrl:
-                    'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-                restTime: "23:00 - 9:00",
-                hometown: "广东深圳",
-                description: "本科就读于南方科技大学，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
-            }
-        }}else if (accountNum === '2222') {
-        return {
-            data: {
-                username : "Teacher 1",
-                studentID: '12330849',
-                isTeacher: true,
-                level: "博士",
-                circleUrl:
-                    'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-                restTime: "23:00 - 9:00",
-                hometown: "广东深圳",
-                description: "本科就读于清华，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
-            }
-        };
-    }
-});
+// Mock.mock(RegExp("http://127.0.0.1:8082/api/student/information/show/" + ".*"), 'get', function(config){
+//     //不同账号返回不同参数
+//     const param = config.url.split('?')[1]; // 通过config.url获取GET请求的参数
+//     const accountNum = param.split('=')[1];
+//     console.log(accountNum);
+//     if(accountNum === '1111'){
+//         return {
+//             data: {
+//                 username : "Student 1",
+//                 studentID: '12330849',
+//                 isTeacher: false,
+//                 level: "硕士",
+//                 circleUrl:
+//                     'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+//                 restTime: "23:00 - 9:00",
+//                 hometown: "广东深圳",
+//                 description: "本科就读于南方科技大学，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
+//             }
+//         }}else if (accountNum === '2222') {
+//         return {
+//             data: {
+//                 username : "Teacher 1",
+//                 studentID: '12330849',
+//                 isTeacher: true,
+//                 level: "博士",
+//                 circleUrl:
+//                     'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+//                 restTime: "23:00 - 9:00",
+//                 hometown: "广东深圳",
+//                 description: "本科就读于清华，喜欢看书听音乐，不吵闹" // 使用前端传入的account参数
+//             }
+//         };
+//     }
+// });
 
 
 // Mock.mock(RegExp("http://127.0.0.1:8082/api/main/v1/loadRoomInfo" + ".*"), 'get', function(config) {

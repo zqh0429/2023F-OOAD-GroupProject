@@ -48,8 +48,8 @@
                             
                                             <el-select v-else v-model="edit_address" class="m-2" placeholder="请选择一个空宿舍"
                                                 @change="select_dormitory()">
-                                                <el-option v-for="item in options_dormitory" :key="item.room_id"
-                                                    :label="item.room_level+' '+item.room_gender+' '+item.room_locate" :value="item.room_id" />
+                                                <el-option v-for="item in options_dormitory" :key="item.roomId"
+                                                    :label="item.room_level+' '+item.room_gender+' '+item.room_locate" :value="item.roomId" />
                                             </el-select>
                                         </template>
                                     </el-table-column>
@@ -82,11 +82,11 @@
                 <el-descriptions-item label="账号"><input v-model="edit_accountNum" /></el-descriptions-item>
                 <el-descriptions-item label="用户名"><input v-model="edit_username" /></el-descriptions-item>
                 <el-descriptions-item label="起始密码"><input v-model="edit_password" /></el-descriptions-item>
-                <el-descriptions-item label="性别"><el-select v-model="edit_gender"> <el-option label="男"
-                            value="男"></el-option> <el-option label="女" value="女"></el-option> </el-select>
+                <el-descriptions-item label="性别"><el-select v-model="edit_gender"> <el-option label="male"
+                            value="male"></el-option> <el-option label="female" value="female"></el-option> </el-select>
                 </el-descriptions-item>
-                <el-descriptions-item label="学历"><el-select v-model="edit_level"> <el-option label="硕士"
-                            value="硕士"></el-option> <el-option label="博士" value="博士"></el-option> </el-select>
+                <el-descriptions-item label="学历"><el-select v-model="edit_level"> <el-option label="master"
+                            value="master"></el-option> <el-option label="doctor" value="doctor"></el-option> </el-select>
                 </el-descriptions-item>
             </el-descriptions>
             <el-button type="primary" @click.prevent="Submit">Submit</el-button>
@@ -149,10 +149,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch("DataProcess/getUserData");
-        // if(localStorage.getItem("news")){
-        //     this.form=JSON.parse(localStorage.getItem("news"))
-        //     this.checked=true
-        // }
+        this.$store.dispatch("DataProcess/filter");
     },
     methods: {
         Import() {
@@ -176,6 +173,7 @@ export default {
         },
 
         handleEdit(row) {
+            this.edit_accountNum = row.accountNum;
             this.edit_username = row.username;
             this.edit_hometown = row.hometown;
             this.edit_restTime = row.restTime;

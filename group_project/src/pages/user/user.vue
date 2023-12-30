@@ -104,10 +104,17 @@
                 <el-dialog v-model="dialogVisible" title="Room Information" @opened="handleDialogOpened">
                     <el-descriptions direction="vertical" :column="4" border>
                         <el-descriptions-item label="Area">{{ roomInfo.room_region }}</el-descriptions-item>
-                        <el-descriptions-item label="Location">{{ roomInfo.room_building }}-{{ roomInfo.room
-                        }}</el-descriptions-item>
+                        <el-descriptions-item label="Location">{{ roomInfo.room_building }}栋</el-descriptions-item>
                         <el-descriptions-item label="❤" :span="2">{{ roomInfo.room_star }}</el-descriptions-item>
+                        <el-descriptions-item label="Gender">{{ roomInfo.room_gender }}</el-descriptions-item>
+                        <el-descriptions-item label="Level"><el-tag>{{ roomInfo.room_level }}</el-tag></el-descriptions-item>
+                    </el-descriptions>
+                    <el-descriptions direction="vertical" :column="3" border>
+                        <el-descriptions-item label="Description">{{ roomInfo.room_description }}</el-descriptions-item>
+                    </el-descriptions>
+                    <el-descriptions direction="vertical" :column="3" border>
                         <el-descriptions-item label="Comments">
+                            
                             <el-collapse accordion>
                                 <el-collapse-item v-for="(comment, index) in comments" :key="index"
                                     :title="comment.user + ': ' + comment.comment" :name="index.toString()"

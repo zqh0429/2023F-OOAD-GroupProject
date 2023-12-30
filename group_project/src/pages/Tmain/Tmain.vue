@@ -48,8 +48,8 @@
                                                                             @input="RoomValidateInput" /></el-descriptions-item>
             <el-descriptions-item v-if="!isEditing" label="Gender">{{ roomInfo.room_gender
               }}</el-descriptions-item>
-            <el-descriptions-item v-else label="Gender"><el-select v-model="roomGender"> <el-option label="男"
-                                                                                                    value="男"></el-option> <el-option label="女" value="女"></el-option> </el-select>
+            <el-descriptions-item v-else label="Gender"><el-select v-model="roomGender"> <el-option label="male"
+                                                                                                    value="male"></el-option> <el-option label="female" value="female"></el-option> </el-select>
             </el-descriptions-item>
             <el-descriptions-item v-if="isEditing" label="Type"><el-select v-bind:placeholder="roomType"
                                                                            v-model="roomType"> <el-option label="单人间" value="1"></el-option> <el-option label="双人间"
@@ -59,8 +59,8 @@
             <el-descriptions-item v-if="!isEditing" label="Level"><el-tag>{{ roomInfo.room_level
               }}</el-tag></el-descriptions-item>
             <el-descriptions-item v-else label="Level"><el-select v-bind:placeholder="roomGender"
-                                                                  v-model="roomLevel"> <el-option label="硕士" value="硕士"></el-option> <el-option label="博士"
-                                                                                                                                                    value="博士"></el-option> </el-select> </el-descriptions-item>
+                                                                  v-model="roomLevel"> <el-option label="master" value="master"></el-option> <el-option label="doctor"
+                                                                                                                                                    value="doctor"></el-option> </el-select> </el-descriptions-item>
           </el-descriptions>
 
           <el-descriptions v-if="!isEditing" direction="vertical" :column="3" border>
@@ -89,18 +89,20 @@
           <el-button v-else type="primary" @click.prevent="Cancel">Cancel</el-button>
         </el-dialog>
       </div>
-
+      <div>
+                <component :is="currentComponent"></component>
+            </div>
     </div>
   </div>
 
   <div>
     <el-dialog v-model="Visible" title="Add New Room">
       <el-descriptions direction="vertical" :column="4" border>
-        <el-descriptions-item label="Gender"><el-select v-model="roomGender"> <el-option label="男"
-                                                                                         value="男"></el-option> <el-option label="女" value="女"></el-option> </el-select>
+        <el-descriptions-item label="Gender"><el-select v-model="roomGender"> <el-option label="male"
+                                                                                         value="male"></el-option> <el-option label="female" value="female"></el-option> </el-select>
         </el-descriptions-item>
-        <el-descriptions-item label="Level"><el-select v-model="roomLevel"> <el-option label="硕士"
-                                                                                       value="硕士"></el-option> <el-option label="博士" value="博士"></el-option> </el-select>
+        <el-descriptions-item label="Level"><el-select v-model="roomLevel"> <el-option label="master"
+                                                                                       value="master"></el-option> <el-option label="doctor" value="doctor"></el-option> </el-select>
         </el-descriptions-item>
 
         <el-descriptions-item label="Type"><el-select v-model="roomType"> <el-option label="单人间"

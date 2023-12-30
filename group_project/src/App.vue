@@ -23,7 +23,7 @@
                     default-active="main"
                     height="100%"
                     @select="changeHandler"
-                    v-if="accountValid&&!isTeacher"
+                    v-if="accountValid&&!teacher"
                 >
                     <el-menu-item index="main">
                         <el-icon><OfficeBuilding /></el-icon>宿舍信息
@@ -44,7 +44,7 @@
                     default-active="main"
                     height="100%"
                     @select="changeHandler"
-                    v-if="accountValid&&isTeacher"
+                    v-if="accountValid&&teacher"
                 >
                     <el-menu-item index="Tmain">
                         <el-icon><OfficeBuilding /></el-icon>宿舍管理
@@ -78,16 +78,16 @@ export default {
     setup() {
         const router = useRouter();
         const accountValid = computed(() => store.state.login.accountValid) ;
-        const isTeacher = computed(() => store.state.DataProcess.userInfo.isTeacher);
+        const teacher = computed(() => store.state.DataProcess.userInfo.teacher);
         const changeHandler = (index) => {
-            console.log(isTeacher)
+            console.log(teacher)
             router.push({ path: "/" + index });
         };
 
         return {
             changeHandler,
             accountValid,
-            isTeacher
+            teacher
         };
 
     },

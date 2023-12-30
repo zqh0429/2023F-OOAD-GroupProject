@@ -135,7 +135,7 @@ function addReply(param, callback) {
 function EditRoom(param,callback){
     console.log(param)
 
-    const url =`${dataServerUrl}/api/main/v1/editRoom`
+    const url =`${dataServerUrl}/api/teacher/editRoom`
     axios.post(url, param)
         .then(resp => {
             callback(resp)
@@ -145,7 +145,7 @@ function EditRoom(param,callback){
 }
 
 function AddRoom(param,callback){
-    const url =`${dataServerUrl}/api/main/v1/addRoom`
+    const url =`${dataServerUrl}/api/teacher/addRoom`
     console.log(param)
     axios.post(url, param)
         .then(resp => {
