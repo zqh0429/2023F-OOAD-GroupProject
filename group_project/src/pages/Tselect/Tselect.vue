@@ -144,8 +144,10 @@ export default {
           const parsedData = this.parseCsv(fileContent);
 
           // 在这里，parsedData 就是实际的数据，你可以进一步处理或传递给后端
+
           console.log(parsedData);
-          await this.sendDataToBackend(parsedData);
+          console.log(fileContent);
+          await this.sendDataToBackend(fileContent);
           // 阻止上传过程
           return false;
       },
