@@ -7,8 +7,8 @@ function starCurrentRoom(param, callback) {
     */
     const url = `${dataServerUrl}/api/main/v1/star`;
     const params = {
-       roomID:param.roomID,
-       studentID:param.studentID
+        roomID:param.roomID,
+        studentID:param.studentID
     };
     // const url = `api/main/v1/loadRoomInfo`;
     axios.post(url, params)
@@ -95,14 +95,11 @@ function getBuildingInfo(param,callback) {
         })
 }
 function deleteRoom(param,callback){
-
-
     const params = {
-        roomId: param
+        param
     };
-    console.log(params)
-    const url =`${dataServerUrl}/api/main/v1/deleteRoom`
-    axios.get(url, {params})
+    const url ='/api/main/v1/deleteRoom'
+    axios.post(url, {params})
         .then(resp => {
             callback(resp)
         }, errResp => {

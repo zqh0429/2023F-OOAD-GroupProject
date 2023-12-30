@@ -100,7 +100,7 @@ const actions = {
         )
     },
     deleteRoom(context){
-        mainService.deleteRoom(context.state.roomInfo.roomId, resp => {
+        mainService.deleteRoom(context.state.roomInfo.roomID, resp => {
             if (resp.data.code === 0) {
                 context.commit("deleteData", resp.data.data)
             } else {

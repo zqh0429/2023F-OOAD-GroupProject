@@ -88,9 +88,10 @@ function updateUserInfo(param,information,callback){  //更新修改后的个人
 
 function askRoomData(param,callback){
     const params = {
-        accountNum : param
+        student_id: param
     };
-    axios.get('/api/user/Room',{params})
+    const url = `${dataServerUrl}/api/main/v1/loadStarRoom`;
+    axios.get(url,{params})
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -190,7 +191,7 @@ function addUser(info,callback){
 }
 
 function askMemberData(callback){
-    axios.get(`${dataServerUrl}/api/main/v1/listdormitoryselection`)
+    axios.get(`${dataServerUrl}/api/teacher/listdormitoryselection`)
         .then(resp => {
             console.log(resp.data)
             callback(resp)
@@ -266,16 +267,14 @@ function quit(accountNum) {
 }
 
 function filter(callback){
-
-    axios.get(`${dataServerUrl}/api/main/v1/listfilterdormitoryselection`)
-    .then(resp => {
-        console.log(resp.data)
-        callback(resp)
-    }, errResp => {
-        console.log(errResp)
-    })
+    axios.post('/api/Tselect/filterMemberData')
+        .then(resp => {
+            console.log(resp.data)
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
 }
-<<<<<<< HEAD
 
 
 function kick(info, callback){
@@ -283,19 +282,16 @@ function kick(info, callback){
         studentID : info.studentID,
         accountNum :info.accountNum
     };
-    console.log(params)
     const url = `${dataServerUrl}/api/team/expelTeammate`;
     axios.get(url,{params})
-    .then(resp => {
-        console.log(resp.data)
-        callback(resp)
-    }, errResp => {
-        console.log(errResp)
-    })
+        .then(resp => {
+            console.log(resp.data)
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
 }
 
-=======
->>>>>>> 83f1271f57388b4efca155a1db497219692a1c9c
 export default {
     askUserInfo,
     updateUserInfo,
@@ -314,6 +310,7 @@ export default {
     setBeginTime2,
     setEndTime2,
     quit,
-    filter
+    filter,
+    kick
 
 }
