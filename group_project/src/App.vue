@@ -78,7 +78,7 @@ export default {
     setup() {
         const router = useRouter();
         const accountValid = computed(() => store.state.login.accountValid) ;
-        const isTeacher = computed(() => store.state.DataProcess.userInfo.teacher);
+        const isTeacher = computed(() => store.state.DataProcess.userInfo.isTeacher);
         const changeHandler = (index) => {
             console.log(isTeacher)
             router.push({ path: "/" + index });

@@ -20,9 +20,29 @@
                                   value-format="YYYY-MM-DD HH:mm:ss" @change="beginDate2"></el-date-picker>
                   <el-date-picker v-model="end2" type="datetime" placeholder="设置抢宿舍结束时间" style="margin-right: 50px;"
                                   value-format="YYYY-MM-DD HH:mm:ss" @change="endDate2"></el-date-picker>
+                    <el-button class="button" @click.prevent="Import">导入</el-button>
                   <el-button class="button" @click="Export">导出信息</el-button>
                   <el-button class="button" @click="Filterate">过滤</el-button>
                   <!-- <el-button class="button" text>Operation button</el-button> -->
+                    <el-dialog v-model="uploadDialog">
+                        <el-upload
+                            class="upload-demo"
+                            drag
+                            :before-upload="handleBeforeUpload"
+                            action="dummy-action"
+                            multiple
+                        >
+                            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                            <div class="el-upload__text">
+                                Drop file here or <em>click to upload</em>
+                            </div>
+                            <template #tip>
+                                <div class="el-upload__tip">
+                                    jpg/png files with a size less than 500kb
+                                </div>
+                            </template>
+                        </el-upload>
+                    </el-dialog>
                 </div>
               </template>
               <div>
@@ -56,9 +76,12 @@
 <script>
 import {ref} from "vue";
 import { mapState } from "vuex";
-// import axios from 'axios'
+import {UploadFilled} from "@element-plus/icons-vue";
+import axios from "axios";
+import Papa from 'papaparse';
 export default {
   name: 'userPanel',
+    components: {UploadFilled},
   data() {
     return {
       begin1 : ref(''),
@@ -66,7 +89,8 @@ export default {
       begin2 : ref(''),
       end2 :  ref(''),
 
-      isEditing: false
+      isEditing: false,
+        uploadDialog:false,
     };
   },
   computed: {
@@ -83,6 +107,10 @@ export default {
     this.$store.dispatch("DataProcess/getMemberData");
   },
   methods: {
+      Import(){
+          this.uploadDialog = true
+          console.log(this.uploadDialog)
+      },
     Export() {
 
     },
@@ -108,7 +136,51 @@ export default {
     },
     Filterate(){
       this.$store.dispatch("DataProcess/filter");
-    }
+    },
+      async handleBeforeUpload(file) {
+          const fileContent = await this.readFileContent(file);
+
+          // 解析 CSV 文件内容
+          const parsedData = this.parseCsv(fileContent);
+
+          // 在这里，parsedData 就是实际的数据，你可以进一步处理或传递给后端
+          console.log(parsedData);
+          await this.sendDataToBackend(parsedData);
+          // 阻止上传过程
+          return false;
+      },
+      readFileContent(file) {
+          return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (event) => resolve(event.target.result);
+              reader.onerror = (error) => reject(error);
+              reader.readAsText(file);
+          });
+      },
+      parseCsv(fileContent) {
+          return new Promise((resolve) => {
+              // 使用 papaparse 解析 CSV 文件内容
+              Papa.parse(fileContent, {
+                  header: true,  // 如果 CSV 文件有标题行，请设置为 true
+                  complete: (result) => {
+                      resolve(result.data);
+                  },
+              });
+          });
+      },
+      async sendDataToBackend(parsedData) {
+          try {
+              // 使用 Axios 发送 POST 请求到后端
+              const response = await axios.post('http://127.0.0.1:8082/api/', {
+                  data: parsedData,
+              });
+
+              // 处理后端返回的响应
+              console.log(response.data);
+          } catch (error) {
+              console.error('Error sending data to backend:', error);
+          }
+      },
   },
 
 }
