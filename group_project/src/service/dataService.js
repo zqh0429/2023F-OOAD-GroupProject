@@ -291,7 +291,19 @@ function kick(info, callback){
             console.log(errResp)
         })
 }
-
+function getUserAvatar(info, callback){
+    const params = {
+        studentID : info,
+    };
+    const url = `${dataServerUrl}/api/user/getUserAvatar`;
+    axios.get(url,{params})
+        .then(resp => {
+            console.log(resp.data)
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
 export default {
     askUserInfo,
     updateUserInfo,
@@ -311,6 +323,7 @@ export default {
     setEndTime2,
     quit,
     filter,
-    kick
+    kick,
+    getUserAvatar
 
 }

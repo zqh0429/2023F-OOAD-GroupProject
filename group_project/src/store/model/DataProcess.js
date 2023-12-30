@@ -10,14 +10,13 @@ const state = () => ({
         studentID: '',
         isTeacher:false,
         level: "",
-        circleUrl: '',
         restTime: "",
         hometown: "",
         description: "",
         gender : ""
     },
 
-
+    avatar: '',//头像
     msgOverviewData: [],
     msgID: "",
     msgInfo: [],
@@ -121,6 +120,12 @@ const actions = {
     getUserData(context) {
         dataService.askUserData(resp => {
             context.commit("setUserData", resp.data.data)
+        })
+    },
+
+    getUserAvatar(context) {
+        dataService.getUserAvatar(context.state.userInfo.studentID,resp => {
+            context.commit("getUserAvatar", resp.data.data)
         })
     },
 
@@ -248,6 +253,9 @@ const mutations = {
     },
     kick(state,data){
         state.roommateData =data
+    },
+    getUserAvatar(state,data){
+        state.avatar =data
     }
 }
 

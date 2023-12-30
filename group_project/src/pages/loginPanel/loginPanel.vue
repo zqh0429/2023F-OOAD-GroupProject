@@ -127,11 +127,12 @@ export default {
 
 .usertext {
     font-size: 36px;
-    color: #256bc7;
+    color: #abddf1;
     font-family: 'Arial Black', Gadget, sans-serif;
     text-align: center;
     margin-top: 20px;
     text-shadow: 2px 2px 4px #000000;
+    line-height: 1.2;
 }
 
 .logindata {

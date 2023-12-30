@@ -11,7 +11,8 @@
                                         <el-space wrap :size="25">
                                             <div class="demo-basic--circle">
                                                 <div class="block">
-                                                    <el-avatar :size="50" :src="userInfo.circleUrl" />
+<!--                                                    <el-avatar :size="50" :src="userInfo.circleUrl" @click="showAvatarDialog"/>-->
+                                                    <el-avatar :size="50" :src="getUserAvatarUrl()" @click="showAvatarDialog"/>
                                                 </div>
                                             </div>
                                             <el-col :span="30">
@@ -122,7 +123,18 @@
                     </el-descriptions>
                     <el-button type="primary" @click.prevent="choose">choose</el-button>
                 </el-dialog>
-
+            </div>
+            <div>
+                <el-dialog v-model="avatarDialogVisible" title="大头像" width="30%">
+                    <el-avatar :size="150" :src="getUserAvatarUrl()" />
+                    <el-upload
+                        class="avatar-uploader"
+                        action="/api/upload"
+                    :show-file-list="false"
+                    >
+                    <el-button size="small" type="primary">更换头像</el-button>
+                    </el-upload>
+                </el-dialog>
             </div>
             <div>
                 <transition name="fade">
@@ -151,7 +163,8 @@ export default {
                 username: ''
             },
             isEditing: false,
-            dialogVisible: false
+            dialogVisible: false,
+            avatarDialogVisible: false,
         };
     },
     computed: {
@@ -159,7 +172,8 @@ export default {
             userInfo: state => state.userInfo,
             accountNum: state => state.accountNum,
             roomData: state => state.roomData,
-            roommateData: state => state.roommateData
+            roommateData: state => state.roommateData,
+            avatar:state => state.avatar
         }),
         ...mapState('main', {
             roomInfo: state => state.roomInfo,
@@ -173,6 +187,7 @@ export default {
         this.$store.dispatch("DataProcess/getUserInfo");
         this.$store.dispatch("DataProcess/getRoomData");
         this.$store.dispatch("DataProcess/getRoommateData");
+
         // if(localStorage.getItem("news")){
         //     this.form=JSON.parse(localStorage.getItem("news"))
         //     this.checked=true
@@ -197,18 +212,20 @@ export default {
         cancelEdit() {  //“取消”
             this.isEditing = false;
         },
+        showAvatarDialog() {
+            this.avatarDialogVisible = true;
+        },
+        getUserAvatarUrl() {
+            // 假设后端返回的用户信息中有一个名为 'avatar' 的字段，存储头像的二进制数据
+            const avatarData = this.avatar;
 
-        goToMain() {
-            // 导航到/main页面
-            this.$router.push('/main');
-        },
-        goToForum() {
-            // 导航到/forum页面
-            this.$router.push('/forum');
-        },
-        goToChat() {
-            // 导航到/forum页面
-            this.$router.push('/chat');
+            // 将头像的二进制数据转换为 Base64 编码
+            const base64Image = btoa(String.fromCharCode.apply(null, new Uint8Array(avatarData)));
+
+            // 创建头像的 Data URL
+            const imageUrl = 'data:image/png;base64,' + base64Image;
+
+            return imageUrl;
         },
         check(row) {
             this.dialogVisible = true
