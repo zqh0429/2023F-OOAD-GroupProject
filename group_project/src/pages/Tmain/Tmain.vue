@@ -256,7 +256,7 @@ export default {
     Submit() {
       this.isEditing = false
       const info = {
-        room_id: this.roomInfo.room_id,
+        roomId: this.roomInfo.roomId,
         room_region: this.roomRegion,
         room_building: this.roomBuilding,
         room_floor: this.roomFloor,

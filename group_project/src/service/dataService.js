@@ -267,7 +267,7 @@ function quit(accountNum) {
 }
 
 function filter(callback){
-    axios.post('/api/Tselect/filterMemberData')
+    axios.get(`${dataServerUrl}/api/teacher/listfilterdormitoryselection`)//
         .then(resp => {
             console.log(resp.data)
             callback(resp)

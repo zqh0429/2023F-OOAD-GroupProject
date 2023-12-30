@@ -96,10 +96,10 @@ function getBuildingInfo(param,callback) {
 }
 function deleteRoom(param,callback){
     const params = {
-        param
+       roomId: param
     };
-    const url ='/api/main/v1/deleteRoom'
-    axios.post(url, {params})
+    const url =`${dataServerUrl}/api/teacher/deleteRoom`
+    axios.get(url, {params})
         .then(resp => {
             callback(resp)
         }, errResp => {
