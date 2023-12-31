@@ -4,7 +4,7 @@
             <span class="font-bold text-lg">SUSTech Dormitory Selection</span>
         </h2>
         <el-container class="h-full">
-            <el-aside width="200px">
+            <el-aside width="170px">
                 <img src="./assets/sustc.png" alt="Static Image" width="120" height="120" />
                 <el-menu
                     theme="light"
@@ -87,7 +87,8 @@ export default {
         return {
             changeHandler,
             accountValid,
-            teacher
+            teacher,
+
         };
 
     },
@@ -95,6 +96,7 @@ export default {
 </script>
 
 <style>
+h2{margin: 0px; padding: 0px;}
 html, body {
     height: 100%;
     margin: 0;

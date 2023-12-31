@@ -1,11 +1,39 @@
 <template>
     <div id="container"></div>
-    <el-dialog v-model="dialogVisible" title="Building Information">
-        <el-form :data="buildingInfo" label-width="80px">
-            <el-form-item label="Name">{{ buildingInfo.name }}</el-form-item>
-            <el-form-item label="Comments">{{ buildingInfo.comments }}</el-form-item>
-        </el-form>
+    <el-dialog v-model="dialogVisible" :title="buildingInfo.name" width="1000px">
+        <el-tabs tab-position="left" style="height: 400px" class="demo-tabs">
+            <el-tab-pane label="Info">
+                <el-form :data="buildingInfo" label-width="10px">
+                    <el-form-item><el-icon><Location /></el-icon>{{ buildingInfo.location }}</el-form-item>
+                    <el-form-item><el-icon><Comment /></el-icon>{{ buildingInfo.comments }}</el-form-item>
+                    <el-form-item>
+                        <img :src="buildingInfo.img" width="600" height="350" alt="">
+                    </el-form-item>
+                </el-form>
+            </el-tab-pane>
+            <el-tab-pane label="Floor">
+                <el-row>
+                    <el-card v-for="item in buildingInfo.rooms" :key="item.id" shadow="hover">
+                        <h3>
+                            <a @click="handleUserClick(item.id)">{{ item.room }}</a>
+                        </h3>
+                        <el-button @click="choose">Choose</el-button>
+                    </el-card>
+                </el-row>
+            </el-tab-pane>
+        </el-tabs>
     </el-dialog>
+    <div>
+        <el-dialog v-model="checkRoomInfo" title="Room Information">
+            <el-descriptions direction="vertical" :column="3" border>
+                <el-descriptions-item label="Area">{{ roomInfo.room_region }}</el-descriptions-item>
+                <el-descriptions-item label="Location">{{ roomInfo.room_building }}-{{ roomInfo.room_number }}</el-descriptions-item>
+                <el-descriptions-item label="❤" :span="2">{{ roomInfo.room_star }}</el-descriptions-item>
+                <el-descriptions-item label="Gender">{{ roomInfo.room_gender }}</el-descriptions-item>
+                <el-descriptions-item label="Level"><el-tag>{{ roomInfo.room_level }}</el-tag></el-descriptions-item>
+            </el-descriptions>
+        </el-dialog>
+    </div>
 </template>
 
 <script setup>
@@ -14,9 +42,25 @@ import AMapLoader from "@amap/amap-jsapi-loader";
 import {ref} from "vue";
 import store from "@/store";
 import {computed} from "vue-demi";
+import {Comment, Location} from "@element-plus/icons-vue";
 
 const dialogVisible = ref(false);
+const checkRoomInfo= ref(false);
 const  buildingInfo = computed(() => store.state.main.buildingInfo)
+const  roomInfo = computed(() => store.state.main.roomInfo)
+const userID = computed(() => store.state.DataProcess.userInfo.studentID)
+function choose() {
+    const info = {
+        accountNum: userID,
+        roomId:this.roomInfo.roomId
+    }
+    store.dispatch("main/choose", info)
+    this.showMessage()
+}
+function handleUserClick(id) {
+    checkRoomInfo.value = true;
+    store.dispatch("main/loadRoomInfoByID",id)
+}
 //进行地图初始化
 function initMap() {
     AMapLoader.load({

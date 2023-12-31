@@ -2,10 +2,17 @@
     <div class="body">
         <div class="data">
             <div>
-                <el-button @click="showContent('button1')" @click.prevent="loadPost">Post</el-button>
-                <el-button @click="showContent('button2')" @click.prevent="loadGroup">Group Info</el-button>
+                <el-menu
+                    :default-active="activeIndex"
+                    class="el-menu-demo"
+                    mode="horizontal"
+                    @select="handleSelect"
+                >
+                    <el-menu-item index="1" >Post</el-menu-item>
+                    <el-menu-item index="2">Group</el-menu-item>
+                </el-menu>
                 <div>
-                    <div v-if="activeButton === 'button1'">
+                    <div v-if="activeTab === '1'">
                         <el-container>
                             <el-header>
                                 <el-row :gutter="10">
@@ -135,7 +142,7 @@
                             </el-dialog>
                         </div>
                     </div>
-                    <div v-if="activeButton === 'button2'">
+                    <div v-if="activeTab === '2'">
                         <el-container>
                             <el-header>
                                 <el-row :gutter="10">
@@ -282,7 +289,8 @@ export default {
     data() {
         return {
             info: 3,
-            activeButton: 'button1',
+            activeIndex: '1',
+            activeTab : '1',
             searchBy: ref(''),
             searchMethods:[{ value: 'WakeUp', label: 'WakeUp',},{ value: 'Sleep', label: 'Sleep',},
                 { value: 'Tag', label: 'Tag',}],
@@ -329,13 +337,13 @@ export default {
         this.$store.dispatch("forum/loadGroup")
     },
     methods: {
-        showContent(button) {
-            this.activeButton = button;
+        handleSelect(index) {
+            this.activeTab = index;
         },
         handleUserClick() {
             this.checkUserInfo = true;
             console.log('User clicked:', this.postInfo.user);
-            this.$store.dispatch("forum/loadGroup")
+            this.$store.dispatch("forum/searchUser")
         },
         loadPost(){
             this.$store.dispatch("forum/loadPost")
@@ -515,5 +523,7 @@ export default {
 </script>
 
 <style>
-
+.el-menu-demo {
+    margin-bottom: 10px;
+}
 </style>

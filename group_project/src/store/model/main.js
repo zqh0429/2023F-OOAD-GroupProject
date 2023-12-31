@@ -34,8 +34,10 @@ const state = () => ({
         reply:null,
     },
     buildingInfo:{
-        name:11,
-        comments:null
+        location:11,
+        img:'',
+        comments:null,
+        rooms:null,
     },
     comments:null,
     replies: null,
@@ -57,6 +59,15 @@ const actions = {
     },
     loadRoomInfo(context) {
         mainService.loadRoomInfo(context.state.selectedRoom, resp => {
+            if (resp.data.code === 0) {
+                context.commit("changeLocation", resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
+    loadRoomInfoByID(context,id) {
+        mainService.loadRoomInfoByID(id, resp => {
             if (resp.data.code === 0) {
                 context.commit("changeLocation", resp.data.data)
             } else {

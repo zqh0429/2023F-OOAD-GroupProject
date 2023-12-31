@@ -42,6 +42,24 @@ function loadRoomInfo(param, callback) {
             console.log(errResp);
         });
 }
+function loadRoomInfoByID(param, callback) {
+    /*
+        param: roomID
+    */
+    const url = `${dataServerUrl}/api/main/v1/loadRoomInfoByID`;
+    const params = {
+        param
+    };
+    // const url = `api/main/v1/loadRoomInfo`;
+    axios.get(url, {params})
+        .then(resp => {
+            callback(resp);
+            console.log(resp.data)
+        })
+        .catch(errResp => {
+            console.log(errResp);
+        });
+}
 function listComment(param, callback) {
     /*
     param: roomID
@@ -182,5 +200,6 @@ export default {
     addReply,
     EditRoom,
     AddRoom,
-    ChooseRoom
+    ChooseRoom,
+    loadRoomInfoByID
 };
