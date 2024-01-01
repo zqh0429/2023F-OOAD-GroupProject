@@ -90,10 +90,10 @@ function initMap() {
                 // mouseTool.measureArea(); // 测量面积
             });
             const points = [
-                { position: [114.000957, 22.60277], id:1},
-                { position: [113.998537, 22.601819], id:2},
-                { position: [113.998269, 22.601784], id:3},
-                { position: [114.000846, 22.60451], id:4}
+                { position: [114.000957, 22.60277], area:"二期",building: 17},
+                { position: [113.998537, 22.601819], area:"二期",building: 10},
+                { position: [113.998269, 22.601784], area:"二期",building: 9},
+                { position: [114.000846, 22.60451], area:"荔园",building: 7}
             ];
 
             points.forEach(point => {
@@ -109,7 +109,8 @@ function initMap() {
                 // 添加点击事件监听
                 circle.on('click', function () {
                     dialogVisible.value = true; // 打开对话框
-                    store.dispatch("main/getBuildingInfo",point.id)
+                    const params = {area: point.area, building: point.building}
+                    store.dispatch("main/getBuildingInfo",params)
                     console.log(buildingInfo)
                 });
             });
