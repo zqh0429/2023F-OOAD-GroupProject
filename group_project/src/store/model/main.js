@@ -98,9 +98,9 @@ const actions = {
             }
         )
     },
-    getBuildingInfo(context,id) {
-        console.log(id)
-        mainService.getBuildingInfo(id, resp => {
+    getBuildingInfo(context,params) {
+        console.log(params)
+        mainService.getBuildingInfo(params, resp => {
                 console.log(resp)
                 if (resp.data.code === 0) {
                     context.commit("getBuildingInfo", resp.data.data)
