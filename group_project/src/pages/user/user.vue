@@ -12,7 +12,7 @@
                                             <div class="demo-basic--circle">
                                                 <div class="block">
 <!--                                                    <el-avatar :size="50" :src="userInfo.circleUrl" @click="showAvatarDialog"/>-->
-                                                    <el-avatar :size="50" :src="getUserAvatarUrl()" @click="showAvatarDialog"/>
+                                                    <el-avatar :size="50" :src="userInfo.circle_url" @click="showAvatarDialog"/>
                                                 </div>
                                             </div>
                                             <el-col :span="30">
@@ -133,10 +133,10 @@
             </div>
             <div>
                 <el-dialog v-model="avatarDialogVisible" title="大头像" width="30%">
-                    <el-avatar :size="150" :src="getUserAvatarUrl()" />
+                    <el-avatar :size="150" :src="userInfo.circle_url" />
                     <el-upload
                         class="avatar-uploader"
-                        action="/api/upload"
+                        action="http://127.0.0.1:8082/api/user/updateURL"
                     :show-file-list="false"
                     >
                     <el-button size="small" type="primary">更换头像</el-button>
@@ -180,7 +180,7 @@ export default {
             accountNum: state => state.accountNum,
             roomData: state => state.roomData,
             roommateData: state => state.roommateData,
-            avatar:state => state.avatar
+            // avatar:state => state.avatar
         }),
         ...mapState('main', {
             roomInfo: state => state.roomInfo,
@@ -222,18 +222,18 @@ export default {
         showAvatarDialog() {
             this.avatarDialogVisible = true;
         },
-        getUserAvatarUrl() {
-            // 假设后端返回的用户信息中有一个名为 'avatar' 的字段，存储头像的二进制数据
-            const avatarData = this.avatar;
+        // getUserAvatarUrl() {
+        //     // 假设后端返回的用户信息中有一个名为 'avatar' 的字段，存储头像的二进制数据
+        //     const avatarData = this.avatar;
 
-            // 将头像的二进制数据转换为 Base64 编码
-            const base64Image = btoa(String.fromCharCode.apply(null, new Uint8Array(avatarData)));
+        //     // 将头像的二进制数据转换为 Base64 编码
+        //     const base64Image = btoa(String.fromCharCode.apply(null, new Uint8Array(avatarData)));
 
-            // 创建头像的 Data URL
-            const imageUrl = 'data:image/png;base64,' + base64Image;
+        //     // 创建头像的 Data URL
+        //     const imageUrl = 'data:image/png;base64,' + base64Image;
 
-            return imageUrl;
-        },
+        //     return imageUrl;
+        // },
         check(row) {
             this.dialogVisible = true
             this.selectedRoom.area = row.area
