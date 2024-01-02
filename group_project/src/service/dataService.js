@@ -258,8 +258,8 @@ function deleteStu(accountNum,callback) {
     const params = {
         accountNum : accountNum,
     };
-    const url = `${dataServerUrl}/api/teacher/deleteStu`;
-    axios.post(url,{params}) .then(resp => {
+    const url = `${dataServerUrl}/api/teacher/deleteAccount`;
+    axios.get(url,{params}) .then(resp => {
         console.log(resp.data)
         callback(resp)
     }, errResp => {

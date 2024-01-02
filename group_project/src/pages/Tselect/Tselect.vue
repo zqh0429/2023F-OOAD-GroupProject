@@ -172,10 +172,12 @@ export default {
       },
       async sendDataToBackend(parsedData) {
           try {
+              const params = {
+                data: parsedData
+              }
+              console.log(params)
               // 使用 Axios 发送 POST 请求到后端
-              const response = await axios.post('http://127.0.0.1:8082/api/', {
-                  data: parsedData,
-              });
+              const response = await axios.get('http://127.0.0.1:8082/api/teacher/uploadRoomFile', {params});
 
               // 处理后端返回的响应
               console.log(response.data);
