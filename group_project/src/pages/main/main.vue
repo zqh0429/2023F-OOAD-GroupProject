@@ -48,29 +48,28 @@
                     <el-input v-model="inputComment" :placeholder=replyPlaceholder v-if="isReplyingComment" />
                     <el-button type="primary" @click.prevent="star">❤</el-button>
                     <el-button type="primary" @click.prevent="addCommentOrReply">Comment</el-button>
-                    <el-button type="primary" @click.prevent="choose">choose</el-button>
+                    <el-button type="primary" :disabled="!isTimeInRange" @click.prevent="choose">choose</el-button>
                 </el-dialog>
             </div>
             <div>
                 <transition name="fade">
                     <div v-if="showMsg" class="message-box">
-                        <p>{{ msg }}</p>
+                        <p>{{ msgChoose }}</p>
                     </div>
                 </transition>
             </div>
+            
             <div>
                 <component :is="currentComponent"></component>
             </div>
-
         </div>
     </div>
 </template>
 
 
 <script>
-
-import { ref } from "vue";
-import { mapState } from "vuex";
+import { ref, computed } from "vue";
+import { mapState, useStore } from "vuex";
 import MapComponent from './MapComponent.vue';
 
 
@@ -82,23 +81,39 @@ export default {
             showMsg: false,
             info: 3,
             value_area: ref(''),
-            options_area: [{ value: '一期', label: '一期宿舍', },
-            { value: '二期', label: '二期宿舍', }
+            options_area: [{ value: '一期', label: '一期宿舍' },
+            { value: '二期', label: '二期宿舍' },
+            { value: 'hupan', label: '湖畔宿舍' }
             ],
             value_building: ref(''),
-            options_building: [{ value: '8', label: '8栋', },
+            options_building: [{ value: '1', label: '1栋', },
+            { value: '2', label: '2栋', },
+            { value: '3', label: '3栋', },
+            { value: '4', label: '4栋', },
+            { value: '5', label: '5栋', },
+            { value: '6', label: '6栋', },
+            { value: '7', label: '7栋', },
+            { value: '8', label: '8栋', },
             { value: '9', label: '9栋', },
             { value: '10', label: '10栋', },
+            { value: '11', label: '11栋', },
+            { value: '12', label: '12栋', },
+            { value: '13', label: '13栋', },
+            { value: '14', label: '14栋', },
+            { value: '15', label: '15栋', },
+            { value: '16', label: '16栋', },
             { value: '17', label: '17栋', }
             ],
             value_floor: ref(''),
-            options_floor: [{ value: '1', label: '一楼', },
-            { value: '2', label: '二楼', }
-            ],
+            options_floor: Array.from({ length: 20 }, (_, index) => ({
+                value: (index + 1).toString(),
+                label: (index + 1) + '楼'
+            })),
             value_room: ref(''),
-            options_room: [{ value: '1', label: '1', },
-            { value: '2', label: '2', }
-            ],
+            options_room: Array.from({ length: 35 }, (_, index) => ({
+                value: (index + 1).toString(),
+                label: (index + 1) + '号房间'
+            })),
             dialogVisible: false,
             isLeavingComment: false,
             inputComment: ref(''),
@@ -115,6 +130,36 @@ export default {
         //     this.checked=true
         // }
 
+    },setup() {
+        // const beginTime = new Date('2023-12-25 08:00:00');
+        // const endTime = new Date('2023-12-25 17:00:00');
+
+        const store = useStore();
+
+        const currentTime = ref(new Date());
+
+        const isTimeInRange = computed(() => {
+            if (store.state.DataProcess.userInfo.level ==="master"){
+                const begin1 = new Date(store.state.DataProcess.beginTime1);
+            const end1 = new Date(store.state.DataProcess.endTime1);
+            console.log(begin1)
+            console.log(currentTime)
+            return currentTime.value >= begin1 && currentTime.value <= end1;
+            }
+            else if (store.state.DataProcess.userInfo.level ==="doctor"){
+                const begin2 = new Date(store.state.DataProcess.beginTime2);
+            const end2 = new Date(store.state.DataProcess.endTime2);
+            console.log(begin2)
+            console.log(currentTime)
+            return currentTime.value >= begin2 && currentTime.value <= end2;
+            }
+         
+            return true
+        });
+
+        return {
+            isTimeInRange
+        };
     },
     methods: {
         select_building() {
@@ -135,8 +180,13 @@ export default {
         },
         handleDialogOpened() {
             // 在对话框打开时调用的方法
-            this.$store.dispatch("main/loadRoomInfo")
             this.$store.dispatch("main/listComment")
+
+            this.$store.dispatch("main/loadRoomInfo", () => {
+                // listComment执行完成后的操作
+
+                this.$message.success(this.msg);
+            })
             console.log(this.roomInfo);
             console.log(this.commentLine)
         },
@@ -197,7 +247,8 @@ export default {
             comments: state => state.comments,
             replyLine: state => state.replyLine,
             accountNum: state => state.accountNum,
-            msg: state => state.msg
+            msg: state => state.msg,
+            msgChoose : state => state.msgChoose
             // inputComment: state => state.inputComment,
             // inputUser: state => state.inputUser
         }),

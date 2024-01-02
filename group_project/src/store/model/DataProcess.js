@@ -33,8 +33,8 @@ const state = () => ({
 
     beginTime1 : "2023-12-26 00:00:00",
     endTime1 : "2023-12-29 00:00:00",
-    beginTime2 : "",
-    endTime2 : ""
+    beginTime2 : "2023-12-26 00:00:00",
+    endTime2 : "2024-12-29 00:00:00"
 
 
 
@@ -133,6 +133,7 @@ const actions = {
     editUser(context, info) {
         dataService.setUserInfo(info, resp => {
             console.log(resp.data)
+            context.dispatch("getUserData") 
         })
 
     },
@@ -140,6 +141,7 @@ const actions = {
     addUser(context, info) {
         dataService.addUser(info, resp => {
             console.log(resp.data)
+            context.dispatch("getUserData")
         })
     },
 

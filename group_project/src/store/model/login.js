@@ -32,6 +32,9 @@ const actions = {
             callback(new Error('Login check failed')) // 异步操作失败，调用回调函数并传入错误信息
           }
         })
+      },
+      reset(context){
+        context.commit("reset")
       }
 }
 const mutations = {
@@ -39,6 +42,11 @@ const mutations = {
         state.accountValid = status
         console.log(state.accountValid)
     },
+    reset(state){
+      state.accountValid=false
+      state.form.accountNum=""
+      state.form.password=""
+    }
 }
 
 

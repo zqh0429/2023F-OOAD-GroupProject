@@ -1,6 +1,20 @@
 import axios from 'axios';
 
 const dataServerUrl = 'http://127.0.0.1:8082';
+
+
+function listRoom(callback){
+    
+    const url = `${dataServerUrl}/api/teacher/listRoom`;
+    axios.get(url)
+        .then(resp => {
+            console.log(resp.data)
+            callback(resp)
+        }, errResp => {
+            console.log(errResp)
+        })
+}
+
 function starCurrentRoom(param, callback) {
     /*
         param: roomID,studentID
@@ -202,5 +216,6 @@ export default {
     EditRoom,
     AddRoom,
     ChooseRoom,
-    loadRoomInfoByID
+    loadRoomInfoByID,
+    listRoom
 };
