@@ -168,7 +168,7 @@ export default {
             console.log(this.uploadDialog)
         },
         Export(){
-            this.$store.dispatch("DataProcess/export");
+            this.$store.dispatch("DataProcess/exportStudentInfo");
         },
         select_dormitory() {
 

@@ -268,8 +268,8 @@ function deleteStu(accountNum,callback) {
 
 }
 
-function exportInfo(callback) {
-    const url = `${dataServerUrl}/api/teacher/deleteAccount`;
+function exportDormInfo(callback) {
+    const url = `${dataServerUrl}/api/teacher/exportDormInfo`;
     axios.get(url) .then(resp => {
         console.log(resp.data)
         callback(resp)
@@ -279,6 +279,16 @@ function exportInfo(callback) {
 
 }
 
+function exportStudentInfo(callback) {
+    const url = `${dataServerUrl}/api/teacher/exportStudentInfo`;
+    axios.get(url) .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })
+
+}
 export default {
     askUserInfo,
     updateUserInfo,
@@ -297,6 +307,7 @@ export default {
     kick,
     getUserAvatar,
     deleteStu,
-    exportInfo
+    exportDormInfo,
+    exportStudentInfo
 
 }

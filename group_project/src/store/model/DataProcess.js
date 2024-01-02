@@ -199,8 +199,13 @@ const actions = {
         })
         
     },
-    export() {
-        dataService.exportInfo(resp => {
+    exportDormInfo() {
+        dataService.exportDormInfo(resp => {
+            console.log(resp)
+        })
+    },
+    exportStudentInfo() {
+        dataService.exportStudentInfo(resp => {
             console.log(resp)
         })
     },
