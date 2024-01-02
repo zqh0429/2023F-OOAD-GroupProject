@@ -198,8 +198,12 @@ const actions = {
             console.log(resp)
         })
         
-    }
-
+    },
+    export() {
+        dataService.exportInfo(resp => {
+            console.log(resp)
+        })
+    },
 
 
 

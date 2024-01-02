@@ -112,7 +112,7 @@ export default {
           console.log(this.uploadDialog)
       },
     Export() {
-
+        this.$store.dispatch("DataProcess/export");
     },
     beginDate1() {
 

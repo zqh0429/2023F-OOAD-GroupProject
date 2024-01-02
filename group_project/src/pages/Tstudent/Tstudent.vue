@@ -11,6 +11,7 @@
                                     <span style="margin-right: 50px;">学生信息一览</span>
                                     <el-button class="button" @click="handleAdd">Add</el-button>
                                     <el-button class="button" @click="Import">导入</el-button>
+                                    <el-button class="button" @click="Export">导出</el-button>
                                     <!-- <el-button class="button" text>Operation button</el-button> -->
                                 </div>
                             </template>
@@ -165,6 +166,9 @@ export default {
         Import() {
             this.uploadDialog = true
             console.log(this.uploadDialog)
+        },
+        Export(){
+            this.$store.dispatch("DataProcess/export");
         },
         select_dormitory() {
 

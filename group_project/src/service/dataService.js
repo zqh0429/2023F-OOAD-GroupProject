@@ -268,7 +268,16 @@ function deleteStu(accountNum,callback) {
 
 }
 
+function exportInfo(callback) {
+    const url = `${dataServerUrl}/api/teacher/deleteAccount`;
+    axios.get(url) .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })
 
+}
 
 export default {
     askUserInfo,
@@ -287,6 +296,7 @@ export default {
     filter,
     kick,
     getUserAvatar,
-    deleteStu
+    deleteStu,
+    exportInfo
 
 }
