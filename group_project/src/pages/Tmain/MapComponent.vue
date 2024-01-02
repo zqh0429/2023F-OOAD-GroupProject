@@ -1,11 +1,39 @@
 <template>
     <div id="container"></div>
-    <el-dialog v-model="dialogVisible" title="Building Information">
-        <el-form :data="buildingInfo" label-width="80px">
-            <el-form-item label="Name">{{ buildingInfo.name }}</el-form-item>
-            <el-form-item label="Comments">{{ buildingInfo.comments }}</el-form-item>
-        </el-form>
+    <el-dialog v-model="dialogVisible" :title="buildingInfo.name" width="1000px">
+        <el-tabs tab-position="left" style="height: 400px" class="demo-tabs">
+            <el-tab-pane label="Info">
+                <el-form :data="buildingInfo" label-width="10px">
+                    <el-form-item><el-icon><Location /></el-icon>{{ buildingInfo.location }}</el-form-item>
+                    <el-form-item><el-icon><Comment /></el-icon>{{ buildingInfo.comments }}</el-form-item>
+                    <el-form-item>
+                        <img :src="buildingInfo.img" width="600" height="350" alt="">
+                    </el-form-item>
+                </el-form>
+            </el-tab-pane>
+            <el-tab-pane label="Floor">
+                <el-row>
+                    <el-card v-for="item in buildingInfo.rooms" :key="item.id" shadow="hover">
+                        <h3>
+                            <a @click="handleUserClick(item)">{{ item.room_region }}</a>
+                        </h3>
+                        <el-button @click="choose">Choose</el-button>
+                    </el-card>
+                </el-row>
+            </el-tab-pane>
+        </el-tabs>
     </el-dialog>
+    <div>
+        <el-dialog v-model="checkRoomInfo" title="Room Information">
+            <el-descriptions direction="vertical" :column="3" border>
+                <el-descriptions-item label="Area">{{ curRoom.room_region }}</el-descriptions-item>
+                <el-descriptions-item label="Location">{{ curRoom.room_type}}</el-descriptions-item>
+                <el-descriptions-item label="❤" :span="2">{{ curRoom.room_star }}</el-descriptions-item>
+                <el-descriptions-item label="Gender">{{ curRoom.room_gender }}</el-descriptions-item>
+                <el-descriptions-item label="Level"><el-tag>{{ curRoom.room_level }}</el-tag></el-descriptions-item>
+            </el-descriptions>
+        </el-dialog>
+    </div>
 </template>
 
 <script setup>
@@ -14,9 +42,30 @@ import AMapLoader from "@amap/amap-jsapi-loader";
 import {ref} from "vue";
 import store from "@/store";
 import {computed} from "vue-demi";
+import {Comment, Location} from "@element-plus/icons-vue";
 
 const dialogVisible = ref(false);
+const checkRoomInfo= ref(false);
 const  buildingInfo = computed(() => store.state.main.buildingInfo)
+const userID = computed(() => store.state.DataProcess.userInfo.studentID)
+const curRoom = {room_region: "102", room_type: 4, room_gender: "male", room_star: 2, room_level: "master"}
+function choose() {
+    const info = {
+        accountNum: userID,
+        roomId:this.roomInfo.roomId
+    }
+    store.dispatch("main/choose", info)
+    this.showMessage()
+}
+function handleUserClick(room) {
+  console.log(room)
+  curRoom.room_region = room.room_region
+  curRoom.room_gender = room.room_gender
+  curRoom.room_star = room.room_star
+  curRoom.room_type = room.room_type
+  curRoom.room_level = room.room_level
+    checkRoomInfo.value = true;
+}
 //进行地图初始化
 function initMap() {
     AMapLoader.load({
@@ -46,10 +95,10 @@ function initMap() {
                 // mouseTool.measureArea(); // 测量面积
             });
             const points = [
-                { position: [114.000957, 22.60277], id:1},
-                { position: [113.998537, 22.601819], id:2},
-                { position: [113.998269, 22.601784], id:3},
-                { position: [114.000846, 22.60451], id:4}
+                { position: [114.000957, 22.60277], area:"二期",building: 17},
+                { position: [113.998537, 22.601819], area:"二期",building: 10},
+                { position: [113.998269, 22.601784], area:"二期",building: 9},
+                { position: [114.000846, 22.60451], area:"荔园",building: 7}
             ];
 
             points.forEach(point => {
@@ -65,7 +114,8 @@ function initMap() {
                 // 添加点击事件监听
                 circle.on('click', function () {
                     dialogVisible.value = true; // 打开对话框
-                    store.dispatch("main/getBuildingInfo",point.id)
+                    const params = {area: point.area, building: point.building}
+                    store.dispatch("main/getBuildingInfo",params)
                     console.log(buildingInfo)
                 });
             });

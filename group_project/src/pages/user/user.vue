@@ -50,6 +50,13 @@
                                 <el-button @click="startEdit">编辑个人信息</el-button>
                             </div>
                         </el-card>
+                        <el-card>
+                            <el-steps :active="2" align-center>
+                                <el-step title="研究生选房" :description="beginTime1 + ' - ' + endTime1" />
+                                <el-step title="博士生选房" :description="beginTime2 + ' - ' + endTime2" />
+                                <el-step title="候补调剂" description="Some description" />
+                            </el-steps>
+                        </el-card>
                     </el-aside>
                     <el-main>
                         <el-card class="box-card-bookmark" :height="10">
@@ -180,6 +187,10 @@ export default {
             accountNum: state => state.accountNum,
             roomData: state => state.roomData,
             roommateData: state => state.roommateData,
+            beginTime1 : state => state.beginTime1,
+            endTime1 : state => state.endTime1,
+            beginTime2 : state => state.beginTime2,
+            endTime2 : state => state.endTime2
             // avatar:state => state.avatar
         }),
         ...mapState('main', {

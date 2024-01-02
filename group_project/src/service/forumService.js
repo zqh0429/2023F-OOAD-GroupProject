@@ -110,7 +110,9 @@ function searchGroupByTag(param, callback) {
     const url = `${dataServerUrl}/api/team/searchByTag`;
     // const url = `api/forum/group/searchGroupByTag`;
     const params = {
-        team_tags: param
+        gender:param.gender,
+        level:param.level,
+        team_tags:param.tags
     };
     console.log(param)
     axios.post(url, params)
@@ -121,17 +123,19 @@ function searchGroupByTag(param, callback) {
             console.log(errResp);
         });
 }
-function searchGroupByWake(param, callback) {
+function searchGroupByWake(time, callback) {
     /*
         param: startTime,endTime
     */
     const url = `${dataServerUrl}/api/team/searchByWake`;
     // const url = `api/forum/group/searchGroupByWake`;
     const params = {
-        startTime: param.startTime,
-        endTime: param.endTime
+        gender:time.gender,
+        level:time.level,
+        startTime: time.startTime,
+        endTime: time.endTime
     };
-    console.log(param)
+    console.log(time)
     axios.get(url, {params})
         .then(resp => {
             callback(resp);
@@ -140,17 +144,19 @@ function searchGroupByWake(param, callback) {
             console.log(errResp);
         });
 }
-function searchGroupBySleep(param, callback) {
+function searchGroupBySleep(time, callback) {
     /*
         param: startTime,endTime
     */
     const url = `${dataServerUrl}/api/team/searchBySleep`;
     // const url = `api/forum/group/searchGroupBySleep`;
     const params = {
-        startTime: param.startTime,
-        endTime: param.endTime
+        gender:time.gender,
+        level:time.level,
+        startTime: time.startTime,
+        endTime: time.endTime
     };
-    console.log(param)
+    console.log(time)
     axios.get(url, {params})
         .then(resp => {
             callback(resp);

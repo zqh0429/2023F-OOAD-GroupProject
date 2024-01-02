@@ -43,7 +43,6 @@
                                     <el-select-v2
                                         v-if="searchBy ==='Tag'" v-model="tagValue" :options="tagOptions" placeholder="Please select"
                                         style="width: 240px" multiple/>
-
                                     <el-button @click="searchPostByOption">Search</el-button>
                                     <el-button type="primary" @click="openDialog"> + </el-button>
                                 </el-row>
@@ -146,6 +145,16 @@
                         <el-container>
                             <el-header>
                                 <el-row :gutter="10">
+                                    <el-select v-model="genderValue" placeholder="Gender">
+                                        <el-option label="不限" value="all"/>
+                                        <el-option label="男" value="male"/>
+                                        <el-option label="女" value="female"/>
+                                    </el-select>
+                                    <el-select v-model="levelValue" placeholder="level">
+                                        <el-option label="不限" value="all"/>
+                                        <el-option label="硕士" value="master"/>
+                                        <el-option label="博士" value="doctor"/>
+                                    </el-select>
                                     <el-select v-model="searchBy" class="m-2" placeholder="Select">
                                         <el-option
                                             v-for="item in searchMethods"
@@ -156,9 +165,9 @@
                                     </el-select>
                                     <div class="demo-time-range" v-if="searchBy === 'WakeUp' || searchBy === 'Sleep'">
                                         <el-time-select v-model="startTime"  class="mr-4"
-                                            placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
+                                                        placeholder="Start time" start="00:00" step="00:15" end="24:00"/>
                                         <el-time-select v-model="endTime" placeholder="End time"
-                                            start="00:00" step="00:15" end="24:00"/>
+                                                        start="00:00" step="00:15" end="24:00"/>
                                     </div>
                                     <el-select-v2
                                         v-if="searchBy ==='Tag'" v-model="tagValue" :options="tagOptions" placeholder="Please select"
@@ -368,28 +377,41 @@ export default {
                 console.log(params)
                 this.$store.dispatch("forum/searchPostByTag",params)
             }else if (this.searchBy === 'WakeUp'){
-
                 console.log(this.startTime+" "+this.endTime)
                 const time = {gender:this.genderValue, level:this.levelValue,
                     startTime: this.startTime, endTime: this.endTime}
                 this.$store.dispatch("forum/searchPostByWake",time)
-
             }else if (this.searchBy === 'Sleep'){
                 const time = {gender:this.genderValue, level:this.levelValue,
                     startTime: this.startTime, endTime: this.endTime}
                 this.$store.dispatch("forum/searchPostBySleep",time)
+            }else {
+                if (this.genderValue !== 'all' || this.levelValue !== 'all'){
+                    const time = {gender:this.genderValue, level:this.levelValue,
+                        startTime: "00:00", endTime: "23:45"}
+                    this.$store.dispatch("forum/searchPostByWake",time)
+                }else {
+                    this.$store.dispatch("forum/loadPost")
+                }
             }
         },
         searchGroupByOption(){
             if (this.searchBy === 'Tag'){
-                console.log(this.tagValue)
-                this.$store.dispatch("forum/searchGroupByTag",this.tagValue)
+                const params = {gender:this.genderValue,level:this.levelValue,
+                    tags: this.tagValue}
+                console.log(params)
+                this.$store.dispatch("forum/searchGroupByTag",params)
             }else if (this.searchBy === 'WakeUp'){
-                const time = {startTime: this.startTime, endTime: this.endTime}
+                console.log(this.startTime+" "+this.endTime)
+                const time = {gender:this.genderValue, level:this.levelValue,
+                    startTime: this.startTime, endTime: this.endTime}
                 this.$store.dispatch("forum/searchGroupByWake",time)
             }else if (this.searchBy === 'Sleep'){
-                const time = {startTime: this.startTime, endTime: this.endTime}
+                const time = {gender:this.genderValue, level:this.levelValue,
+                    startTime: this.startTime, endTime: this.endTime}
                 this.$store.dispatch("forum/searchGroupBySleep",time)
+            }else {
+                this.$store.dispatch("forum/loadGroup")
             }
         },
         joinGroup(){
