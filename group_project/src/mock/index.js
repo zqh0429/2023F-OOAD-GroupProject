@@ -101,12 +101,12 @@ Mock.mock(RegExp("http://127.0.0.1:8082/api/groupChat/load" + ".*"), 'get', func
 //         { area: "二期", building: "17栋", floor: "3楼", room: "304" }
 //     ]
 // });
-Mock.mock(RegExp("/api/user/login/" + ".*"), 'get', function(){
-    return {
-        code: 0
-    }
-
-});
+// Mock.mock(RegExp("/api/user/login/" + ".*"), 'get', function(){
+//     return {
+//         code: 0
+//     }
+//
+// });
 
 // Mock.mock(RegExp("api/main/v1/addComment" + ".*"), 'post', function(config){
 //     console.log(config);
@@ -127,36 +127,36 @@ Mock.mock(RegExp("/api/user/login/" + ".*"), 'get', function(){
 //         ]
 //     };
 // });
-Mock.mock(RegExp("api/main/v1/getBuildingInfo" + ".*"), 'get', function(options) {
-    const id = options.url.split('=')[1];
-    if (id === '1'){
-        return {
-            code:0,
-            data: { location: "学生宿舍二期17栋", comments: "1111",
-                img:'../../assets/background.png',
-            rooms:[{id:1, room: 101, type: 4, gender: "male", star: 2, level: "master"},
-                {id:1, room: 102, type: 4, gender: "male", star: 2, level: "master"},
-                {id:1, room: 103, type: 4, gender: "male", star: 3, level: "master"},
-                {id:1, room: 104, type: 4, gender: "male", star: 1, level: "master"}]}
-        };
-    }else if (id === '2'){
-        return {
-            code:0,
-            data: { location: "学生宿舍二期10栋", comments: "222" }
-        };
-    }else if (id === '3'){
-        return {
-            code:0,
-            data: { location: "学生宿舍二期9栋", comments: "222" }
-        };
-    }else if (id === '4'){
-        return {
-            code:0,
-            data: { location: "荔园", comments: "222" }
-        };
-    }
-
-});
+// Mock.mock(RegExp("api/main/v1/getBuildingInfo" + ".*"), 'get', function(options) {
+//     const id = options.url.split('=')[1];
+//     if (id === '1'){
+//         return {
+//             code:0,
+//             data: { location: "学生宿舍二期17栋", comments: "1111",
+//                 img:'../../assets/background.png',
+//             rooms:[{id:1, room: 101, type: 4, gender: "male", star: 2, level: "master"},
+//                 {id:1, room: 102, type: 4, gender: "male", star: 2, level: "master"},
+//                 {id:1, room: 103, type: 4, gender: "male", star: 3, level: "master"},
+//                 {id:1, room: 104, type: 4, gender: "male", star: 1, level: "master"}]}
+//         };
+//     }else if (id === '2'){
+//         return {
+//             code:0,
+//             data: { location: "学生宿舍二期10栋", comments: "222" }
+//         };
+//     }else if (id === '3'){
+//         return {
+//             code:0,
+//             data: { location: "学生宿舍二期9栋", comments: "222" }
+//         };
+//     }else if (id === '4'){
+//         return {
+//             code:0,
+//             data: { location: "荔园", comments: "222" }
+//         };
+//     }
+//
+// });
 // Mock.mock(RegExp("api/forum/post/loadPost" + ".*"), 'get', function() {
 //     console.log("进入了 loadPost 拦截方法");
 //     return {
@@ -475,12 +475,12 @@ Mock.mock(RegExp("/api/Tselect/setBegin2" + ".*"), 'post', function(config) {
     };
 });
 
-Mock.mock(RegExp("/api/main/v1/addRoom" + ".*"), 'post', function(config) {
-    console.log(config);
-    return {
-        code:0
-    };
-});
+// Mock.mock(RegExp("/api/main/v1/addRoom" + ".*"), 'post', function(config) {
+//     console.log(config);
+//     return {
+//         code:0
+//     };
+// });
 
 // Mock.mock(RegExp("/api/main/v1/chooseRoom" + ".*"), 'post', function(config) {
 //     console.log(config);

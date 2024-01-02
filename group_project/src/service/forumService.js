@@ -45,7 +45,7 @@ function searchPostByTag(param, callback) {
         param: tagValue (array)
     */
     // const url = `${dataServerUrl}/api/post/v1/searchPost`;
-    const url = `api/forum/post/searchPostByTag`;
+    const url = `${dataServerUrl}/api/forum/post/searchPostByTag`;
     console.log(param)
     const params = {
         gender:param.gender,

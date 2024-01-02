@@ -105,7 +105,7 @@ function getBuildingInfo(param,callback) {
         area: param.area,
         building: param.building
     };
-    const url = `api/main/v1/getBuildingInfo`
+    const url = `${dataServerUrl}/api/main/v1/getBuildingInfo`
     axios.get(url, {params})
         .then(resp => {
             callback(resp)

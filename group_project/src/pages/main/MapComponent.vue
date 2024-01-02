@@ -15,7 +15,7 @@
                 <el-row>
                     <el-card v-for="item in buildingInfo.rooms" :key="item.id" shadow="hover">
                         <h3>
-                            <a @click="handleUserClick(item.id)">{{ item.room }}</a>
+                            <a @click="handleUserClick(item)">{{ item.room_region }}</a>
                         </h3>
                         <el-button @click="choose">Choose</el-button>
                     </el-card>
@@ -26,11 +26,11 @@
     <div>
         <el-dialog v-model="checkRoomInfo" title="Room Information">
             <el-descriptions direction="vertical" :column="3" border>
-                <el-descriptions-item label="Area">{{ roomInfo.room_region }}</el-descriptions-item>
-                <el-descriptions-item label="Location">{{ roomInfo.room_building }}-{{ roomInfo.room_number }}</el-descriptions-item>
-                <el-descriptions-item label="❤" :span="2">{{ roomInfo.room_star }}</el-descriptions-item>
-                <el-descriptions-item label="Gender">{{ roomInfo.room_gender }}</el-descriptions-item>
-                <el-descriptions-item label="Level"><el-tag>{{ roomInfo.room_level }}</el-tag></el-descriptions-item>
+                <el-descriptions-item label="Area">{{ curRoom.room_region }}</el-descriptions-item>
+                <el-descriptions-item label="Location">{{ curRoom.room_type}}</el-descriptions-item>
+                <el-descriptions-item label="❤" :span="2">{{ curRoom.room_star }}</el-descriptions-item>
+                <el-descriptions-item label="Gender">{{ curRoom.room_gender }}</el-descriptions-item>
+                <el-descriptions-item label="Level"><el-tag>{{ curRoom.room_level }}</el-tag></el-descriptions-item>
             </el-descriptions>
         </el-dialog>
     </div>
@@ -47,8 +47,8 @@ import {Comment, Location} from "@element-plus/icons-vue";
 const dialogVisible = ref(false);
 const checkRoomInfo= ref(false);
 const  buildingInfo = computed(() => store.state.main.buildingInfo)
-const  roomInfo = computed(() => store.state.main.roomInfo)
 const userID = computed(() => store.state.DataProcess.userInfo.studentID)
+const curRoom = {room_region: "102", room_type: 4, room_gender: "male", room_star: 2, room_level: "master"}
 function choose() {
     const info = {
         accountNum: userID,
@@ -57,9 +57,14 @@ function choose() {
     store.dispatch("main/choose", info)
     this.showMessage()
 }
-function handleUserClick(id) {
+function handleUserClick(room) {
+  console.log(room)
+  curRoom.room_region = room.room_region
+  curRoom.room_gender = room.room_gender
+  curRoom.room_star = room.room_star
+  curRoom.room_type = room.room_type
+  curRoom.room_level = room.room_level
     checkRoomInfo.value = true;
-    store.dispatch("main/loadRoomInfoByID",id)
 }
 //进行地图初始化
 function initMap() {

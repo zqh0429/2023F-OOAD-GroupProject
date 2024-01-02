@@ -9,6 +9,7 @@ const state = () => ({
         username: "",
         studentID: '',
         isTeacher:false,
+        circleUrl:'',
         level: "",
         restTime: "",
         hometown: "",
