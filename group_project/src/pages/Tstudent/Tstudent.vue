@@ -60,6 +60,10 @@
                                         <template v-slot="scope">
                                             <el-button v-if="!scope.row.editable"
                                                 @click="handleEdit(scope.row)">Edit</el-button>
+
+                                               
+                                            <el-button v-if="!scope.row.editable"
+                                                @click="handleDelete(scope.row)">Delete</el-button> 
                                             <el-button v-else @click="handleCancel(scope.row)">Cancel</el-button>
                                             <el-button v-if="scope.row.editable"
                                                 @click="handleSubmit(scope.row)">Submit</el-button>
@@ -152,6 +156,10 @@ export default {
         this.$store.dispatch("DataProcess/filter");
     },
     methods: {
+        handleDelete(row)
+        {const accountNum = row.accountNum
+            this.$store.dispatch("DataProcess/deleteStu",accountNum);
+        },
         Import() {
             this.uploadDialog = true
             console.log(this.uploadDialog)

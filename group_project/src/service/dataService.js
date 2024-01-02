@@ -248,7 +248,28 @@ function getUserAvatar(info, callback){
         }, errResp => {
             console.log(errResp)
         })
+
+
+
+
 }
+
+function deleteStu(accountNum,callback) {
+    const params = {
+        accountNum : accountNum,
+    };
+    const url = `${dataServerUrl}/api/teacher/deleteStu`;
+    axios.post(url,{params}) .then(resp => {
+        console.log(resp.data)
+        callback(resp)
+    }, errResp => {
+        console.log(errResp)
+    })
+
+}
+
+
+
 export default {
     askUserInfo,
     updateUserInfo,
@@ -265,6 +286,7 @@ export default {
     quit,
     filter,
     kick,
-    getUserAvatar
+    getUserAvatar,
+    deleteStu
 
 }

@@ -190,6 +190,12 @@ const actions = {
         dataService.kick(info,resp => {
             context.commit("kick", resp.data.data)
         })
+    },
+    deleteStu(context,accountNum){
+        dataService.deleteStu(accountNum,resp => {
+            console.log(resp)
+        })
+        
     }
 
 
