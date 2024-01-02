@@ -37,6 +37,7 @@
                     <el-menu-item index="user">
                         <el-icon><User /></el-icon>个人中心
                     </el-menu-item>
+                    
                 </el-menu>
                 <el-menu
                     theme="light"
@@ -55,7 +56,7 @@
                     <el-menu-item index="Tselect">
                         <el-icon><Bell /></el-icon>选宿舍管理
                     </el-menu-item>
-
+                    
                 </el-menu>
             </el-aside>
             <el-main>
@@ -80,6 +81,7 @@ export default {
         const accountValid = computed(() => store.state.login.accountValid) ;
         const teacher = computed(() => store.state.DataProcess.userInfo.teacher);
         const changeHandler = (index) => {
+           
             console.log(teacher)
             router.push({ path: "/" + index });
         };
@@ -92,6 +94,17 @@ export default {
         };
 
     },
+    computed:{
+       
+    },
+    method:{
+        logout(){
+            this.accountValid=false
+            this.form.accountNum=""
+            this.form.password=""
+        }
+    }
+    
 };
 </script>
 

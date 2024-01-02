@@ -1,7 +1,9 @@
 <template>
   <div class="mainbody">
     <div class="maindata">
-      <div class="searchRoom">
+      <div class="searchRoom" style="margin-bottom: 20px;">
+  
+
         <el-select v-model="value_area" class="m-2" placeholder="Area" @change="select_building()">
           <el-option v-for="item in options_area" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
@@ -88,11 +90,58 @@
           <el-button v-if="!isEditing" type="primary" @click.prevent="deleteRoom">Delete</el-button>
           <el-button v-else type="primary" @click.prevent="Cancel">Cancel</el-button>
         </el-dialog>
+
+
+        <el-card class="box-card-bookmark" :height="10">
+              <template #header>
+                <div class="card-header">
+                  <span style="margin-right: 50px;">宿舍信息一览</span>               
+                </div>
+              </template>
+              <div>
+                <el-table :data="allRoom" style="width: 100%">
+                  <el-table-column prop="room_region" label="宿舍区域" />
+                  
+                  <el-table-column prop="room_building" label="楼栋">
+                  </el-table-column>
+
+                  <el-table-column prop="room_floor" label="楼层">
+                  </el-table-column>
+                  <el-table-column prop="room_number" label="房间">
+                  </el-table-column>
+                  <el-table-column prop="room_gender" label="性别" width="80">
+
+                  </el-table-column>
+                  <el-table-column prop="room_level" label="学历" width="80">
+
+                  </el-table-column>
+                  <el-table-column prop="room_type" label="房间容量">
+
+                  </el-table-column>
+
+
+                 
+                  <el-table-column label="操作">
+                    <template v-slot="scope">
+                    
+                      <el-button v-if="isCancel" @click="firstDelete(scope.row)">删除</el-button>
+                      <el-button v-if="!isCancel" @click="deleteRoom(scope.row)">确定删除</el-button>
+                      <el-button v-if="!isCancel" @click="cancelFirstDelete">取消</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+
+              </div>
+            </el-card>
+
       </div>
-      <div>
-                <component :is="currentComponent"></component>
-            </div>
+      
     </div>
+
+
+
+
+    
   </div>
 
   <div>
@@ -126,7 +175,8 @@
 
 import { ref } from "vue";
 import { mapState } from "vuex";
-import MapComponent from './MapComponent.vue';
+
+
 
 
 export default {
@@ -137,28 +187,43 @@ export default {
       Visible: false,
       info: 3,
       value_area: ref(''),
-      options_area: [{ value: '一期', label: '一期宿舍', },
-        { value: '二期', label: '二期宿舍', }
-      ],
-      value_building: ref(''),
-      options_building: [{ value: '8', label: '8栋', },
-        { value: '9', label: '9栋', },
-        { value: '10', label: '10栋', },
-        { value: '17', label: '17栋', }
-      ],
-      value_floor: ref(''),
-      options_floor: [{ value: '1', label: '一楼', },
-        { value: '2', label: '二楼', }
-      ],
-      value_room: ref(''),
-      options_room: [{ value: '1', label: '1', },
-        { value: '2', label: '2', }
-      ],
+            options_area: [{ value: '一期', label: '一期宿舍' },
+            { value: '二期', label: '二期宿舍' },
+            { value: 'hupan', label: '湖畔宿舍' }
+            ],
+            value_building: ref(''),
+            options_building: [{ value: '1', label: '1栋', },
+            { value: '2', label: '2栋', },
+            { value: '3', label: '3栋', },
+            { value: '4', label: '4栋', },
+            { value: '5', label: '5栋', },
+            { value: '6', label: '6栋', },
+            { value: '7', label: '7栋', },
+            { value: '8', label: '8栋', },
+            { value: '9', label: '9栋', },
+            { value: '10', label: '10栋', },
+            { value: '11', label: '11栋', },
+            { value: '12', label: '12栋', },
+            { value: '13', label: '13栋', },
+            { value: '14', label: '14栋', },
+            { value: '15', label: '15栋', },
+            { value: '16', label: '16栋', },
+            { value: '17', label: '17栋', }
+            ],
+            value_floor: ref(''),
+            options_floor: Array.from({ length: 20 }, (_, index) => ({
+                value: (index + 1).toString(),
+                label: (index + 1) + '楼'
+            })),
+            value_room: ref(''),
+            options_room: Array.from({ length: 35 }, (_, index) => ({
+                value: (index + 1).toString(),
+                label: (index + 1) + '号房间'
+            })),
       dialogVisible: false,
       isEditing: false,
       isLeavingComment: false,
       inputComment: ref(''),
-      currentComponent: MapComponent,
       area: "",
       building: "",
       room: "",
@@ -170,7 +235,8 @@ export default {
       roomNumber: "",
       roomDescription: "",
       roomRegion: "",
-      roomBuilding: ""
+      roomBuilding: "",
+      isCancel:true
     };
   },
   mounted() {
@@ -178,9 +244,25 @@ export default {
     //     this.form=JSON.parse(localStorage.getItem("news"))
     //     this.checked=true
     // }
+    this.$store.dispatch("main/listRoom")
 
   },
   methods: {
+    firstDelete(row){this.isCancel = false
+    this.roomInfo.roomId = row.roomId
+    },
+    cancelFirstDelete(){
+      this.isCancel = true
+    },
+    deleteRoom(row) {
+      this.roomInfo.roomId = row.roomId
+      console.log(this.roomInfo.roomId)
+      this.$store.dispatch("main/deleteRoom")
+      // this.$store.dispatch("DataProcess/listRoom")
+      
+      this.isCancel=true
+
+    },
     select_building() {
       //TODO: load information from database
     },
@@ -193,11 +275,13 @@ export default {
     FloorValidateInput() {
       if (this.roomFloor !== '' && (isNaN(this.roomFloor) || this.roomFloor < 1 || this.roomFloor > 20 || !Number.isInteger(Number(this.roomFloor)))) {
         this.roomFloor = '';
+        this.$message.success('请输入1-20以内的数字')
       }
     },
     RoomValidateInput() {
       if (this.roomNumber !== '' && (isNaN(this.roomNumber) || this.roomNumber < 1 || this.roomNumber > 30 || !Number.isInteger(Number(this.roomNumber)))) {
         this.roomNumber = '';
+        this.$message.success('请输入1-30以内的数字')
       }
     },
     loadRoomInfo() {
@@ -210,7 +294,12 @@ export default {
     },
     handleDialogOpened() {
       // 在对话框打开时调用的方法
-      this.$store.dispatch("main/loadRoomInfo")
+      this.$store.dispatch("main/listComment")
+      this.$store.dispatch("main/loadRoomInfo", () => {
+                // listComment执行完成后的操作
+
+                this.$message.success(this.msg);
+            })
       //   this.$store.dispatch("main/listComment")
       console.log(this.roomInfo);
       console.log(this.commentLine)
@@ -237,9 +326,6 @@ export default {
     goToChat() {
       // 导航到/forum页面
       this.$router.push('/chat');
-    },
-    deleteRoom() {
-      this.$store.dispatch("main/deleteRoom")
     },
     Edit() {
       this.isEditing = true
@@ -304,7 +390,8 @@ export default {
       commentLine: state => state.commentLine,
       selectedRoom: state => state.selectedRoom,
       comments: state => state.comments,
-      user: state => state.user
+      user: state => state.user,
+      allRoom:state => state.allRoom
       // inputComment: state => state.inputComment,
       // inputUser: state => state.inputUser
     }),

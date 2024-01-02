@@ -30,16 +30,18 @@
                                             <el-input v-else v-model="edit_password">{{ scope.row.password }}</el-input>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="gender" label="性别" width="80">
+                                    <el-table-column prop="gender" label="性别" width="150">
                                         <template v-slot="scope">
                                             <span v-if="!scope.row.editable">{{ scope.row.gender }}</span>
-                                            <el-input v-else v-model="edit_gender">{{ scope.row.gender }}</el-input>
+                                            <el-select  v-else v-model="edit_gender"> <el-option label="male"
+                            value="male"></el-option> <el-option label="female" value="female"></el-option> </el-select>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="level" label="学历" width="80">
+                                    <el-table-column prop="level" label="学历" width="150">
                                         <template v-slot="scope">
                                             <span v-if="!scope.row.editable">{{ scope.row.level }}</span>
-                                            <el-input v-else v-model="edit_level">{{ scope.row.level }}</el-input>
+                                            <el-select v-else v-model="edit_level"> <el-option label="master"
+                            value="master"></el-option> <el-option label="doctor" value="doctor"></el-option> </el-select>
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="address" label="宿舍地址">
@@ -193,6 +195,12 @@ export default {
         },
         handleCancel(row) {
             row.editable = false;// Set the row back to non-editable
+            this.edit_accountNum = ""
+            this.edit_level = ""
+            this.edit_password = ""
+            this.edit_gender = ""
+            this.edit_description = ""
+            this.edit_username = ""
         },
         handleSubmit(row) {
             // Submit the changes for the row
@@ -206,6 +214,12 @@ export default {
                 level : this.edit_level,
             
             }
+            this.edit_accountNum = ""
+            this.edit_level = ""
+            this.edit_password = ""
+            this.edit_gender = ""
+            this.edit_description = ""
+            this.edit_username = ""
             this.$store.dispatch("DataProcess/editUser", info);
             row.editable = false;// Set the row back to non-editable after submitting
             
@@ -221,11 +235,11 @@ export default {
 
 
             this.edit_accountNum = ""
-            this.edit_username = ""
+            this.edit_level = ""
             this.edit_password = ""
-            this.edit_restTime = ""
+            this.edit_gender = ""
             this.edit_description = ""
-            this.edit_hometown = ""
+            this.edit_username = ""
             this.dialogVisible = false
             console.log(info)
             this.$store.dispatch("DataProcess/addUser", info);

@@ -11,8 +11,9 @@
                                         <el-space wrap :size="25">
                                             <div class="demo-basic--circle">
                                                 <div class="block">
-<!--                                                    <el-avatar :size="50" :src="userInfo.circleUrl" @click="showAvatarDialog"/>-->
-                                                    <el-avatar :size="50" :src="userInfo.circle_url" @click="showAvatarDialog"/>
+                                                    <!--                                                    <el-avatar :size="50" :src="userInfo.circleUrl" @click="showAvatarDialog"/>-->
+                                                    <el-avatar :size="50" :src="userInfo.circle_url"
+                                                        @click="showAvatarDialog" />
                                                 </div>
                                             </div>
                                             <el-col :span="30">
@@ -20,7 +21,8 @@
                                                 <input v-else v-model="editedUserInfo.username">
                                                 <!-- <h2>{{ userInfo.username }}</h2> -->
                                                 <h3>{{ userInfo.studentID }}
-                                                    <el-tag size="small" style=" margin-right: 10px;">{{ userInfo.gender }}</el-tag>
+                                                    <el-tag size="small" style=" margin-right: 10px;">{{ userInfo.gender
+                                                    }}</el-tag>
                                                     <el-tag size="small">{{ userInfo.level }}</el-tag>
                                                 </h3>
                                             </el-col>
@@ -31,8 +33,17 @@
                             <el-descriptions :column="2" direction="vertical">
                                 <el-descriptions-item label="休息时间" v-if="!isEditing">{{ userInfo.restTime
                                 }}</el-descriptions-item>
-                                <el-descriptions-item label="休息时间" v-else><el-input
-                                        v-model="editedUserInfo.restTime" /></el-descriptions-item>
+                                <el-descriptions-item label="休息时间" v-else>
+                                    <div class="time">
+                                        <el-time-select v-model="startTime" class="mr-4" placeholder="Start time"
+                                            start="00:00" step="00:15" end="24:00" />
+                                        <el-time-select v-model="endTime" placeholder="End time" start="00:00" step="00:15"
+                                            end="24:00" />
+                                    </div>
+
+                                    <!-- <el-input
+                                        v-model="editedUserInfo.restTime" /> -->
+                                </el-descriptions-item>
                                 <el-descriptions-item label="家乡" v-if="!isEditing">{{ userInfo.hometown
                                 }}</el-descriptions-item>
                                 <el-descriptions-item label="家乡" v-else><el-input
@@ -72,6 +83,7 @@
                                     <el-table-column prop="building" label="楼栋" width="180" />
                                     <el-table-column prop="floor" label="楼层" />
                                     <el-table-column prop="number" label="房间号" />
+                                    <el-table-column prop="room_star" label="收藏数" />
                                     <el-table-column label="操作">
                                         <template v-slot="scope">
 
@@ -114,18 +126,18 @@
                         <el-descriptions-item label="Location">{{ roomInfo.room_building }}栋</el-descriptions-item>
                         <el-descriptions-item label="❤" :span="2">{{ roomInfo.room_star }}</el-descriptions-item>
                         <el-descriptions-item label="Gender">{{ roomInfo.room_gender }}</el-descriptions-item>
-                        <el-descriptions-item label="Level"><el-tag>{{ roomInfo.room_level }}</el-tag></el-descriptions-item>
+                        <el-descriptions-item label="Level"><el-tag>{{ roomInfo.room_level
+                        }}</el-tag></el-descriptions-item>
                     </el-descriptions>
                     <el-descriptions direction="vertical" :column="3" border>
                         <el-descriptions-item label="Description">{{ roomInfo.room_description }}</el-descriptions-item>
                     </el-descriptions>
                     <el-descriptions direction="vertical" :column="3" border>
                         <el-descriptions-item label="Comments">
-                            
+
                             <el-collapse accordion>
                                 <el-collapse-item v-for="(comment, index) in comments" :key="index"
-                                    :title="comment.user + ': ' + comment.comment" :name="index.toString()"
-                                    >
+                                    :title="comment.user + ': ' + comment.comment" :name="index.toString()">
                                     <div v-if="comment.replies && comment.replies.length > 0">
                                         <div v-for="(reply, i) in comment.replies" :key="i" :title="reply.user">
                                             {{ reply.user }} RE @{{ reply.repliedUser }}: {{ reply.content }}
@@ -141,19 +153,16 @@
             <div>
                 <el-dialog v-model="avatarDialogVisible" title="大头像" width="30%">
                     <el-avatar :size="150" :src="userInfo.circle_url" />
-                    <el-upload
-                        class="avatar-uploader"
-                        action="http://127.0.0.1:8082/api/user/updateURL"
-                    :show-file-list="false"
-                    >
-                    <el-button size="small" type="primary">更换头像</el-button>
+                    <el-upload class="avatar-uploader"
+                        action="http://127.0.0.1:8082/api/user/updateURL?accountNum=${accountNum}" :show-file-list="false">
+                        <el-button size="small" type="primary">更换头像</el-button>
                     </el-upload>
                 </el-dialog>
             </div>
             <div>
                 <transition name="fade">
                     <div v-if="showMsg" class="message-box">
-                        <p>{{ msg }}</p>
+                        <p>{{ msgChoose }}</p>
                     </div>
                 </transition>
             </div>
@@ -171,14 +180,16 @@ export default {
         return {
             showMsg: false,
             editedUserInfo: {
-                restTime: '',
-                hometown: '',
-                description: '',
-                username: ''
+                restTime: "",
+                hometown: "",
+                description: "",
+                username: ""
             },
             isEditing: false,
             dialogVisible: false,
             avatarDialogVisible: false,
+            startTime: "",
+            endTime: ""
         };
     },
     computed: {
@@ -187,17 +198,18 @@ export default {
             accountNum: state => state.accountNum,
             roomData: state => state.roomData,
             roommateData: state => state.roommateData,
-            beginTime1 : state => state.beginTime1,
-            endTime1 : state => state.endTime1,
-            beginTime2 : state => state.beginTime2,
-            endTime2 : state => state.endTime2
+            beginTime1: state => state.beginTime1,
+            endTime1: state => state.endTime1,
+            beginTime2: state => state.beginTime2,
+            endTime2: state => state.endTime2
             // avatar:state => state.avatar
         }),
         ...mapState('main', {
             roomInfo: state => state.roomInfo,
             selectedRoom: state => state.selectedRoom,
             comments: state => state.comments,
-            msg : state => state.msg
+            msg: state => state.msg,
+            msgChoose: state => state.msgChoose
         }),
 
     },
@@ -220,12 +232,28 @@ export default {
             this.isEditing = true;
         },
         saveEdit() {
+
+            let time = `${this.startTime} - ${this.endTime}`;
+            console.log(time);
+            this.editedUserInfo.restTime = time
             this.userInfo.restTime = this.editedUserInfo.restTime;
             this.userInfo.hometown = this.editedUserInfo.hometown;
             this.userInfo.description = this.editedUserInfo.description;
             this.userInfo.username = this.editedUserInfo.username;
             this.isEditing = false;
-            this.$store.dispatch("DataProcess/saveUserInfo");
+
+            if (
+                this.startTime === "" ||
+                this.endTime === "" ||
+                this.editedUserInfo.hometown === "" ||
+                this.editedUserInfo.description === "" ||
+                this.editedUserInfo.username === "") {
+
+                alert("Please full-enter the values");
+            }
+
+            else (
+                this.$store.dispatch("DataProcess/saveUserInfo"))
         },
         cancelEdit() {  //“取消”
             this.isEditing = false;
@@ -233,18 +261,18 @@ export default {
         showAvatarDialog() {
             this.avatarDialogVisible = true;
         },
-        // getUserAvatarUrl() {
-        //     // 假设后端返回的用户信息中有一个名为 'avatar' 的字段，存储头像的二进制数据
-        //     const avatarData = this.avatar;
+        getUserAvatarUrl() {
+            // 假设后端返回的用户信息中有一个名为 'avatar' 的字段，存储头像的二进制数据
+            const avatarData = this.avatar;
 
-        //     // 将头像的二进制数据转换为 Base64 编码
-        //     const base64Image = btoa(String.fromCharCode.apply(null, new Uint8Array(avatarData)));
+            // 将头像的二进制数据转换为 Base64 编码
+            const base64Image = btoa(String.fromCharCode.apply(null, new Uint8Array(avatarData)));
 
-        //     // 创建头像的 Data URL
-        //     const imageUrl = 'data:image/png;base64,' + base64Image;
+            // 创建头像的 Data URL
+            const imageUrl = 'data:image/png;base64,' + base64Image;
 
-        //     return imageUrl;
-        // },
+            return imageUrl;
+        },
         check(row) {
             this.dialogVisible = true
             this.selectedRoom.area = row.area
@@ -261,9 +289,10 @@ export default {
         choose() {
             const info = {
                 accountNum: this.accountNum,
-              roomID:this.roomInfo.roomId
+                roomId:this.roomInfo.roomId
 
             }
+            console.log(this.roomInfo)
             this.$store.dispatch("main/choose", info)
             this.showMessage()
         },
@@ -273,15 +302,18 @@ export default {
                 this.showMsg = false;
             }, 3000); // 3秒后自动消失
         },
-        quit(){
+        quit() {
             this.$store.dispatch("DataProcess/quit")
         },
-        Kick(row){
-            const info ={
-                studentID :row.studentID,
-                accountNum : this.userInfo.studentID
+        Kick(row) {
+            const info = {
+                studentID: row.studentID,
+                accountNum: this.userInfo.studentID
             }
-            this.$store.dispatch("DataProcess/kick",info)
+            if (this.userInfo.studentID !== this.roommateData[0].studentID) {
+                this.$message.success('你不是队长不能踢人')
+            }
+            this.$store.dispatch("DataProcess/kick", info)
         }
     }
 

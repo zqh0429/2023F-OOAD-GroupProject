@@ -44,10 +44,22 @@ const state = () => ({
     locationValid: false,
     user:null,
     errorMsg: null,
-    msg : ""
+    msg : "",
+    allRoom:[],
+    msgChoose:""
 })
 
 const actions = {
+
+    listRoom(context){
+        mainService.listRoom( resp => {
+            if (resp.data.code === 0) {
+                context.commit("listRoom",resp.data.data)
+            } else {
+                context.state.errorMsg = resp.data.msg
+            }
+        })
+    },
     starCurrentRoom(context,param) {
         mainService.starCurrentRoom(param, resp => {
             if (resp.data.code === 0) {
@@ -57,15 +69,41 @@ const actions = {
             }
         })
     },
-    loadRoomInfo(context) {
+    loadRoomInfo(context,callback) {
         mainService.loadRoomInfo(context.state.selectedRoom, resp => {
             if (resp.data.code === 0) {
+                context.commit("setWinMsg")
                 context.commit("changeLocation", resp.data.data)
+                callback()
+               
             } else {
-                context.state.errorMsg = resp.data.msg
+                context.state.roomInfo = {
+                    roomId: null,
+                    room_region: "",
+                    room_building: "",
+                    room_floor: "",
+                    room_number: "",
+                    room_star:"",
+                    room_type:"",
+                    room_gender:"",
+                    room_level:"",
+                    comments:""
+                }
+             
+                context.commit("setMsg", resp.data.msg)
+                callback()
             }
         })
     },
+    // loadRoomInfo(context) {
+    //     mainService.loadRoomInfo(context.state.selectedRoom, resp => {
+    //         if (resp.data.code === 0) {
+    //             context.commit("changeLocation", resp.data.data)
+    //         } else {
+    //             context.state.errorMsg = resp.data.msg
+    //         }
+    //     })
+    // },
     loadRoomInfoByID(context,id) {
         mainService.loadRoomInfoByID(id, resp => {
             if (resp.data.code === 0) {
@@ -114,6 +152,7 @@ const actions = {
         mainService.deleteRoom(context.state.roomInfo.roomId, resp => {
             if (resp.data.code === 0) {
                 context.commit("deleteData", resp.data.data)
+                context.dispatch("listRoom")
             } else {
                 context.state.errorMsg = resp.data.msg
             }
@@ -135,6 +174,7 @@ const actions = {
         mainService.EditRoom(info, resp => {
             if (resp.data.code === 0) {
                 console.log(resp.data.data)
+                context.dispatch("listRoom")
             } else {
                 context.state.errorMsg = resp.data.msg
             }
@@ -145,6 +185,7 @@ const actions = {
         mainService.AddRoom(info, resp => {
             if (resp.data.code === 0) {
                 console.log(resp.data.data)
+                context.dispatch("listRoom")
             } else {
                 context.state.errorMsg = resp.data.msg
             }
@@ -154,17 +195,28 @@ const actions = {
     choose(context,info){
         mainService.ChooseRoom(info, resp => {
             if (resp.data.code === 0) {
-                context.state.msg = resp.data.msg
+                context.commit("setMsgChoose", resp.data.msg)
                 console.log(resp.data.msg)
+                
             } else {
-                context.state.errorMsg = resp.data.msg
+                context.commit("setMsgChoose", resp.data.msg)
                 console.log(resp.data.msg)
+                
             }
         })
     }
 
 }
 const mutations = {
+    setMsgChoose(state,data){
+        state.msgChoose =data
+    },
+    setWinMsg(state){
+        state.msg = "搜索成功"
+    },
+    setMsg(state,data){
+        state.msg = data
+    },
     changeLocation(state, data) {
         state.roomInfo = data
         // console.log(state.roomInfo);
@@ -181,6 +233,9 @@ const mutations = {
     deleteData(state,data){
         state.roomInfo = data
         state.comments = null
+    },
+    listRoom(state,data){
+        state.allRoom=data
     }
 
 }
