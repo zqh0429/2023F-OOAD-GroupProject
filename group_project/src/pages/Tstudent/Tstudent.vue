@@ -34,25 +34,28 @@
                                     <el-table-column prop="gender" label="性别" width="150">
                                         <template v-slot="scope">
                                             <span v-if="!scope.row.editable">{{ scope.row.gender }}</span>
-                                            <el-select  v-else v-model="edit_gender"> <el-option label="male"
-                            value="male"></el-option> <el-option label="female" value="female"></el-option> </el-select>
+                                            <el-select v-else v-model="edit_gender"> <el-option label="male"
+                                                    value="male"></el-option> <el-option label="female"
+                                                    value="female"></el-option> </el-select>
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="level" label="学历" width="150">
                                         <template v-slot="scope">
                                             <span v-if="!scope.row.editable">{{ scope.row.level }}</span>
                                             <el-select v-else v-model="edit_level"> <el-option label="master"
-                            value="master"></el-option> <el-option label="doctor" value="doctor"></el-option> </el-select>
+                                                    value="master"></el-option> <el-option label="doctor"
+                                                    value="doctor"></el-option> </el-select>
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="address" label="宿舍地址">
                                         <template v-slot="scope">
                                             <span v-if="!scope.row.editable">{{ scope.row.address }}</span>
-                            
+
                                             <el-select v-else v-model="edit_address" class="m-2" placeholder="请选择一个空宿舍"
                                                 @change="select_dormitory()">
                                                 <el-option v-for="item in options_dormitory" :key="item.roomId"
-                                                    :label="item.room_level+' '+item.room_gender+' '+item.room_locate" :value="item.roomId" />
+                                                    :label="item.room_level + ' ' + item.room_gender + ' ' + item.room_locate"
+                                                    :value="item.roomId" />
                                             </el-select>
                                         </template>
                                     </el-table-column>
@@ -64,9 +67,9 @@
                                             <el-button v-if="!scope.row.editable"
                                                 @click="handleEdit(scope.row)">Edit</el-button>
 
-                                               
+
                                             <el-button v-if="!scope.row.editable"
-                                                @click="handleDelete(scope.row)">Delete</el-button> 
+                                                @click="handleDelete(scope.row)">Delete</el-button>
                                             <el-button v-else @click="handleCancel(scope.row)">Cancel</el-button>
                                             <el-button v-if="scope.row.editable"
                                                 @click="handleSubmit(scope.row)">Submit</el-button>
@@ -102,13 +105,7 @@
 
     <div>
         <el-dialog v-model="uploadDialog">
-            <el-upload
-                class="upload-demo"
-                drag
-                :before-upload="handleBeforeUpload"
-                action="dummy-action"
-                multiple
-            >
+            <el-upload class="upload-demo" drag :before-upload="handleBeforeUpload" action="dummy-action" multiple>
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">
                     Drop file here or <em>click to upload</em>
@@ -128,13 +125,13 @@
 
 <script>
 import { mapState } from "vuex";
-import {UploadFilled} from "@element-plus/icons-vue";
+import { UploadFilled } from "@element-plus/icons-vue";
 import axios from "axios";
 import Papa from "papaparse";
 // import axios from 'axios'
 export default {
     name: 'userPanel',
-    components: {UploadFilled},
+    components: { UploadFilled },
     data() {
         return {
             isEditing: false,
@@ -143,15 +140,15 @@ export default {
             edit_password: "",
             edit_gender: "",
             edit_level: "",
-            edit_roomID:"",
+            edit_roomID: "",
             dialogVisible: false,
-            uploadDialog:false,
+            uploadDialog: false,
         };
     },
     computed: {
         ...mapState('DataProcess', {
             userData: state => state.userData,
-            options_dormitory: state =>state.memberData
+            options_dormitory: state => state.memberData
         })
     },
     mounted() {
@@ -159,15 +156,15 @@ export default {
         this.$store.dispatch("DataProcess/filter");
     },
     methods: {
-        handleDelete(row)
-        {const accountNum = row.accountNum
-            this.$store.dispatch("DataProcess/deleteStu",accountNum);
+        handleDelete(row) {
+            const accountNum = row.accountNum
+            this.$store.dispatch("DataProcess/deleteStu", accountNum);
         },
         Import() {
             this.uploadDialog = true
             console.log(this.uploadDialog)
         },
-        Export(){
+        Export() {
             this.$store.dispatch("DataProcess/exportStudentInfo");
         },
         select_dormitory() {
@@ -211,12 +208,12 @@ export default {
             // ... (your submit logic here)
             const info = {
                 accountNum: this.edit_accountNum,
-                room_id :this.edit_roomID,
+                room_id: this.edit_roomID,
                 username: this.edit_username,
                 password: this.edit_password,
                 gender: this.edit_gender,
-                level : this.edit_level,
-            
+                level: this.edit_level,
+
             }
             this.edit_accountNum = ""
             this.edit_level = ""
@@ -226,7 +223,7 @@ export default {
             this.edit_username = ""
             this.$store.dispatch("DataProcess/editUser", info);
             row.editable = false;// Set the row back to non-editable after submitting
-            
+
         },
         Submit() {
             const info = {
@@ -234,7 +231,7 @@ export default {
                 username: this.edit_username,
                 password: this.edit_password,
                 level: this.edit_level,
-                gender :this.edit_gender
+                gender: this.edit_gender
             }
 
 
@@ -288,10 +285,10 @@ export default {
             try {
                 console.log(parsedData)
                 const params = {
-                  data: parsedData
+                    data: parsedData
                 }
                 // 使用 Axios 发送 POST 请求到后端
-                const response = await axios.get('http://127.0.0.1:8082/api/teacher/uploadStudentFile', {params});
+                const response = await axios.get('http://127.0.0.1:8082/api/teacher/uploadStudentFile', { params });
 
                 // 处理后端返回的响应
                 console.log(response.data);

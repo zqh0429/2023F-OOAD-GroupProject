@@ -98,11 +98,7 @@ export default {
        
     },
     method:{
-        logout(){
-            this.accountValid=false
-            this.form.accountNum=""
-            this.form.password=""
-        }
+    
     }
     
 };

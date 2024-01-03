@@ -238,9 +238,9 @@ function kick(info, callback){
 }
 function getUserAvatar(info, callback){
     const params = {
-        studentID : info,
+        student_id : info,
     };
-    const url = `${dataServerUrl}/api/user/getUserAvatar`;
+    const url = `${dataServerUrl}/api/student/information/downloadAvatar`;
     axios.get(url,{params})
         .then(resp => {
             console.log(resp.data)
@@ -269,7 +269,7 @@ function deleteStu(accountNum,callback) {
 }
 
 function exportDormInfo(callback) {
-    const url = `${dataServerUrl}/api/teacher/exportDormInfo`;
+    const url = `${dataServerUrl}/api/teacher/downloadRoomFile`;
     axios.get(url) .then(resp => {
         console.log(resp.data)
         callback(resp)
@@ -280,7 +280,7 @@ function exportDormInfo(callback) {
 }
 
 function exportStudentInfo(callback) {
-    const url = `${dataServerUrl}/api/teacher/exportStudentInfo`;
+    const url = `${dataServerUrl}/api/teacher/downloadStudentFile`;
     axios.get(url) .then(resp => {
         console.log(resp.data)
         callback(resp)

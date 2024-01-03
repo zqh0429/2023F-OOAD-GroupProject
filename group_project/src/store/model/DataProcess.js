@@ -17,7 +17,7 @@ const state = () => ({
         gender : ""
     },
 
-    avatar: '',//头像
+    avatar: null,//头像
     msgOverviewData: [],
     msgID: "",
     msgInfo: [],
@@ -31,17 +31,26 @@ const state = () => ({
         {room_id:"1002",room_gender:"男",room_level:"硕士",room_locate:"一期八栋10楼2号房间"}
     ],
 
-    beginTime1 : "2023-12-26 00:00:00",
-    endTime1 : "2023-12-29 00:00:00",
-    beginTime2 : "2023-12-26 00:00:00",
-    endTime2 : "2024-12-29 00:00:00"
+    beginTime1 : "2023-12-1 00:00:00",
+    endTime1 : "2023-12-30 00:00:00",
+    beginTime2 : "2024-01-01 00:00:00",
+    endTime2 : "2024-01-30 00:00:00",
+    pic_url:"",
+    // Friend:null
 
 
 
 })
 
 const actions = {
-
+    
+    getAvatar(context){
+        const fileAbsolutePath=context.state.userInfo.circleUrl
+        const fileName = fileAbsolutePath.split('\\').pop(); // 提取文件名
+        const newURL = `@/assets/images/${fileName}`; // 拼接新的URL
+        console.log(newURL); 
+        context.commit("setURL", newURL)
+    },
     getMsgTeam(context) {
         dataService.askMsgDataTeam( context.state.accountNum, resp => {
             context.commit("setMsgData", resp.data.data)
@@ -126,6 +135,7 @@ const actions = {
 
     getUserAvatar(context) {
         dataService.getUserAvatar(context.state.userInfo.studentID,resp => {
+            console.log(resp.data)
             context.commit("getUserAvatar", resp.data.data)
         })
     },
@@ -208,7 +218,7 @@ const actions = {
         dataService.exportStudentInfo(resp => {
             console.log(resp)
         })
-    },
+    }
 
 
 
@@ -274,6 +284,9 @@ const mutations = {
     },
     getUserAvatar(state,data){
         state.avatar =data
+    },
+    setURL(state,data){
+        state.pic_url =data
     }
 }
 

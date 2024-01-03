@@ -29,7 +29,13 @@
                                             小组成员</div>
                                         <div v-if="ifChat" class="user-list-box">
                                             <div class="user-list-item" v-for="(item, index) in users" :key="index">
-                                                <img :src="'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"
+                                                <img v-if="index===0" :src="getFriend0(item.studentID)"
+                                                    style="width: 30px; height: 30px; border-radius: 50%">
+                                                    <img v-if="index===1" :src="getFriend1(item.studentID)"
+                                                    style="width: 30px; height: 30px; border-radius: 50%">
+                                                    <img v-if="index===2" :src="getFriend2(item.studentID)"
+                                                    style="width: 30px; height: 30px; border-radius: 50%">
+                                                    <img v-if="index===3" :src="getFriend3(item.studentID)"
                                                     style="width: 30px; height: 30px; border-radius: 50%">
                                                 <span style="margin-left: 10px">{{ item.username }}</span>
                                             </div>
@@ -46,14 +52,14 @@
                                                 <!--  右边的气泡 -->
                                                 <div style="display: flex; flex-direction: row-reverse; align-items: flex-start"
                                                     v-if="item.sender_id === userInfo.studentID">
-                                                    <img :src="item.circle_url" alt=""
+                                                    <img :src="getFriend(item.sender_id)" alt=""
                                                         style="width: 40px; height: 40px; border-radius: 50%; margin-left: 10px">
                                                     <div class="im-message im-message-right" v-html="item.content"
                                                         v-if="item.type === 'text'"></div>
                                                 </div>
                                                 <!--  左边的气泡 -->
                                                 <div style="display: flex; align-items: flex-start" v-else>
-                                                    <img :src="item.circle_url" alt=""
+                                                    <img :src="getFriend(item.sender_id)" alt=""
                                                         style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px">
                                                     <div style="width: 100%; ">
                                                         <div
@@ -120,7 +126,11 @@ export default {
             ],
             ifChat: false,
             emojis: [],
-            messages: []
+            messages: [],
+            sb0:"",
+            sb1:"",
+            sb2:"",
+            sb3:""
         };
     },
     computed: {
@@ -134,6 +144,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch("DataProcess/getRoommateData");
+       
         console.log(this.userInfo)
         this.emojis = emojis.split(',')//表情包加载
         let accountNum = window.btoa(encodeURI(this.userInfo.accountNum))
@@ -160,10 +171,82 @@ export default {
             console.log(msg)
         }
         // 加载聊天数据
-        this.load()
+        
 
     },
     methods: {
+
+        getFriend(sender_id){
+            if(this.roommateData[0]&&sender_id===this.roommateData[0].studentID){
+                 return this.sb0
+            }
+            if(this.roommateData[1]&&sender_id===this.roommateData[1].studentID){
+                 return this.sb1
+            }
+            if(this.roommateData[2]&&sender_id===this.roommateData[2].studentID){
+                 return this.sb2
+            }
+            if(this.roommateData[3]&&sender_id===this.roommateData[3].studentID){
+                 return this.sb3
+            }
+
+        },
+        getFriend0(ID){
+            const dataServerUrl = "http://127.0.0.1:8082";
+            const url = `${dataServerUrl}/api/student/information/downloadAvatar`;
+            
+            axios.get(url, {params:{student_id  : ID}})
+                .then(resp => {
+                    console.log(resp.data)
+                    this.sb0='data:image/png;base64,' + resp.data.data
+                   
+                }, errResp => {
+                    console.log(errResp)
+                })
+                return this.sb0
+        },
+        getFriend1(ID){
+            const dataServerUrl = "http://127.0.0.1:8082";
+            const url = `${dataServerUrl}/api/student/information/downloadAvatar`;
+            
+            axios.get(url, {params:{student_id  : ID}})
+                .then(resp => {
+                    console.log(resp.data)
+                    this.sb1='data:image/png;base64,' + resp.data.data
+                   
+                }, errResp => {
+                    console.log(errResp)
+                })
+                return this.sb1
+        },
+        getFriend2(ID){
+            const dataServerUrl = "http://127.0.0.1:8082";
+            const url = `${dataServerUrl}/api/student/information/downloadAvatar`;
+            
+            axios.get(url, {params:{student_id  : ID}})
+                .then(resp => {
+                    console.log(resp.data)
+                    this.sb2='data:image/png;base64,' + resp.data.data
+                   
+                }, errResp => {
+                    console.log(errResp)
+                })
+                return this.sb2
+        },
+        getFriend3(ID){
+            const dataServerUrl = "http://127.0.0.1:8082";
+            const url = `${dataServerUrl}/api/student/information/downloadAvatar`;
+            
+            axios.get(url, {params:{student_id  : ID}})
+                .then(resp => {
+                    console.log(resp.data)
+                    this.sb3='data:image/png;base64,' + resp.data.data
+                   
+                }, errResp => {
+                    console.log(errResp)
+                })
+                return this.sb3
+        },
         clickEmoji(emoji) {
             document.getElementById('im-content').innerHTML += emoji
         },
@@ -185,16 +268,43 @@ export default {
             }
             else if (selection.type === "队伍聊天室") {
                 console.log(this.isChat)
+                this.load()
                 this.ifChat = true
                 this.$message.success('欢迎进入群组聊天室')
-
+                setInterval(() => {
+      this.load();
+    }, 1000);
             }
 
         },
         load() {
+            console.log(this.users[0].studentID)
             const dataServerUrl = "http://127.0.0.1:8082";
-            const url = `${dataServerUrl}/api/groupChat/load`;
-            axios.get(url)
+            const params={
+                leader_id : "1201"
+            }
+            console.log("loading")
+            const url = `${dataServerUrl}/api/team/chat/loadAllMessage`;
+            axios.get(url,{params})
+                .then(resp => {
+                    console.log(resp.data)
+                    this.messages = resp.data.data
+                }, errResp => {
+                    console.log(errResp)
+                })
+        },
+        sendMessage(content) {
+            console.log(content)
+            const dataServerUrl = "http://127.0.0.1:8082";
+            const url = `${dataServerUrl}/api/team/chat/sendMessage`;
+            const params={
+                leader_id : "1201",
+                sender_id : this.accountNum,
+                sender_name: this.userInfo.username,
+                content : content,
+                type: "text"
+            }
+            axios.get(url,{params})
                 .then(resp => {
                     console.log(resp.data)
                     this.messages = resp.data.data
@@ -209,15 +319,17 @@ export default {
                 this.$notify.error('请输入聊天内容')
                 return
             }
-            if (client) {
-                let message = {
-                    type: "text",
-                    leader_id: this.users[0].studentID,
-                    sender_id: this.userInfo.studentID,
-                    sender_name: this.userInfo.username,
-                    content: content
-                }
-                client.send(JSON.stringify(message))
+            if (content) {
+                // let message = {
+                //     type: "text",
+                //     leader_id: this.users[0].studentID,
+                //     sender_id: this.userInfo.studentID,
+                //     sender_name: this.userInfo.username,
+                //     content: content
+                // }
+                // client.send(JSON.stringify(message))
+
+                this.sendMessage(content)
             }
             inputBox.innerHTML = ''  // 清空输入框
         },

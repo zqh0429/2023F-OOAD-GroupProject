@@ -11,8 +11,10 @@
                                         <el-space wrap :size="25">
                                             <div class="demo-basic--circle">
                                                 <div class="block">
-                                                    <!--                                                    <el-avatar :size="50" :src="userInfo.circleUrl" @click="showAvatarDialog"/>-->
-                                                    <el-avatar :size="50" :src="userInfo.circle_url"
+
+
+
+                                                    <el-avatar :size="50" :src="getUserAvatarUrl()"
                                                         @click="showAvatarDialog" />
                                                 </div>
                                             </div>
@@ -103,7 +105,14 @@
                             </template>
                             <div>
                                 <el-table :data="roommateData" style="width: 100%" table-layout='auto'>
-                                    <el-table-column prop="username" label="名称" width="180" />
+                                    <el-table-column label="用户名" width="180">
+                                        <template v-slot="scope">
+                                            <a href="javascript:void(0)" @click="see(scope.row)"
+                                                style="text-decoration: underline">
+                                                {{ scope.row.username }}
+                                            </a>
+                                        </template>
+                                    </el-table-column>
                                     <el-table-column prop="studentID" label="学号" width="180" />
                                     <el-table-column prop="restTime" label="作息时间" width="180" />
                                     <el-table-column label="操作">
@@ -152,9 +161,10 @@
             </div>
             <div>
                 <el-dialog v-model="avatarDialogVisible" title="大头像" width="30%">
-                    <el-avatar :size="150" :src="userInfo.circle_url" />
-                    <el-upload class="avatar-uploader"
-                        action="http://127.0.0.1:8082/api/user/updateURL?accountNum=${accountNum}" :show-file-list="false">
+                    <el-avatar :size="150" :src="getUserAvatarUrl()" />
+                    <el-upload class="avatar-uploader" action="http://127.0.0.1:8082/api/student/information/uploadAvatar"
+                        :show-file-list="false" :data="{ student_id: accountNum }" :accept="'image/*'"
+                        @on-success="handleUploadSuccess">
                         <el-button size="small" type="primary">更换头像</el-button>
                     </el-upload>
                 </el-dialog>
@@ -166,14 +176,24 @@
                     </div>
                 </transition>
             </div>
+            <div>
+                <el-dialog v-model="InfoVisible" title="队友信息" width="30%">
+                    <div class="block"> <el-avatar :size="50" :src="friend_url" /></div>
+                    <el-descriptions direction="vertical" :column="4" border>
+                        <el-descriptions-item label="Name">{{ Friend.username }}</el-descriptions-item>
+                        <el-descriptions-item label="From">{{ Friend.hometown }}</el-descriptions-item>
+                        <el-descriptions-item label="Description" :span="2">{{ Friend.description }}</el-descriptions-item>
 
+                    </el-descriptions>
+                </el-dialog>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-// import axios from 'axios'
+import axios from 'axios'
 export default {
     name: 'userPanel',
     data() {
@@ -189,7 +209,15 @@ export default {
             dialogVisible: false,
             avatarDialogVisible: false,
             startTime: "",
-            endTime: ""
+            endTime: "",
+            pic: null,
+            InfoVisible: false,
+            friend_url: null,
+            Friend:{
+                username:"",
+                hometown:"",
+                description:""
+            }
         };
     },
     computed: {
@@ -201,7 +229,10 @@ export default {
             beginTime1: state => state.beginTime1,
             endTime1: state => state.endTime1,
             beginTime2: state => state.beginTime2,
-            endTime2: state => state.endTime2
+            endTime2: state => state.endTime2,
+            avatar: state => state.avatar,
+            // Friend:state => state.Friend
+            // pic_url:state => state.pic_url
             // avatar:state => state.avatar
         }),
         ...mapState('main', {
@@ -217,6 +248,9 @@ export default {
         this.$store.dispatch("DataProcess/getUserInfo");
         this.$store.dispatch("DataProcess/getRoomData");
         this.$store.dispatch("DataProcess/getRoommateData");
+        this.$store.dispatch("DataProcess/getUserAvatar");
+
+
 
         // if(localStorage.getItem("news")){
         //     this.form=JSON.parse(localStorage.getItem("news"))
@@ -224,6 +258,9 @@ export default {
         // }
     },
     methods: {
+        handleUploadSuccess() {
+            this.$store.dispatch("DataProcess/getUserAvatar");
+        },
         startEdit() {  //“开始编辑”
             this.editedUserInfo.restTime = this.userInfo.restTime;
             this.editedUserInfo.hometown = this.userInfo.hometown;
@@ -231,6 +268,20 @@ export default {
             this.editedUserInfo.username = this.userInfo.username;
             this.isEditing = true;
         },
+        getUserAvatarUrl() {
+
+            console.log(this.userInfo.circleUrl)
+
+            const avatarData = this.avatar;
+
+            // 创建头像的 Data URL
+            // const imageUrl = 'data:image/png;base64,' + avatarData;
+            const imageUrl = 'data:image/png;base64,' + avatarData;
+            console.log(imageUrl)
+            return imageUrl
+        },
+
+
         saveEdit() {
 
             let time = `${this.startTime} - ${this.endTime}`;
@@ -261,18 +312,7 @@ export default {
         showAvatarDialog() {
             this.avatarDialogVisible = true;
         },
-        getUserAvatarUrl() {
-            // 假设后端返回的用户信息中有一个名为 'avatar' 的字段，存储头像的二进制数据
-            const avatarData = this.avatar;
 
-            // 将头像的二进制数据转换为 Base64 编码
-            const base64Image = btoa(String.fromCharCode.apply(null, new Uint8Array(avatarData)));
-
-            // 创建头像的 Data URL
-            const imageUrl = 'data:image/png;base64,' + base64Image;
-
-            return imageUrl;
-        },
         check(row) {
             this.dialogVisible = true
             this.selectedRoom.area = row.area
@@ -286,10 +326,43 @@ export default {
             this.$store.dispatch("main/loadRoomInfo")
             this.$store.dispatch("main/listComment")
         },
+        see(row) {
+            console.log(row.studentID)
+            const ID =row.studentID
+            console.log(ID)
+            const dataServerUrl = "http://127.0.0.1:8082";
+            const params = {
+                studentId: ID
+            };
+
+            // const params = {
+            //     student_id  : ID
+            // };
+            const url1 = `${dataServerUrl}/api/student/information/downloadAvatar`;
+            axios.get(url1, {params:{student_id  : ID}})
+                .then(resp => {
+                    console.log(resp.data)
+                   this.friend_url='data:image/png;base64,' + resp.data.data
+                }, errResp => {
+                    console.log(errResp)
+                })
+
+            const url = `${dataServerUrl}/api/student/information/show/`;
+            axios.get(url, { params })
+                .then(resp => {
+                    console.log(resp.data)
+                    this.Friend = resp.data.data
+                    this.InfoVisible = true
+                }, errResp => {
+                    console.log(errResp)
+                })
+
+            console.log(ID)
+        },
         choose() {
             const info = {
                 accountNum: this.accountNum,
-                roomId:this.roomInfo.roomId
+                roomId: this.roomInfo.roomId
 
             }
             console.log(this.roomInfo)
