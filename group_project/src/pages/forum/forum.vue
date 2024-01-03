@@ -411,7 +411,13 @@ export default {
                     startTime: this.startTime, endTime: this.endTime}
                 this.$store.dispatch("forum/searchGroupBySleep",time)
             }else {
+              if (this.genderValue !== 'all' || this.levelValue !== 'all'){
+                const time = {gender:this.genderValue, level:this.levelValue,
+                  startTime: "00:00", endTime: "23:45"}
+                this.$store.dispatch("forum/searchGroupByWake",time)
+              }else {
                 this.$store.dispatch("forum/loadGroup")
+              }
             }
         },
         joinGroup(){
