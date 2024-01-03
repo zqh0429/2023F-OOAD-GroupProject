@@ -177,19 +177,26 @@ export default {
     methods: {
 
         getFriend(sender_id){
-            if(this.roommateData[0]&&sender_id===this.roommateData[0].studentID){
+            if(this.users[0]){
+                if(sender_id===this.users[0].studentID){
                  return this.sb0
+                 }
             }
-            if(this.roommateData[1]&&sender_id===this.roommateData[1].studentID){
-                 return this.sb1
+            if(this.users[1]){
+                if(sender_id===this.users[1].studentID){
+                 return this.sb1}
             }
-            if(this.roommateData[2]&&sender_id===this.roommateData[2].studentID){
-                 return this.sb2
+            if(this.users[2]){
+                if(sender_id===this.users[2].studentID){
+                 return this.sb2}
             }
-            if(this.roommateData[3]&&sender_id===this.roommateData[3].studentID){
-                 return this.sb3
+            if(this.users[3]){
+                if(sender_id===this.users[3].studentID){
+                 return this.sb3}
             }
-
+            // console.log(this.roommateData)
+            // console.log(sender_id)
+            // return this.sb0
         },
         getFriend0(ID){
             const dataServerUrl = "http://127.0.0.1:8082";
@@ -279,13 +286,12 @@ export default {
         },
         load() {
             console.log(this.users[0].studentID)
+            const ID = this.users[0].studentID
             const dataServerUrl = "http://127.0.0.1:8082";
-            const params={
-                leader_id : "1201"
-            }
+           
             console.log("loading")
             const url = `${dataServerUrl}/api/team/chat/loadAllMessage`;
-            axios.get(url,{params})
+            axios.get(url,{params:{leader_id  : ID}})
                 .then(resp => {
                     console.log(resp.data)
                     this.messages = resp.data.data
@@ -297,14 +303,18 @@ export default {
             console.log(content)
             const dataServerUrl = "http://127.0.0.1:8082";
             const url = `${dataServerUrl}/api/team/chat/sendMessage`;
-            const params={
-                leader_id : "1201",
-                sender_id : this.accountNum,
-                sender_name: this.userInfo.username,
-                content : content,
+            const ID= this.users[0].studentID
+            const senderN = this.userInfo.username
+            const senderI = this.userInfo.studentID
+            const CONTENT =content
+            
+            axios.get(url,{params:{
+                leader_id : ID,
+                sender_id : senderI,
+                sender_name: senderN,
+                content : CONTENT,
                 type: "text"
-            }
-            axios.get(url,{params})
+            }})
                 .then(resp => {
                     console.log(resp.data)
                     this.messages = resp.data.data
